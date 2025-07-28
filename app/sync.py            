@@ -1,0 +1,16 @@
+"""
+sync.py
+-------
+Synchronization logic between ERPNext and WooCommerce.
+Coordinates data flow and resolves differences between the two systems.
+"""
+
+async def sync_products():
+    """
+    Synchronize product data between ERPNext and WooCommerce.
+
+    Returns:
+        dict: Result of sync operation (counts of created, updated, or failed items).
+    """
+    # TODO: Implement core sync logic
+    pass

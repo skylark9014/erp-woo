@@ -1,43 +1,29 @@
-# app/main_app.py
+"""
+main_app.py
+-----------
+FastAPI application entry-point.
+Loads configuration and includes all routes for the middleware.
+"""
 
 from fastapi import FastAPI
 from dotenv import load_dotenv
-import os
+from app.routes import router as sync_router
 
-# Load environment variables from .env file
+# Load environment variables from .env
 load_dotenv()
 
-# Initialize FastAPI application instance
-app = FastAPI(title="ERPNext WooCommerce Integration Middleware",
-              description="Middleware service facilitating integration between ERPNext and WooCommerce.")
+# Create FastAPI app instance
+app = FastAPI(
+    title="ERPNext WooCommerce Integration Middleware",
+    description="Middleware for syncing ERPNext with WooCommerce."
+)
+
+# Include the sync routes under the /api prefix
+app.include_router(sync_router, prefix="/api", tags=["Sync"])
 
 @app.get("/")
 async def home():
     """
-    Root Endpoint:
-    
-    Basic health-check endpoint to verify that the middleware service is operational.
-
-    Returns:
-        dict: JSON containing the service status message.
+    Root endpoint: Confirms the middleware is operational.
     """
-    return {
-        "status": "running",
-        "service": "ERPNext WooCommerce Middleware"
-    }
-
-@app.get("/config")
-async def config_check():
-    """
-    Configuration Check Endpoint:
-
-    Validates the current ERPNext and WooCommerce URLs configured in the .env file.
-    Useful for ensuring middleware connectivity settings are correctly set.
-
-    Returns:
-        dict: JSON containing the configured ERPNext and WooCommerce URLs.
-    """
-    return {
-        "erpnext_url": os.getenv("ERP_URL"),
-        "woocommerce_url": os.getenv("WC_BASE_URL")
-    }
+    return {"status": "running", "service": "ERPNext WooCommerce Middleware"}

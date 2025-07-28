@@ -1,0 +1,27 @@
+"""
+woocommerce.py
+--------------
+WooCommerce API interface module.
+Contains functions to interact with WooCommerce endpoints for fetching or updating products and related data.
+"""
+
+import os
+import httpx
+from dotenv import load_dotenv
+
+# Load environment variables for WooCommerce connection
+load_dotenv()
+
+WC_BASE_URL = os.getenv("WC_BASE_URL")
+WC_API_KEY = os.getenv("WC_API_KEY")
+WC_API_SECRET = os.getenv("WC_API_SECRET")
+
+async def get_wc_products():
+    """
+    Fetch a list of products from WooCommerce.
+
+    Returns:
+        list: List of WooCommerce products as dictionaries, or an empty list if none found.
+    """
+    # TODO: Implement API call
+    pass

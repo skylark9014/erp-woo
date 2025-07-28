@@ -1,0 +1,27 @@
+"""
+erpnext.py
+----------
+ERPNext API interface module.
+Provides functions to interact with ERPNext endpoints for fetching, creating, or updating data.
+"""
+
+import os
+import httpx
+from dotenv import load_dotenv
+
+# Load environment variables for ERPNext connection
+load_dotenv()
+
+ERP_URL = os.getenv("ERP_URL")
+ERP_API_KEY = os.getenv("ERP_API_KEY")
+ERP_API_SECRET = os.getenv("ERP_API_SECRET")
+
+async def get_erpnext_items():
+    """
+    Fetch a list of items (products) from ERPNext.
+
+    Returns:
+        list: List of ERPNext items as dictionaries, or an empty list if none found.
+    """
+    # TODO: Implement API call
+    pass
