@@ -6,10 +6,12 @@
 import os
 import httpx
 import base64
+import logging
 import hashlib
 from dotenv import load_dotenv
 
 load_dotenv()
+logger = logging.getLogger("uvicorn.error")
 
 WC_BASE_URL = os.getenv("WC_BASE_URL")
 WC_API_KEY = os.getenv("WC_API_KEY")
@@ -241,8 +243,12 @@ async def wp_upload_image_from_url(url, filename):
     }
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         img_resp = await client.get(url)
+        if img_resp.status_code == 404:
+            logger.warning(f"[IMG] ERPNext image missing (404): {url}")
+            return None
         img_resp.raise_for_status()
         img_bytes = img_resp.content
+
 
         upload_resp = await client.post(
             media_url, headers=headers, content=img_bytes, auth=auth
@@ -278,7 +284,12 @@ async def ensure_wp_image_uploaded(erp_img_url, filename, size_hint=None):
         return found_id
     # Not found, upload
     result = await wp_upload_image_from_url(erp_img_url, filename)
-    return result["id"]
+    if result and "id" in result:
+        return result["id"]
+    else:
+        # Image upload failed (404, etc.), skip and return None
+        return None
+
 
 async def set_wc_variant_image(parent_id, variant_id, media_id):
     """
