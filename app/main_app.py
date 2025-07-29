@@ -1,9 +1,8 @@
-"""
-main_app.py
------------
-FastAPI application entry-point.
-Loads configuration and includes all routes for the middleware.
-"""
+#=================================================================
+# app/main_app.py
+# FastAPI application entry-point.
+# Loads configuration and includes all routes for the middleware.
+#=================================================================
 
 from fastapi import FastAPI
 from dotenv import load_dotenv
