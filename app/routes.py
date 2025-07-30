@@ -6,7 +6,7 @@
 
 from fastapi import APIRouter, Query
 
-from app.sync import (
+from app.sync.sync import (
     sync_products,
     sync_products_preview,
     sync_categories,

@@ -1,0 +1,118 @@
+/* app/static/admin_panel.css */
+
+/* General card/table shadow and rounding */
+.bg-white,
+.shadow-sm,
+.rounded-lg {
+    box-shadow: 0 2px 8px 0 rgb(44 62 80 / 0.04), 0 1.5px 6px 0 rgb(44 62 80 / 0.02);
+    border-radius: 1rem;
+}
+
+/* Table improvements */
+table {
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+th,
+td {
+    vertical-align: middle !important;
+}
+
+th {
+    background-color: #f8fafc;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+tr {
+    transition: background 0.16s;
+}
+
+tbody tr:hover {
+    background-color: #f3f4f6;
+}
+
+tbody tr:focus-within {
+    background-color: #eef2ff;
+}
+
+input.mapping-edit {
+    font-size: 0.97rem;
+    background: #f1f5f9;
+    transition: box-shadow 0.13s;
+}
+
+input.mapping-edit:focus {
+    background: #fff;
+    box-shadow: 0 0 0 2px #6366f1;
+    border-color: #6366f1;
+    outline: none;
+}
+
+#save-mapping-btn:disabled,
+#sync-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+#progress-bar {
+    margin-bottom: 1.25rem;
+    transition: opacity 0.2s;
+}
+
+#progress-bar-inner {
+    transition: width 0.36s cubic-bezier(.4, 2, .4, 1);
+}
+
+#alert-area>div {
+    animation: fadeIn 0.8s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Responsive tweaks for mobile/tablet */
+@media (max-width: 900px) {
+
+    .sm\\:flex-auto,
+    .sm\\:flex,
+    .sm\\:items-center {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    table {
+        font-size: 0.95rem;
+    }
+
+    input.mapping-edit {
+        width: 90px;
+    }
+}
+
+/* Custom scrollbar for overflow-x tables */
+.overflow-x-auto {
+    scrollbar-color: #6366f1 #e5e7eb;
+    scrollbar-width: thin;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+    height: 7px;
+    background: #e5e7eb;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #6366f1;
+    border-radius: 5px;
+}

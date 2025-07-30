@@ -1,11 +1,9 @@
 # app/sync.py
 # ==========================================
-# ERPNext → WooCommerce Sync (With robust brand and global attribute sync)
+# ERPNext → WooCommerce Sync (With robust brand and global attribute sync, + mapping file)
 # ==========================================
 
 import logging
-import os
-import httpx
 from collections import defaultdict
 
 from app.erpnext import (
@@ -35,13 +33,36 @@ from app.sync_utils import (
     ensure_all_erp_brands_exist,
     assign_brand_to_product,
 )
+from app.mapping.mapping_store import build_product_mapping, save_mapping_file
 
 logger = logging.getLogger("uvicorn.error")
+
+def build_product_mapping(erp_items, wc_products):
+    wc_by_sku = {p.get("sku"): p for p in wc_products}
+    mapping = []
+    for item in erp_items:
+        sku = item.get("item_code") or item.get("sku")
+        wc = wc_by_sku.get(sku)
+        if wc:
+            mapping.append({
+                "erp_item_code": sku,
+                "woo_product_id": wc.get("id"),
+                "sku": sku,
+                "erp_item_name": item.get("item_name"),
+                "woo_product_name": wc.get("name"),
+                "woo_type": wc.get("type"),
+                "woo_status": wc.get("status"),
+                "erp_item_group": item.get("item_group") or item.get("Item Group"),
+                # Add more fields as needed!
+            })
+    return mapping
 
 # --- MAIN SYNC FUNCTION ---
 
 async def sync_products(dry_run=False):
     erp_items = await get_erpnext_items()
+    #Exclude templates
+    erp_items = [item for item in erp_items if not (item.get("has_variants") == 1 or item.get("is_template") is True)]
     wc_products = await get_wc_products()
     await sync_categories()
     wc_categories = await get_wc_categories()
@@ -313,6 +334,13 @@ async def sync_products(dry_run=False):
                 logger.error(f"❌ Error syncing variation {v_sku}: {e}")
                 stats["errors"].append(str(e))
 
+    # --- Write mapping file (overwrite each time) ---
+    try:
+        mapping = build_product_mapping(erp_items, wc_products)
+        save_mapping_file(mapping)
+        logger.info("Product mapping file written to mapping_store.json")
+    except Exception as e:
+        logger.error(f"Failed to write product mapping file: {e}")
     logger.info(
         f"✅ Product sync complete. Created: {stats['created']} Updated: {stats['updated']} "
         f"Variants: {stats['variants_created']} Errors: {len(stats['errors'])}"
@@ -360,6 +388,8 @@ async def sync_products_preview():
     from app.sync_utils import get_image_size_with_fallback, get_image_size
 
     erp_items = await get_erpnext_items()
+    #Exclude Templates
+    erp_items = [item for item in erp_items if not (item.get("has_variants") == 1 or item.get("is_template") is True)]
     wc_products = await get_wc_products()
     wc_categories = await get_wc_categories()
     price_map = await get_price_map()
