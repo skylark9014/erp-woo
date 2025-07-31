@@ -317,3 +317,65 @@ async def assign_brand_to_product(product_id, brand_id):
         if not resp.status_code in (200, 201):
             logger.error(f"Failed to assign brand {brand_id} to product {product_id}: {resp.status_code} {resp.text}")
 
+def get_gallery_images(item, template=None, get_erp_images=None):
+    """
+    Returns the gallery images for an ERPNext item.
+    If item has no gallery, and template is provided, use template's gallery.
+    get_erp_images is the fetch function (if you need to re-fetch).
+    """
+    # Prefer variant's own images
+    imgs = []
+    if get_erp_images:
+        imgs = get_erp_image_list(item, get_erp_images)
+    else:
+        imgs = item.get("gallery_images", []) or []
+    if not imgs and template:
+        if get_erp_images:
+            imgs = get_erp_image_list(template, get_erp_images)
+        else:
+            imgs = template.get("gallery_images", []) or []
+    return imgs
+
+# --- GALLERY LOGIC FOR VARIANTS ---
+async def get_variant_gallery_images(variant, template, get_erp_images):
+    """Return [variant item image] + variant attached images + template attached images (deduped), NOT template item image."""
+    images = []
+    # Variant's own Item Image as featured
+    variant_item_img = variant.get("image")
+    if variant_item_img:
+        images.append(variant_item_img)
+    # Variant's own attached images
+    var_attached_imgs = await get_erp_image_list(variant, get_erp_images)
+    for img in var_attached_imgs:
+        if img not in images:
+            images.append(img)
+    # Template's attached images (excluding template Item Image)
+    if template:
+        template_attached_imgs = await get_erp_image_list(template, get_erp_images)
+        for img in template_attached_imgs:
+            if img not in images and img != template.get("image"):
+                images.append(img)
+    return images
+
+async def sync_categories(dry_run=False):
+    erp_cats = await get_erpnext_categories()
+    wc_cats = await get_wc_categories()
+    wc_cat_map = {normalize_category_name(cat["name"]): cat for cat in wc_cats}
+    created = []
+    for erp_cat in erp_cats:
+        name = erp_cat["name"]
+        name_normalized = normalize_category_name(name)
+        if name_normalized not in wc_cat_map:
+            logger.info(f"🟢 Creating Woo category: {name}")
+            if not dry_run:
+                resp = await create_wc_category(name)
+            else:
+                resp = {"dry_run": True}
+            created.append({"erp_category": name, "wc_response": resp})
+    if not dry_run and created:
+        wc_cats = await get_wc_categories()
+    return {
+        "created": created,
+        "total_erp_categories": len(erp_cats),
+        "total_wc_categories": len(wc_cats)
+    }
