@@ -8,6 +8,9 @@ from fastapi.responses import JSONResponse
 from app.mapping.mapping_store import build_or_load_mapping, save_mapping_file
 from app.sync.sync import sync_products_preview, sync_products
 
+import logging
+logger = logging.getLogger("uvicorn.error")
+
 router = APIRouter(prefix="/admin/api", tags=["Admin API"])
 
 
@@ -51,4 +54,7 @@ async def post_full_sync():
         # Optionally: result = {summary, details, ...}
         return {"ok": True, "result": result}
     except Exception as e:
+        # this will print the full stack to your logs
+        logger.exception("Error in full-sync")
+        # now still return the same HTTP error to the client
         raise HTTPException(status_code=500, detail=f"Sync failed: {str(e)}")

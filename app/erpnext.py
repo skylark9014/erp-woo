@@ -4,19 +4,15 @@
 # Provides functions to interact with ERPNext for products and categories.
 #===========================================================================
 
-import os
 import httpx
 import logging
 logger = logging.getLogger("uvicorn.error")
 
-from dotenv import load_dotenv
-load_dotenv()
-
-ERP_URL = os.getenv("ERP_URL")
-ERP_API_KEY = os.getenv("ERP_API_KEY")
-ERP_API_SECRET = os.getenv("ERP_API_SECRET")
-ERP_SELLING_PRICE_LIST = os.getenv("ERP_SELLING_PRICE_LIST", "Standard Selling")
-
+from app.config import settings
+ERP_URL = settings.ERP_URL
+ERP_API_KEY = settings.ERP_API_KEY
+ERP_API_SECRET = settings.ERP_API_SECRET
+ERP_SELLING_PRICE_LIST = settings.ERP_SELLING_PRICE_LIST
 
 async def get_price_map(price_list=None):
     """
@@ -77,9 +73,6 @@ async def get_erpnext_items():
     Fetch all items (products) from ERPNext using the REST API.
     Returns: list of ERPNext item dicts, or empty list on error.
     """
-    ERP_URL = os.getenv("ERP_URL")
-    ERP_API_KEY = os.getenv("ERP_API_KEY")
-    ERP_API_SECRET = os.getenv("ERP_API_SECRET")
     url = (
         f"{ERP_URL}/api/resource/Item"
         "?fields=[\"item_code\",\"item_name\",\"description\",\"stock_uom\",\"standard_rate\",\"image\",\"item_group\",\"brand\"]"

@@ -9,10 +9,21 @@
 
 import html
 import httpx
-import os
-from urllib.parse import urlparse, quote
-
 import logging
+from urllib.parse import urlparse, quote
+from app.erpnext import get_erpnext_categories
+from app.woocommerce import get_wc_categories, create_wc_category
+from app.config import settings
+
+ERP_URL = settings.ERP_URL
+ERP_API_KEY = settings.ERP_API_KEY
+ERP_API_SECRET = settings.ERP_API_SECRET
+WC_BASE_URL = settings.WC_BASE_URL
+WC_API_KEY = settings.WC_API_KEY
+WC_API_SECRET = settings.WC_API_SECRET
+WP_USERNAME =settings.WP_USERNAME
+WP_PASSWORD = settings.WP_PASSWORD
+
 logger = logging.getLogger("uvicorn.error")
 
 # --- Category & Name Utilities ---
@@ -32,7 +43,7 @@ def build_wc_cat_map(wc_categories):
 
 def normalize_woo_image_url(src):
     """Ensure Woo image URLs are absolute, regardless of how they are stored."""
-    base = os.getenv("WC_BASE_URL", "").rstrip("/")
+    base = WC_BASE_URL.rstrip("/")
     parsed = urlparse(src)
     return base + parsed.path
 
@@ -41,9 +52,6 @@ async def get_image_size_with_fallback(erp_url):
     Get image size from ERPNext via HEAD request (auth required for private files).
     Returns (size:int, full_url:str, headers:dict) or (None, None, None) if failed.
     """
-    ERP_URL = os.getenv("ERP_URL", "").rstrip("/")
-    ERP_API_KEY = os.getenv("ERP_API_KEY", "")
-    ERP_API_SECRET = os.getenv("ERP_API_SECRET", "")
     parsed = urlparse(erp_url.strip())
     encoded_path = quote(parsed.path, safe="/:")
     url = ERP_URL + encoded_path
@@ -176,10 +184,6 @@ async def get_erpnext_item_attributes():
     Fetch all global Item Attributes and their possible values from ERPNext.
     Returns dict {attr_name: set([value1, value2, ...])}
     """
-    import httpx
-    ERP_URL = os.getenv("ERP_URL")
-    ERP_API_KEY = os.getenv("ERP_API_KEY")
-    ERP_API_SECRET = os.getenv("ERP_API_SECRET")
     headers = {"Authorization": f"token {ERP_API_KEY}:{ERP_API_SECRET}"}
 
     # Step 1: Get all attribute names
@@ -207,11 +211,8 @@ async def get_erpnext_item_attributes():
 # --- ATTRIBUTE UTILS ---
 
 async def get_attribute_id_map():
-    base_url = os.getenv("WC_BASE_URL", "")
-    wc_user = os.getenv("WC_API_KEY")
-    wc_pass = os.getenv("WC_API_SECRET")
-    url = f"{base_url}/wp-json/wc/v3/products/attributes?per_page=100"
-    auth = (wc_user, wc_pass)
+    url = f"{WC_BASE_URL}/wp-json/wc/v3/products/attributes?per_page=100"
+    auth = (WC_API_KEY, WC_API_SECRET)
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.get(url, auth=auth)
         if resp.status_code == 200:
@@ -219,11 +220,8 @@ async def get_attribute_id_map():
     return {}
 
 async def create_attribute(name):
-    base_url = os.getenv("WC_BASE_URL", "")
-    wc_user = os.getenv("WC_API_KEY")
-    wc_pass = os.getenv("WC_API_SECRET")
-    url = f"{base_url}/wp-json/wc/v3/products/attributes"
-    auth = (wc_user, wc_pass)
+    url = f"{WC_BASE_URL}/wp-json/wc/v3/products/attributes"
+    auth = (WC_API_KEY, WC_API_SECRET)
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.post(url, auth=auth, json={"name": name})
         if resp.status_code in (200, 201):
@@ -234,11 +232,8 @@ async def create_attribute(name):
     return None
 
 async def get_attribute_term_id_map(attr_id):
-    base_url = os.getenv("WC_BASE_URL", "")
-    wc_user = os.getenv("WC_API_KEY")
-    wc_pass = os.getenv("WC_API_SECRET")
-    url = f"{base_url}/wp-json/wc/v3/products/attributes/{attr_id}/terms?per_page=100"
-    auth = (wc_user, wc_pass)
+    url = f"{WC_BASE_URL}/wp-json/wc/v3/products/attributes/{attr_id}/terms?per_page=100"
+    auth = (WC_API_KEY, WC_API_SECRET)
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.get(url, auth=auth)
         if resp.status_code == 200:
@@ -246,11 +241,8 @@ async def get_attribute_term_id_map(attr_id):
     return {}
 
 async def create_attribute_term(attr_id, value):
-    base_url = os.getenv("WC_BASE_URL", "")
-    wc_user = os.getenv("WC_API_KEY")
-    wc_pass = os.getenv("WC_API_SECRET")
-    url = f"{base_url}/wp-json/wc/v3/products/attributes/{attr_id}/terms"
-    auth = (wc_user, wc_pass)
+    url = f"{WC_BASE_URL}/wp-json/wc/v3/products/attributes/{attr_id}/terms"
+    auth = (WC_API_KEY, WC_API_SECRET)
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.post(url, auth=auth, json={"name": value})
         if resp.status_code in (200, 201):
@@ -263,11 +255,8 @@ async def create_attribute_term(attr_id, value):
 # --- BRAND UTILS (unchanged) ---
 
 async def get_brand_id_map():
-    base_url = os.getenv("WC_BASE_URL", "")
-    wp_user = os.getenv("WP_USERNAME")
-    wp_pass = os.getenv("WP_APP_PASSWORD")
-    url = f"{base_url}/wp-json/wp/v2/product_brand?per_page=100"
-    auth = (wp_user, wp_pass)
+    url = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand?per_page=100"
+    auth = (WP_USERNAME, WP_PASSWORD)
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.get(url, auth=auth)
         if resp.status_code == 200:
@@ -275,11 +264,8 @@ async def get_brand_id_map():
     return {}
 
 async def create_brand(name):
-    base_url = os.getenv("WC_BASE_URL", "")
-    wp_user = os.getenv("WP_USERNAME")
-    wp_pass = os.getenv("WP_APP_PASSWORD")
-    url = f"{base_url}/wp-json/wp/v2/product_brand"
-    auth = (wp_user, wp_pass)
+    url = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand"
+    auth = (WP_USERNAME, WP_PASSWORD)
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.post(url, auth=auth, json={"name": name})
         if resp.status_code in (200, 201):
@@ -306,11 +292,8 @@ async def ensure_all_erp_brands_exist(erp_items):
     return brand_id_map
 
 async def assign_brand_to_product(product_id, brand_id):
-    base_url = os.getenv("WC_BASE_URL", "")
-    wp_user = os.getenv("WP_USERNAME")
-    wp_pass = os.getenv("WP_APP_PASSWORD")
-    url = f"{base_url}/wp-json/wp/v2/product/{product_id}"
-    auth = (wp_user, wp_pass)
+    url = f"{WC_BASE_URL}/wp-json/wp/v2/product/{product_id}"
+    auth = (WP_USERNAME, WP_PASSWORD)
     payload = {"product_brand": [brand_id]}
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.post(url, auth=auth, json=payload)

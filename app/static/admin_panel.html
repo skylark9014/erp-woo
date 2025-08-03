@@ -11,46 +11,31 @@
 </head>
 
 <body>
-    <div class="tw-wrap max-w-7xl mx-auto py-8">
-        <div class="sm:flex sm:items-center mb-8">
-            <div class="sm:flex-auto">
-                <h1 class="text-2xl font-bold">ERPNext → WooCommerce Admin Panel</h1>
-                <p class="mt-2 text-sm">
-                    Manage your ERP/Woo sync. Preview upcoming changes, review product mappings, and trigger
-                    synchronisation.
-                </p>
+    <div id="overlay" class="hidden">
+        <div class="spinner"></div>
+        <div class="message"></div> <!-- ← Added so JS can inject overlay messages -->
+    </div>
+    <div class="container">
+        <header>
+            <h1>ERPNext &rarr; WooCommerce Admin Panel</h1>
+            <div class="button-bar">
+                <button id="sync-btn">Synchronise</button>
+                <button id="save-mapping-btn" disabled>Save Mapping File</button>
+                <button id="apply-stock-btn" disabled>Update Stock</button>
             </div>
-            <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex flex-row gap-2">
-                <button id="sync-btn" class="tw-btn-primary" type="button">Synchronise</button>
-                <button id="save-mapping-btn" class="tw-btn-secondary" type="button" disabled>Save Mapping File</button>
-            </div>
-        </div>
-
-        <div id="sync-status-area" class="flex items-center gap-2 mb-3 hidden">
-            <svg id="sync-spinner" class="animate-spin h-5 w-5 text-indigo-600" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" />
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-            </svg>
-            <span id="sync-status-message" class="text-sm font-semibold"></span>
-        </div>
-        <div id="sync-log-area"
-            class="bg-gray-100 border border-gray-200 rounded p-2 mb-4 text-xs font-mono max-h-32 overflow-auto hidden">
-        </div>
-
-        <!-- Alerts/Feedback -->
+        </header>
         <div id="alert-area"></div>
-
         <!-- Sync Preview Table -->
-        <div class="tw-card bg-white tw-shadow rounded-lg mb-8">
-            <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
-                <h2 class="text-lg font-semibold">Sync Preview</h2>
-                <span id="preview-refresh" class="cursor-pointer text-sm text-indigo-600 hover:underline">Refresh</span>
+        <section class="card">
+            <div class="card-header">
+                <h2>Sync Preview</h2>
+                <button id="preview-refresh">Refresh</button>
             </div>
-            <div class="tw-table-wrap overflow-x-auto">
-                <table class="tw-table" id="sync-preview-table">
+            <div class="table-wrap">
+                <table id="sync-preview-table">
                     <thead>
                         <tr>
-                            <th>ERP Item Code</th>
+                            <th>ERP Item</th>
                             <th>WC SKU</th>
                             <th>Action</th>
                             <th>Fields to Update</th>
@@ -59,20 +44,19 @@
                     </thead>
                     <tbody id="sync-preview-tbody">
                         <tr>
-                            <td colspan="5" class="text-center text-gray-400 py-8">Loading preview...</td>
+                            <td colspan="5" class="centered">Loading preview...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <!-- Product Mapping Table -->
-        <div class="tw-card bg-white tw-shadow rounded-lg">
-            <div class="px-6 py-4 border-b border-gray-100">
-                <h2 class="text-lg font-semibold">Product Mapping</h2>
+        </section>
+        <!-- Mapping Table -->
+        <section class="card">
+            <div class="card-header">
+                <h2>Product Mapping</h2>
             </div>
-            <div class="tw-table-wrap overflow-x-auto">
-                <table class="tw-table" id="mapping-table">
+            <div class="table-wrap">
+                <table id="mapping-table">
                     <thead>
                         <tr>
                             <th>ERP Item Code</th>
@@ -80,17 +64,38 @@
                             <th>WC Product ID</th>
                             <th>Status</th>
                             <th>Last Synced</th>
-                            <th>Last Price</th>
                         </tr>
                     </thead>
                     <tbody id="mapping-tbody">
                         <tr>
-                            <td colspan="7" class="text-center text-gray-400 py-8">Loading mapping...</td>
+                            <td colspan="5" class="centered">Loading mapping...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
+        <!-- Stock Adjustment Table -->
+        <section class="card">
+            <div class="card-header">
+                <h2>Stock Adjustment</h2>
+            </div>
+            <div class="table-wrap">
+                <table id="stock-table">
+                    <thead>
+                        <tr>
+                            <th>ERP Item Code</th>
+                            <th>Warehouse</th>
+                            <th>Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody id="stock-tbody">
+                        <tr>
+                            <td colspan="3" class="centered">Loading stock adjustments...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
 </body>
 

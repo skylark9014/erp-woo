@@ -24,5 +24,8 @@ RUN ln -s /code/app /app
 # Expose HTTP port
 EXPOSE 8000
 
-# Launch the ASGI app from the app package
+# Use the main_app.py as the entry point
+# This is the production-ready entry-point for the FastAPI application.
+# It uses Uvicorn to serve the app on port 8000.
+# The app is configured to listen on all interfaces (0.0.0.0)
 CMD ["uvicorn", "app.main_app:app", "--host", "0.0.0.0", "--port", "8000"]

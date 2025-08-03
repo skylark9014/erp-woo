@@ -3,27 +3,25 @@
 # FastAPI application entry-point (production ready).
 #=================================================================
 
-import os
+import logging
+
 from fastapi import FastAPI, Depends, Request, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-import logging
 from app.routes import router as sync_router
 from app.admin_routes import router as admin_router
 from fastapi.responses import FileResponse
+from app.config import settings
 
-# --- Load .env and config ---
-load_dotenv()
-
-ADMIN_USER = os.getenv("ADMIN_USER", "admin")
-ADMIN_PASS = os.getenv("ADMIN_PASS", "changeme")  # Set a secure password in .env!
+ADMIN_USER = settings.ADMIN_USER
+ADMIN_PASS = settings.ADMIN_PASS
 
 # --- FastAPI instance ---
 app = FastAPI(
     title="ERPNext WooCommerce Integration Middleware",
-    description="Middleware for syncing ERPNext with WooCommerce."
+    description="Middleware for syncing ERPNext with WooCommerce.",
+    debug=True,        # <<< enable debug
 )
 
 @app.get("/admin", include_in_schema=False)
@@ -37,13 +35,16 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s | %(message)s"
 )
 logger = logging.getLogger("uvicorn.error")
+# silence HTTPX chatter
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("httpcore").setLevel(logging.WARNING)   # if you also want to silence the core layer
 
 # --- Static Files (for Admin UI) ---
 # Serves /static/* and /admin_panel.html
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # --- CORS (Cross-Origin Resource Sharing) ---
-origins = os.getenv("CORS_ORIGINS", "*").split(",")  # List from .env or "*"
+origins = settings.CORS_ORIGINS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -88,11 +89,20 @@ async def home():
     return {"status": "running", "service": "ERPNext WooCommerce Middleware"}
 
 # --- Error handler example ---
+#@app.exception_handler(Exception)
+#async def global_exception_handler(request: Request, exc: Exception):
+#    logger.exception(f"Unhandled error: {exc}")
+#    return JSONResponse(
+#        status_code=500,
+#        content={"detail": "Internal server error"},
+#    )
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    logger.exception(f"Unhandled error: {exc}")
+    # This will print the full stack trace to your container logs
+    logger.error("Full sync failed", exc_info=exc)
     return JSONResponse(
         status_code=500,
-        content={"detail": "Internal server error"},
+        content={"detail": f"Sync failed: {str(exc)}"},
     )
 

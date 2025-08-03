@@ -4,6 +4,12 @@
 # ==========================================
 
 import logging
+import asyncio
+
+# Limit to 3 simultaneous image fetches (tune as needed)
+IMAGE_FETCH_CONCURRENCY = 3
+image_fetch_semaphore = asyncio.Semaphore(IMAGE_FETCH_CONCURRENCY)
+
 from collections import defaultdict
 
 from app.erpnext import (
@@ -36,10 +42,10 @@ from app.sync_utils import (
     get_variant_gallery_images,
 )
 from app.mapping.mapping_store import build_product_mapping, save_mapping_file
+from app.config import settings
 
+ERP_URL = settings.ERP_URL
 logger = logging.getLogger("uvicorn.error")
-
-# --- MAIN SYNC FUNCTION ---
 
 async def sync_products(dry_run=False):
     erp_items = await get_erpnext_items()
@@ -118,16 +124,25 @@ async def sync_products(dry_run=False):
         if brand and not brand_id:
             logger.error(f"Brand '{brand}' is missing in Woo and could not be created!")
 
-        # Images: featured + gallery (same logic as before for simple)
+        # Images: featured + gallery (dedupe)
         erp_imgs = await get_erp_image_list(item, get_erp_images)
         if item.get("image") and item.get("image") not in erp_imgs:
             erp_imgs = [item.get("image")] + erp_imgs
+        # Deduplicate, preserve order
+        seen = set()
+        erp_imgs = [url for url in erp_imgs if not (url in seen or seen.add(url))]
+
         img_payloads = []
         for erp_img_url in erp_imgs:
             filename = erp_img_url.split("/")[-1]
-            media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
+            if not erp_img_url.startswith(("http://", "https://")):
+                erp_img_url = ERP_URL.rstrip("/") + erp_img_url
+            async with image_fetch_semaphore:
+                media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
+
             if media_id:
                 img_payloads.append({"id": media_id})
+
         if img_payloads:
             wc_payload["images"] = img_payloads
 
@@ -212,13 +227,17 @@ async def sync_products(dry_run=False):
 
         logger.info(f"Variable product '{parent_name}' SKU:{parent_sku} cat_id:{wc_cat_id} price:{price_to_use} brand:{brand} (brand_id:{brand_id})")
 
+        # Parent images dedupe
         parent_imgs = await get_erp_image_list(parent_item, get_erp_images)
         if parent_item.get("image") and parent_item.get("image") not in parent_imgs:
             parent_imgs = [parent_item.get("image")] + parent_imgs
+        seen = set()
+        parent_imgs = [url for url in parent_imgs if not (url in seen or seen.add(url))]
         img_payloads = []
         for erp_img_url in parent_imgs:
             filename = erp_img_url.split("/")[-1]
-            media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
+            async with image_fetch_semaphore:
+                media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
             if media_id:
                 img_payloads.append({"id": media_id})
         if img_payloads:
@@ -285,10 +304,14 @@ async def sync_products(dry_run=False):
 
             # --- GALLERY: Item Image + own attached + template attached (no template item image) ---
             var_imgs = await get_variant_gallery_images(v, parent_item, get_erp_images)
+            # Deduplicate
+            seen = set()
+            var_imgs = [url for url in var_imgs if not (url in seen or seen.add(url))]
             img_payloads = []
             for erp_img_url in var_imgs:
                 filename = erp_img_url.split("/")[-1]
-                media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
+                async with image_fetch_semaphore:
+                    media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
                 if media_id:
                     img_payloads.append({"id": media_id})
             if img_payloads:
