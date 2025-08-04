@@ -3,23 +3,22 @@
 # WooCommerce API interface module.
 # Functions to interact with WooCommerce for products, categories, images, and maintenance.
 #==========================================================================================
-import os
 import httpx
 import base64
 import logging
 import hashlib
-from dotenv import load_dotenv
+from app.config import settings
+from fastapi import Header
 
-load_dotenv()
+WC_BASE_URL = settings.WC_BASE_URL
+WC_API_KEY = settings.WC_API_KEY
+WC_API_SECRET = settings.WC_API_SECRET
+WP_USERNAME = settings.WP_USERNAME
+WP_PASSWORD = settings.WP_PASSWORD
+WC_BASIC_USER = settings.WC_BASIC_USER
+WC_BASIC_PASS = settings.WC_BASIC_PASS
+
 logger = logging.getLogger("uvicorn.error")
-
-WC_BASE_URL = os.getenv("WC_BASE_URL")
-WC_API_KEY = os.getenv("WC_API_KEY")
-WC_API_SECRET = os.getenv("WC_API_SECRET")
-WP_USERNAME = os.getenv("WP_USERNAME")
-WP_APP_PASSWORD = os.getenv("WP_APP_PASSWORD")
-WC_USER = os.getenv("WC_USER", WP_USERNAME)  # fallback to WP_USERNAME for media
-WC_PASS = os.getenv("WC_PASS", WP_APP_PASSWORD)  # fallback to WP_APP_PASSWORD for media
 
 # ---- Products ----
 
@@ -177,85 +176,112 @@ async def list_wc_bin_products():
 
 # ---- Image Upload (WordPress Auth, WP App Password) ----
 
-async def upload_wc_image_from_erpnext(image_url, filename, erp_api_key, erp_api_secret):
+# -------------------------------------------------------------------
+# 1) Download from ERPNext and upload via App Password + site-Basic Auth
+# -------------------------------------------------------------------
+async def upload_wc_image_from_erpnext(image_url: str, filename: str,
+                                        erp_api_key: str, erp_api_secret: str):
     """
-    Download ERPNext product image using token auth (private files OK),
-    then upload to WP media library using Application Password (Basic Auth).
-    Returns the media object or error.
+    Download an ERPNext image (token auth) then upload it to WP via
+    Basic auth (WP_USERNAME + WP_PASSWORD).
+    Returns the WP media object or an error dict.
     """
-    try:
-        # Download from ERPNext
-        headers_erp = {"Authorization": f"token {erp_api_key}:{erp_api_secret}"}
-        async with httpx.AsyncClient(timeout=30.0, verify=False) as client:
-            img_resp = await client.get(image_url, headers=headers_erp)
-            if img_resp.status_code != 200:
-                return {"error": "Failed to download image", "status": img_resp.status_code, "detail": img_resp.text}
-            # Upload to WordPress Media Library
-            media_url = f"{WC_BASE_URL}/wp-json/wp/v2/media"
-            basic_token = base64.b64encode(f"{WP_USERNAME}:{WP_APP_PASSWORD}".encode()).decode()
-            headers_woo = {
-                "Content-Disposition": f'attachment; filename="{filename}"',
-                "Content-Type": img_resp.headers.get("Content-Type", "image/jpeg"),
-                "Authorization": f"Basic {basic_token}",
-            }
-            up_resp = await client.post(media_url, content=img_resp.content, headers=headers_woo)
-            if up_resp.status_code in (200, 201):
-                return up_resp.json()
-            else:
-                return {"error": "Failed to upload image", "status": up_resp.status_code, "detail": up_resp.text}
-    except Exception as e:
-        return {"error": str(e)}
+    # 1) Fetch from ERPNext
+    headers_erp = {"Authorization": f"token {erp_api_key}:{erp_api_secret}"}
+    if not image_url.lower().startswith(("http://", "https://")):
+        image_url = settings.ERP_URL.rstrip("/") + image_url
 
+    async with httpx.AsyncClient(timeout=30.0, verify=False) as erp_client:
+        img_resp = await erp_client.get(image_url, headers=headers_erp)
+        if img_resp.status_code != 200:
+            return {"error": "Failed to download image", "status": img_resp.status_code}
+        img_bytes    = img_resp.content
+        content_type = img_resp.headers.get("Content-Type", "application/octet-stream")
+
+    # 2) Upload to WP
+    media_url = f"{WC_BASE_URL}/wp-json/wp/v2/media"
+    auth      = (WP_USERNAME, WP_PASSWORD)
+    upload_headers = {
+        "Content-Disposition": f'attachment; filename="{filename}"',
+        "Content-Type": content_type,
+    }
+
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as wp:
+        up_resp = await wp.post(media_url, content=img_bytes, headers=upload_headers)
+        if up_resp.status_code not in (200, 201):
+            return {
+                "error": "Failed to upload image",
+                "status": up_resp.status_code,
+                "detail": up_resp.text
+            }
+        return up_resp.json()
+    
+
+# -------------------------------------------------------------------
+# 2) List all WP media (with size details) using site-Basic Auth + App Password
+# -------------------------------------------------------------------
 async def wp_list_media():
     """
-    Fetch all images from the WP media library (paginated).
-    Returns a list of dicts with 'id', 'source_url', 'media_details' (for size).
+    Fetch all images from WP media library (paginated) using
+    Basic auth (WP_USERNAME + WP_PASSWORD).
+    Returns list of media dicts.
     """
-    url = f"{WC_BASE_URL}/wp-json/wp/v2/media?per_page=100"
-    auth = (WC_USER, WC_PASS)
+    media_url = f"{WC_BASE_URL}/wp-json/wp/v2/media?per_page=100"
+    auth      = (WP_USERNAME, WP_PASSWORD)
+
     media = []
-    page = 1
-    while True:
-        async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
-            resp = await client.get(f"{url}&page={page}", auth=auth)
-            if resp.status_code == 200:
-                batch = resp.json()
-                if not batch:
-                    break
-                media.extend(batch)
-                if len(batch) < 100:
-                    break
-                page += 1
-            else:
+    page  = 1
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as wp:
+        while True:
+            resp = await wp.get(f"{media_url}&page={page}")
+            if resp.status_code != 200:
                 break
+            batch = resp.json()
+            if not batch:
+                break
+            media.extend(batch)
+            if len(batch) < 100:
+                break
+            page += 1
+
     return media
 
-async def wp_upload_image_from_url(url, filename):
+# -------------------------------------------------------------------
+# 3) Upload an arbitrary URL to WP media library (same auth pattern)
+# -------------------------------------------------------------------
+async def wp_upload_image_from_url(url: str, filename: str):
     """
-    Upload an image to the WP media library from a public URL or downloaded file content.
-    Returns the new image's WP media ID and source_url.
+    Download a public URL then upload to WP media (Basic auth).
+    Returns the new image's WP media dict.
     """
     media_url = f"{WC_BASE_URL}/wp-json/wp/v2/media"
-    auth = (WC_USER, WC_PASS)
-    headers = {
-        "Content-Disposition": f'attachment; filename="{filename}"',
-        "Content-Type": "image/jpeg" if filename.lower().endswith(".jpg") else "image/png",
-    }
-    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
-        img_resp = await client.get(url)
+    auth      = (WP_USERNAME, WP_PASSWORD)
+
+    # 1) Download source
+    async with httpx.AsyncClient(timeout=20.0, verify=False) as down:
+        img_resp = await down.get(url)
         if img_resp.status_code == 404:
-            logger.warning(f"[IMG] ERPNext image missing (404): {url}")
+            logger.warning(f"[IMG] Source missing (404): {url}")
             return None
         img_resp.raise_for_status()
-        img_bytes = img_resp.content
+        img_bytes    = img_resp.content
+        content_type = img_resp.headers.get("Content-Type", "application/octet-stream")
 
-
-        upload_resp = await client.post(
-            media_url, headers=headers, content=img_bytes, auth=auth
-        )
+    # 2) Upload to WP
+    upload_headers = {
+        "Content-Disposition": f'attachment; filename="{filename}"',
+        "Content-Type": content_type,
+    }
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as wp:
+        upload_resp = await wp.post(media_url, content=img_bytes, headers=upload_headers)
         upload_resp.raise_for_status()
         data = upload_resp.json()
-        return {"id": data["id"], "source_url": data["source_url"], "size": len(img_bytes)}
+        return {
+            "id":         data["id"],
+            "source_url": data["source_url"],
+            "size":       len(img_bytes),
+        }
+
 
 async def ensure_wp_image_uploaded(erp_img_url, filename, size_hint=None):
     """
@@ -265,13 +291,15 @@ async def ensure_wp_image_uploaded(erp_img_url, filename, size_hint=None):
     media = await wp_list_media()
     found_id = None
 
+    #logger.info(f"[IMG] downloading ERP image from {erp_img_url!r}")
+
     # Download ERPNext image
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         img_resp = await client.get(erp_img_url)
         img_bytes = img_resp.content
         img_size = len(img_bytes)
         img_hash = hashlib.sha256(img_bytes).hexdigest()
-
+        
     for m in media:
         # WP media sometimes gives size under 'media_details' > 'filesize'
         m_size = m.get("media_details", {}).get("filesize")

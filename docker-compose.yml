@@ -16,7 +16,20 @@ services:
 
     env_file:
       - .env
-    command: [ "uvicorn", "app.main_app:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers" ]
+    # Production-ready entry-point for the FastAPI application.
+    # Uses Uvicorn to serve the app on port 8000.
+    # The app is configured to listen on all interfaces (0.0.0.0)
+    #command: [ "uvicorn", "app.main_app:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers" ]
+
+    # For development, use the --reload flag to enable auto-reloading on code changes
+    # This is useful during development but should not be used in production.
+    # The --log-level flag is set to debug for detailed logging.
+    # This will help in debugging issues during development.
+    # In production, you might want to remove the --reload flag and set a different log level.
+    # The command below is for development purposes.
+    # In production, you would typically use a process manager like Gunicorn or Uvicorn
+    # without the --reload flag.
+    command: [ "uvicorn", "app.main_app:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug" ]
 
     ports:
       - "8000:8000"
