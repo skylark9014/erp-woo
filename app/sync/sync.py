@@ -49,7 +49,7 @@ logger = logging.getLogger("uvicorn.error")
 
 async def sync_products(dry_run=False):
     erp_items = await get_erpnext_items()
-    erp_items = [item for item in erp_items if not (item.get("has_variants") == 1 or item.get("is_template") is True)]
+    erp_items = [item for item in erp_items if item.get("has_variants") == 0]
     wc_products = await get_wc_products()
     await sync_categories()
     wc_categories = await get_wc_categories()
@@ -124,14 +124,12 @@ async def sync_products(dry_run=False):
         if brand and not brand_id:
             logger.error(f"Brand '{brand}' is missing in Woo and could not be created!")
 
-        # Images: featured + gallery (dedupe)
+        # 1. Get all ERPNext image URLs (main + gallery)
         erp_imgs = await get_erp_image_list(item, get_erp_images)
         if item.get("image") and item.get("image") not in erp_imgs:
             erp_imgs = [item.get("image")] + erp_imgs
-        # Deduplicate, preserve order
-        seen = set()
-        erp_imgs = [url for url in erp_imgs if not (url in seen or seen.add(url))]
 
+        # 2. Upload to WP and collect media IDs
         img_payloads = []
         for erp_img_url in erp_imgs:
             filename = erp_img_url.split("/")[-1]
@@ -139,12 +137,20 @@ async def sync_products(dry_run=False):
                 erp_img_url = ERP_URL.rstrip("/") + erp_img_url
             async with image_fetch_semaphore:
                 media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
-
             if media_id:
                 img_payloads.append({"id": media_id})
 
-        if img_payloads:
-            wc_payload["images"] = img_payloads
+        # 3. Deduplicate by image id, preserve order
+        deduped_imgs = []
+        seen = set()
+        for img in img_payloads:
+            if img["id"] not in seen:
+                deduped_imgs.append(img)
+                seen.add(img["id"])
+
+        # 4. Assign to payload
+        if deduped_imgs:
+            wc_payload["images"] = deduped_imgs
 
         wc = wc_map.get(sku)
         product_id = None
@@ -164,7 +170,7 @@ async def sync_products(dry_run=False):
                 (wc_cat_id and [c["id"] for c in wc.get("categories", [])] != [wc_cat_id])
             )
             if changed:
-                logger.info(f"🟠 Updating simple product: {name} [{sku}]")
+                logger.info(f"🟠 Updating product variant: {name} [{sku}]")
                 if not dry_run:
                     await update_wc_product(wc["id"], wc_payload)
                 stats["updated"] += 1
@@ -240,8 +246,15 @@ async def sync_products(dry_run=False):
                 media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
             if media_id:
                 img_payloads.append({"id": media_id})
-        if img_payloads:
-            wc_parent_payload["images"] = img_payloads
+        
+        deduped_imgs = []
+        seen = set()
+        for img in img_payloads:
+            if img["id"] not in seen:
+                deduped_imgs.append(img)
+                seen.add(img["id"])
+        if deduped_imgs:
+            wc_parent_payload["images"] = deduped_imgs
 
         wc = wc_map.get(parent_sku)
         parent_id = None
@@ -314,8 +327,15 @@ async def sync_products(dry_run=False):
                     media_id = await ensure_wp_image_uploaded(erp_img_url, filename)
                 if media_id:
                     img_payloads.append({"id": media_id})
-            if img_payloads:
-                var_payload["images"] = img_payloads
+            
+            deduped_imgs = []
+            seen = set()
+            for img in img_payloads:
+                if img["id"] not in seen:
+                    deduped_imgs.append(img)
+                    seen.add(img["id"])
+            if deduped_imgs:
+                var_payload["images"] = deduped_imgs
 
             try:
                 logger.info(f"🟢 Creating/updating variation: {parent_name} {attrs} SKU:{v_sku} brand:{brand} (brand_id:{brand_id})")
@@ -348,12 +368,15 @@ async def sync_products_preview():
     from app.sync_utils import get_image_size_with_fallback, get_image_size
 
     erp_items = await get_erpnext_items()
-    erp_items = [item for item in erp_items if not (item.get("has_variants") == 1 or item.get("is_template") is True)]
+    erp_items = [item for item in erp_items if item.get("has_variants") == 0]
     wc_products = await get_wc_products()
     wc_categories = await get_wc_categories()
     price_map = await get_price_map()
     wc_cat_id_by_name = build_wc_cat_map(wc_categories)
     wc_map = {prod.get("sku"): prod for prod in wc_products if prod.get("sku")}
+
+    #force full evaluation and detachment:
+    wc_products = [dict(p) for p in wc_products]
 
     parent_groups = defaultdict(list)
     simple_products = []
@@ -404,17 +427,36 @@ async def sync_products_preview():
         erp_imgs = await get_erp_image_list(item, get_erp_images)
         if item.get("image") and item.get("image") not in erp_imgs:
             erp_imgs = [item.get("image")] + erp_imgs
+
+        # ---- Normalize all to absolute URLs before deduping ----
+        erp_imgs = [
+            img if img.startswith("http") else f"{ERP_URL.rstrip('/')}{img}"
+            for img in erp_imgs
+        ]
+        # Deduplicate, preserve order
+        erp_imgs = list(dict.fromkeys(erp_imgs))
+
         erp_img_sizes = []
         for erp_img_url in erp_imgs:
             sz, _, _ = await get_image_size_with_fallback(erp_img_url)
+            
+            #logger.info(f"ERP image: {erp_img_url} size: {sz}")
+            
             if sz:
                 erp_img_sizes.append(sz)
         wc_img_sizes = []
         if wc and wc.get("images"):
             for img in wc.get("images", []):
                 sz = await get_image_size(img.get("src"))
+
+                #logger.info(f"Woo image: {img.get('src')} size: {sz}")
+                
                 if sz:
                     wc_img_sizes.append(sz)
+
+        #logger.info(f"Comparing ERP sizes {erp_img_sizes} vs Woo sizes {wc_img_sizes}")
+        logger.info(f"Comparing image sizes for {name}: ERP {erp_img_sizes} vs Woo {wc_img_sizes}")
+
         img_diff = set(erp_img_sizes) != set(wc_img_sizes)
 
         wc_payload["erp_img_sizes"] = erp_img_sizes

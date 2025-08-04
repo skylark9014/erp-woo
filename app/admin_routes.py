@@ -58,3 +58,10 @@ async def post_full_sync():
         logger.exception("Error in full-sync")
         # now still return the same HTTP error to the client
         raise HTTPException(status_code=500, detail=f"Sync failed: {str(e)}")
+
+from fastapi.responses import JSONResponse
+
+# --- Stock Adjustment Function ---
+@router.get("/stock-adjustment")
+async def get_stock_adjustment():
+    return JSONResponse(content={}, status_code=200)

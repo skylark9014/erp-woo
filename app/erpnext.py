@@ -75,7 +75,7 @@ async def get_erpnext_items():
     """
     url = (
         f"{ERP_URL}/api/resource/Item"
-        "?fields=[\"item_code\",\"item_name\",\"description\",\"stock_uom\",\"standard_rate\",\"image\",\"item_group\",\"brand\"]"
+        "?fields=[\"item_code\",\"item_name\",\"description\",\"stock_uom\",\"standard_rate\",\"image\",\"item_group\",\"brand\",\"has_variants\"]"
         "&limit_page_length=5000"
     )
     headers = {
