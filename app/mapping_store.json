@@ -1,0 +1,475 @@
+{
+  "products": [
+    {
+      "erp_item_code": "GLU_35S",
+      "woo_product_id": 3914,
+      "sku": "GLU_35S",
+      "erp_item_name": "Multibond 35-S - S GREY-290",
+      "woo_product_name": "Multibond 35-S - S GREY-290",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Adhesives and Sealants"
+    },
+    {
+      "erp_item_code": "MST-Andes-M",
+      "woo_product_id": 3918,
+      "sku": "MST-Andes-M",
+      "erp_item_name": "Micro Stone - Andes",
+      "woo_product_name": "Micro Stone - Andes",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Micro Stone"
+    },
+    {
+      "erp_item_code": "MST-Drakensberg-M",
+      "woo_product_id": 3920,
+      "sku": "MST-Drakensberg-M",
+      "erp_item_name": "Micro Stone - Drakensberg",
+      "woo_product_name": "Micro Stone - Drakensberg",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Micro Stone"
+    },
+    {
+      "erp_item_code": "MST-Everest-M",
+      "woo_product_id": 3922,
+      "sku": "MST-Everest-M",
+      "erp_item_name": "Micro Stone - Everest",
+      "woo_product_name": "Micro Stone - Everest",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Micro Stone"
+    },
+    {
+      "erp_item_code": "MST-Himalayas-M",
+      "woo_product_id": 3924,
+      "sku": "MST-Himalayas-M",
+      "erp_item_name": "Micro Stone - Himalayas",
+      "woo_product_name": "Micro Stone - Himalayas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Micro Stone"
+    },
+    {
+      "erp_item_code": "MST-The-Highlands-M",
+      "woo_product_id": 3926,
+      "sku": "MST-The-Highlands-M",
+      "erp_item_name": "Micro Stone - The Highlands",
+      "woo_product_name": "Micro Stone - The Highlands",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Micro Stone"
+    },
+    {
+      "erp_item_code": "PST-Andes",
+      "woo_product_id": 3930,
+      "sku": "PST-Andes",
+      "erp_item_name": "Peel and Stick - Andes",
+      "woo_product_name": "Peel and Stick - Andes",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Atlas",
+      "woo_product_id": 3932,
+      "sku": "PST-Atlas",
+      "erp_item_name": "Peel and Stick - Atlas",
+      "woo_product_name": "Peel and Stick - Atlas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Ceres",
+      "woo_product_id": 3934,
+      "sku": "PST-Ceres",
+      "erp_item_name": "Peel and Stick - Ceres",
+      "woo_product_name": "Peel and Stick - Ceres",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Drakensberg",
+      "woo_product_id": 3936,
+      "sku": "PST-Drakensberg",
+      "erp_item_name": "Peel and Stick - Drakensberg",
+      "woo_product_name": "Peel and Stick - Drakensberg",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Everest",
+      "woo_product_id": 3938,
+      "sku": "PST-Everest",
+      "erp_item_name": "Peel and Stick - Everest",
+      "woo_product_name": "Peel and Stick - Everest",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Himalayas",
+      "woo_product_id": 3940,
+      "sku": "PST-Himalayas",
+      "erp_item_name": "Peel and Stick - Himalayas",
+      "woo_product_name": "Peel and Stick - Himalayas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Mount-Fuji",
+      "woo_product_id": 3942,
+      "sku": "PST-Mount-Fuji",
+      "erp_item_name": "Peel and Stick - Mount Fuji",
+      "woo_product_name": "Peel and Stick - Mount Fuji",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Nevada",
+      "woo_product_id": 3944,
+      "sku": "PST-Nevada",
+      "erp_item_name": "Peel and Stick - Nevada",
+      "woo_product_name": "Peel and Stick - Nevada",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-Rocky-Mountain",
+      "woo_product_id": 3946,
+      "sku": "PST-Rocky-Mountain",
+      "erp_item_name": "Peel and Stick - Rocky Mountain",
+      "woo_product_name": "Peel and Stick - Rocky Mountain",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-The-Alpes",
+      "woo_product_id": 3948,
+      "sku": "PST-The-Alpes",
+      "erp_item_name": "Peel and Stick - The Alpes",
+      "woo_product_name": "Peel and Stick - The Alpes",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "PST-The-Highlands",
+      "woo_product_id": 3950,
+      "sku": "PST-The-Highlands",
+      "erp_item_name": "Peel and Stick - The Highlands",
+      "woo_product_name": "Peel and Stick - The Highlands",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Peel and Stick"
+    },
+    {
+      "erp_item_code": "SLR_1S01",
+      "woo_product_id": 3951,
+      "sku": "SLR_1S01",
+      "erp_item_name": "Tile and Floor Care 1S01 Invisible Sealer 1 L",
+      "woo_product_name": "Tile and Floor Care 1S01 Invisible Sealer 1 L",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Adhesives and Sealants"
+    },
+    {
+      "erp_item_code": "SVR-Alaska-L",
+      "woo_product_id": 3955,
+      "sku": "SVR-Alaska-L",
+      "erp_item_name": "Stone Veneer - Alaska",
+      "woo_product_name": "Stone Veneer - Alaska",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Alaska-M",
+      "woo_product_id": 3957,
+      "sku": "SVR-Alaska-M",
+      "erp_item_name": "Stone Veneer - Alaska",
+      "woo_product_name": "Stone Veneer - Alaska",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Andes-L",
+      "woo_product_id": 3958,
+      "sku": "SVR-Andes-L",
+      "erp_item_name": "Stone Veneer - Andes",
+      "woo_product_name": "Stone Veneer - Andes",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Andes-M",
+      "woo_product_id": 3959,
+      "sku": "SVR-Andes-M",
+      "erp_item_name": "Stone Veneer - Andes",
+      "woo_product_name": "Stone Veneer - Andes",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Atlas-L",
+      "woo_product_id": 3961,
+      "sku": "SVR-Atlas-L",
+      "erp_item_name": "Stone Veneer - Atlas",
+      "woo_product_name": "Stone Veneer - Atlas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Atlas-M",
+      "woo_product_id": 3962,
+      "sku": "SVR-Atlas-M",
+      "erp_item_name": "Stone Veneer - Atlas",
+      "woo_product_name": "Stone Veneer - Atlas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Cascade-L",
+      "woo_product_id": 3964,
+      "sku": "SVR-Cascade-L",
+      "erp_item_name": "Stone Veneer - Cascade",
+      "woo_product_name": "Stone Veneer - Cascade",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Cascade-M",
+      "woo_product_id": 3965,
+      "sku": "SVR-Cascade-M",
+      "erp_item_name": "Stone Veneer - Cascade",
+      "woo_product_name": "Stone Veneer - Cascade",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Drakensberg-L",
+      "woo_product_id": 3966,
+      "sku": "SVR-Drakensberg-L",
+      "erp_item_name": "Stone Veneer - Drakensberg",
+      "woo_product_name": "Stone Veneer - Drakensberg",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Drakensberg-M",
+      "woo_product_id": 3967,
+      "sku": "SVR-Drakensberg-M",
+      "erp_item_name": "Stone Veneer - Drakensberg",
+      "woo_product_name": "Stone Veneer - Drakensberg",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Everest-L",
+      "woo_product_id": 3968,
+      "sku": "SVR-Everest-L",
+      "erp_item_name": "Stone Veneer - Everest",
+      "woo_product_name": "Stone Veneer - Everest",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Everest-M",
+      "woo_product_id": 3969,
+      "sku": "SVR-Everest-M",
+      "erp_item_name": "Stone Veneer - Everest",
+      "woo_product_name": "Stone Veneer - Everest",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Himalayas-L",
+      "woo_product_id": 3970,
+      "sku": "SVR-Himalayas-L",
+      "erp_item_name": "Stone Veneer - Himalayas",
+      "woo_product_name": "Stone Veneer - Himalayas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Himalayas-M",
+      "woo_product_id": 3971,
+      "sku": "SVR-Himalayas-M",
+      "erp_item_name": "Stone Veneer - Himalayas",
+      "woo_product_name": "Stone Veneer - Himalayas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Mount-Cameroon-L",
+      "woo_product_id": 3973,
+      "sku": "SVR-Mount-Cameroon-L",
+      "erp_item_name": "Stone Veneer - Mount Cameroon",
+      "woo_product_name": "Stone Veneer - Mount Cameroon",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Mount-Cameroon-M",
+      "woo_product_id": 3974,
+      "sku": "SVR-Mount-Cameroon-M",
+      "erp_item_name": "Stone Veneer - Mount Cameroon",
+      "woo_product_name": "Stone Veneer - Mount Cameroon",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Mount-Cook-L",
+      "woo_product_id": 3976,
+      "sku": "SVR-Mount-Cook-L",
+      "erp_item_name": "Stone Veneer - Mount Cook",
+      "woo_product_name": "Stone Veneer - Mount Cook",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Mount-Cook-M",
+      "woo_product_id": 3977,
+      "sku": "SVR-Mount-Cook-M",
+      "erp_item_name": "Stone Veneer - Mount Cook",
+      "woo_product_name": "Stone Veneer - Mount Cook",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Sierra-L",
+      "woo_product_id": 3979,
+      "sku": "SVR-Sierra-L",
+      "erp_item_name": "Stone Veneer - Sierra",
+      "woo_product_name": "Stone Veneer - Sierra",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-Sierra-M",
+      "woo_product_id": 3980,
+      "sku": "SVR-Sierra-M",
+      "erp_item_name": "Stone Veneer - Sierra",
+      "woo_product_name": "Stone Veneer - Sierra",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-The-Dolomites-L",
+      "woo_product_id": 3982,
+      "sku": "SVR-The-Dolomites-L",
+      "erp_item_name": "Stone Veneer - The Dolomites",
+      "woo_product_name": "Stone Veneer - The Dolomites",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-The-Dolomites-M",
+      "woo_product_id": 3983,
+      "sku": "SVR-The-Dolomites-M",
+      "erp_item_name": "Stone Veneer - The Dolomites",
+      "woo_product_name": "Stone Veneer - The Dolomites",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-The-Highlands-L",
+      "woo_product_id": 3984,
+      "sku": "SVR-The-Highlands-L",
+      "erp_item_name": "Stone Veneer - The Highlands",
+      "woo_product_name": "Stone Veneer - The Highlands",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "SVR-The-Highlands-M",
+      "woo_product_id": 3985,
+      "sku": "SVR-The-Highlands-M",
+      "erp_item_name": "Stone Veneer - The Highlands",
+      "woo_product_name": "Stone Veneer - The Highlands",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Stone Veneer"
+    },
+    {
+      "erp_item_code": "TSL-Andes-L",
+      "woo_product_id": 3989,
+      "sku": "TSL-Andes-L",
+      "erp_item_name": "Translucent Stone - Andes",
+      "woo_product_name": "Translucent Stone - Andes",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Translucent Stone"
+    },
+    {
+      "erp_item_code": "TSL-Drakensberg-L",
+      "woo_product_id": 3991,
+      "sku": "TSL-Drakensberg-L",
+      "erp_item_name": "Translucent Stone - Drakensberg",
+      "woo_product_name": "Translucent Stone - Drakensberg",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Translucent Stone"
+    },
+    {
+      "erp_item_code": "TSL-Everest-L",
+      "woo_product_id": 3993,
+      "sku": "TSL-Everest-L",
+      "erp_item_name": "Translucent Stone - Everest",
+      "woo_product_name": "Translucent Stone - Everest",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Translucent Stone"
+    },
+    {
+      "erp_item_code": "TSL-Himalayas-L",
+      "woo_product_id": 3995,
+      "sku": "TSL-Himalayas-L",
+      "erp_item_name": "Translucent Stone - Himalayas",
+      "woo_product_name": "Translucent Stone - Himalayas",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Translucent Stone"
+    },
+    {
+      "erp_item_code": "TSL-The-Highlands-L",
+      "woo_product_id": 3997,
+      "sku": "TSL-The-Highlands-L",
+      "erp_item_name": "Translucent Stone - The Highlands",
+      "woo_product_name": "Translucent Stone - The Highlands",
+      "woo_type": "simple",
+      "woo_status": "publish",
+      "erp_item_group": "Translucent Stone"
+    }
+  ],
+  "last_synced": "2025-08-05T22:06:28Z"
+}

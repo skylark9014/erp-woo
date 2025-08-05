@@ -12,13 +12,20 @@ import httpx
 import logging
 import json
 import os
-import re
 
-from html import unescape
+from bs4 import BeautifulSoup
 from urllib.parse import urlparse, quote
 from app.erpnext import get_erpnext_categories
-from app.woocommerce import get_wc_categories, create_wc_category
-from app.field_mapping import get_wc_sync_fields
+from app.woocommerce import (
+    get_wc_categories, 
+    create_wc_category, 
+    update_wc_product, 
+    create_wc_product,
+)
+from app.field_mapping import (
+    get_wc_sync_fields, 
+    map_erp_to_wc_product,
+)
 from app.config import settings
 
 ERP_URL = settings.ERP_URL
@@ -384,27 +391,33 @@ def save_preview_to_file(preview: dict, filename: str = "products_to_sync.json")
     target_path = os.path.join(mapping_dir, filename)
     tmp_file = target_path + ".tmp"
 
-    print(f"*** Writing sync preview to: {target_path}")
+    #print(f"*** Writing sync preview to: {target_path}")
     with open(tmp_file, "w", encoding="utf-8") as f:
         json.dump(preview, f, indent=2, ensure_ascii=False)
     os.replace(tmp_file, target_path)
 
 
 def load_preview_from_file(filename: str = "products_to_sync.json"):
-    """Load the saved sync preview file for partial sync."""
-    file_path = os.path.join(os.path.dirname(__file__), filename)
+    # Always load from app/mapping/
+    base_dir = os.path.dirname(__file__)
+    mapping_dir = os.path.join(base_dir, "mapping")
+    file_path = os.path.join(mapping_dir, filename)
+    #print(f"*** Loading sync preview from: {file_path}")
     with open(file_path, "r") as f:
         return json.load(f)
 
-# This helper could be your main sync logic with erp_items and wc_products as parameters:
-async def sync_products_filtered(erp_items, wc_products, dry_run=False):
-    # ... your main sync code, but scoped to filtered lists ...
-    # (You may need to refactor your sync_products to be more modular.)
-    return {"ok": True, "synced_count": len(erp_items)}
 
 def diff_fields(wc, erp, include=None, ignore=None):
     import re
     from app.field_mapping import get_wc_sync_fields
+    from bs4 import BeautifulSoup
+    import logging
+    logger = logging.getLogger("uvicorn.error")
+
+    def strip_html(s):
+        """Robustly strips HTML, preserving spaces at block boundaries."""
+        return BeautifulSoup(s or "", "html.parser").get_text(separator=" ", strip=True)
+
     ignore = set(ignore or [])
     ignore.update({"erp_img_sizes", "wc_img_sizes", "image_diff", "images", "has_variants"})
     if include is None:
@@ -423,13 +436,11 @@ def diff_fields(wc, erp, include=None, ignore=None):
             v1 = [c["id"] for c in v1] if isinstance(v1, list) else []
             v2 = [c["id"] for c in v2] if isinstance(v2, list) else []
         if k == "description":
-            def strip_html(s):
-                s = re.sub(r"<[^>]+>", "", (s or "")).strip()
-                s = re.sub(r"\s+", " ", s)
-                return s
             v1s = strip_html(v1)
             v2s = strip_html(v2)
-            #print(f"COMPARE DESC STRIPPED: '{v1s}' | '{v2s}'")  # or logger.info()
+
+            #logger.info(f"[DIFF DEBUG] DESC ({k}) ERP:'{v2s}' WOO:'{v1s}' RAW ERP:'{v2}' RAW WOO:'{v1}'")
+            
             if v1s != v2s:
                 diffs[k] = [v1, v2]
             continue
@@ -440,3 +451,70 @@ def diff_fields(wc, erp, include=None, ignore=None):
             diffs[k] = [v1, v2]
     return diffs
 
+# This helper could be your main sync logic with erp_items and wc_products as parameters:
+async def sync_products_filtered(erp_items, wc_products, dry_run=False):
+    """
+    Run the real sync logic for a filtered set of items (for partial sync).
+    """
+    logger.info(f"Starting filtered sync with {len(erp_items)} ERP and {len(wc_products)} Woo products (dry_run={dry_run})")
+
+    wc_map = {p.get("sku"): p for p in wc_products if p.get("sku")}
+    stats = {"updated": 0, "created": 0, "skipped": 0, "errors": []}
+
+    # Re-fetch price and stock for accuracy
+    from app.erpnext import get_price_map, get_stock_map
+    price_map = await get_price_map()
+    stock_map = await get_stock_map()
+
+    # NOTE: In partial sync, we assume *no* new product creation (if you want, keep that logic!)
+    for item in erp_items:
+        sku = item.get("item_code") or item.get("Item Code")
+        wc = wc_map.get(sku)
+        price = price_map.get(sku, item.get("standard_rate", 0))
+        default_wh = item.get("default_warehouse")
+        stock_qty = (
+            stock_map.get((sku, default_wh), 0)
+            if sku and default_wh
+            else sum(qty for (code, wh), qty in stock_map.items() if code == sku)
+        )
+
+        wc_payload = map_erp_to_wc_product(item, category_map=None, brand_map=None, image_list=None)
+        wc_payload["regular_price"] = str(price)
+        wc_payload["stock_quantity"] = stock_qty
+
+        # Create new products in Woo
+        if wc is None:
+            logger.info(f"SKU {sku}: Creating new WooCommerce product in partial sync.")
+            if not dry_run:
+                try:
+                    resp = await create_wc_product(wc_payload)
+                    if resp.get("status_code", 0) not in (200, 201):
+                        logger.error(f"SKU {sku}: Woo creation failed: {resp}")
+                        stats["errors"].append({"sku": sku, "error": resp})
+                    else:
+                        stats["created"] += 1
+                except Exception as e:
+                    logger.error(f"SKU {sku}: Error creating Woo product: {e}")
+                    stats["errors"].append({"sku": sku, "error": str(e)})
+            continue
+
+        fields_changed = diff_fields(wc, wc_payload, include=get_wc_sync_fields())
+        if fields_changed:
+            logger.info(f"SKU {sku}: Updating Woo fields {fields_changed}")
+            if not dry_run:
+                try:
+                    resp = await update_wc_product(wc["id"], wc_payload)
+                    if resp.get("status_code", 0) not in (200, 201):
+                        logger.error(f"SKU {sku}: Woo update failed: {resp}")
+                        stats["errors"].append({"sku": sku, "error": resp})
+                    else:
+                        stats["updated"] += 1
+                except Exception as e:
+                    logger.error(f"SKU {sku}: Error updating Woo: {e}")
+                    stats["errors"].append({"sku": sku, "error": str(e)})
+        else:
+            logger.info(f"SKU {sku}: No fields need update.")
+            stats["skipped"] += 1
+
+    logger.info(f"Partial sync: {stats['updated']} updated, {stats['skipped']} skipped, {len(stats['errors'])} errors.")
+    return stats

@@ -593,16 +593,43 @@ async def sync_products_partial(dry_run=False, filename: str = "products_to_sync
     Partial sync: sync only the products flagged in the last preview file.
     """
     preview = load_preview_from_file(filename)
+    #logger.info(f"Loaded sync preview from '{filename}' with keys: {list(preview.keys())}")
+
     flagged_skus = set()
     for section in ("to_create", "to_update"):
-        flagged_skus.update([item.get("sku") for item in preview.get(section, []) if item.get("sku")])
-    logger.info(f"Partial sync on these SKUs: {flagged_skus}")
+        for item in preview.get(section, []):
+            # Defensive: handle both dry-run and actual result formats
+            sku = (item.get("current", {}) or {}).get("sku") or (item.get("new", {}) or {}).get("sku")
+            if sku:
+                flagged_skus.add(sku)
 
-    erp_items = await get_erpnext_items()
-    erp_items = [item for item in erp_items if (item.get("item_code") or item.get("Item Code")) in flagged_skus]
-    wc_products = await get_wc_products()
-    wc_products = [prod for prod in wc_products if prod.get("sku") in flagged_skus]
+    logger.info(f"Partial sync on these SKUs: {flagged_skus}")
+    if not flagged_skus:
+        logger.warning("No SKUs found for partial sync. Exiting early.")
+        return {"status": "noop", "reason": "No SKUs flagged for sync."}
+
+    erp_items_all = await get_erpnext_items()
+    #logger.info(f"Total ERPNext items fetched: {len(erp_items_all)}")
+
+    # Filter ERP items for flagged SKUs
+    erp_items = [item for item in erp_items_all if (item.get("item_code") or item.get("Item Code")) in flagged_skus]
+    erp_skus = [item.get("item_code") or item.get("Item Code") for item in erp_items]
+    #logger.info(f"ERP SKUs for sync: {erp_skus}")
+
+    wc_products_all = await get_wc_products()
+    #logger.info(f"Total WooCommerce products fetched: {len(wc_products_all)}")
+
+    # Filter WC products for flagged SKUs
+    wc_products = [prod for prod in wc_products_all if prod.get("sku") in flagged_skus]
+    wc_skus = [prod.get("sku") for prod in wc_products]
+    #logger.info(f"WooCommerce SKUs for sync: {wc_skus}")
+
     stock_map = await get_stock_map()
-    # Note: If you call sync_products_filtered here, make sure it also gets stock_map injected
+    #logger.info(f"Fetched stock map with {len(stock_map) if stock_map else 0} entries")
+    #logger.info(f"Calling sync_products_filtered with {len(erp_items)} ERP and {len(wc_products)} Woo products. Dry-run={dry_run}")
+
+    # Note: pass stock_map as needed to sync_products_filtered if required by your implementation
     results = await sync_products_filtered(erp_items, wc_products, dry_run=dry_run)
+    logger.info(f"sync_products_filtered results: {results}")
+
     return results
