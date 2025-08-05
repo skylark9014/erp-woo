@@ -1,0 +1,6276 @@
+{
+  "to_create": [],
+  "to_update": [
+    {
+      "current": {
+        "id": 3914,
+        "name": "Multibond 35-S - S GREY-290",
+        "slug": "multibond-35-s-s-grey-290",
+        "permalink": "https://techniclad.local/product/multibond-35-s-s-grey-290/",
+        "date_created": "2025-07-29T20:50:59",
+        "date_created_gmt": "2025-07-29T18:50:59",
+        "date_modified": "2025-08-04T20:25:26",
+        "date_modified_gmt": "2025-08-04T18:25:26",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Soudal Multibond 35 S - S GREY 290 is an adhesive and high-quality, permanently flexible joint sealant based on SMX Polymer and with a \"Shore A\" hardness of 35 (allowing accommodation of movement in joints). It is suitable for internal and external applications while bonding to a wide range of substrate forming a strong, flexible, and waterproof seal. It comes in a 290ml cartridge in Concrete Grey or Dark Grey color.  </p>\n",
+        "short_description": "",
+        "sku": "GLU_35S",
+        "price": "146.95",
+        "regular_price": "146.95",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 45,
+            "name": "Adhesives and Sealants",
+            "slug": "adhesives-and-sealants"
+          }
+        ],
+        "brands": [
+          {
+            "id": 59,
+            "name": "Soudal",
+            "slug": "soudal"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3913,
+            "date_created": "2025-07-29T22:50:56",
+            "date_created_gmt": "2025-07-29T18:50:56",
+            "date_modified": "2025-07-29T23:00:35",
+            "date_modified_gmt": "2025-07-29T19:00:35",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/SOUDAL-Multibond-SMX35.png",
+            "name": "SOUDAL-Multibond-SMX35",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>146,95</bdi></span>",
+        "related_ids": [
+          3951
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3914",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "new": {
+        "sku": "GLU_35S",
+        "name": "Multibond 35-S - S GREY-290",
+        "description": "Soudal Multibond 35 S - S GREY 290 is an adhesive and high-quality, permanently flexible joint sealant based on SMX Polymer and with a \"Shore A\" hardness of 35 (allowing accommodation of movement in joints). It is suitable for internal and external applications while bonding to a wide range of substrate forming a strong, flexible, and waterproof seal. It comes in a 290ml cartridge in Concrete Grey or Dark Grey color.  ",
+        "regular_price": "146.95",
+        "brands": [
+          {
+            "id": 59
+          }
+        ],
+        "stock_quantity": 46.0,
+        "has_variants": 0,
+        "erp_img_sizes": [
+          94328
+        ],
+        "wc_img_sizes": [
+          94328
+        ],
+        "image_diff": false
+      },
+      "fields_changed": [
+        "stock_quantity"
+      ],
+      "fields_diff": {
+        "stock_quantity": [
+          0,
+          46.0
+        ]
+      },
+      "fields_to_update": "stock_quantity",
+      "action": "Update",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3948,
+        "name": "Peel and Stick - The Alpes",
+        "slug": "peel-and-stick-the-alpes",
+        "permalink": "https://techniclad.local/product/peel-and-stick-the-alpes/",
+        "date_created": "2025-07-29T20:53:16",
+        "date_created_gmt": "2025-07-29T18:53:16",
+        "date_modified": "2025-08-04T20:27:49",
+        "date_modified_gmt": "2025-08-04T18:27:49",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - The Alpes: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-The-Alpes",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3947,
+            "date_created": "2025-07-29T22:53:14",
+            "date_created_gmt": "2025-07-29T18:53:14",
+            "date_modified": "2025-07-29T23:01:48",
+            "date_modified_gmt": "2025-07-29T19:01:48",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4788-The-Alps-Tiles.jpg",
+            "name": "2023-02-4788-The-Alps-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3942,
+          3938,
+          3936,
+          3946,
+          3940
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3948",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "new": {
+        "sku": "PST-The-Alpes",
+        "name": "Peel and Stick - The Alpes",
+        "description": "<div><p>Natural stone Peel and Stick tiles - The Alpes: Box of 10 with sheets 600mm x 150mm.</p><p>Natural stone Peel and Stick tiles - The Alpes: Box of 10 with sheets 600mm x 150mm.</p></div>",
+        "regular_price": "795.5",
+        "brands": [
+          {
+            "id": 57
+          }
+        ],
+        "stock_quantity": 0,
+        "has_variants": 0,
+        "erp_img_sizes": [
+          86855
+        ],
+        "wc_img_sizes": [
+          86855
+        ],
+        "image_diff": false
+      },
+      "fields_changed": [
+        "description"
+      ],
+      "fields_diff": {
+        "description": [
+          "<p>Natural stone Peel and Stick tiles - The Alpes: Box of 10 with sheets 600mm x 150mm</p>\n",
+          "<div><p>Natural stone Peel and Stick tiles - The Alpes: Box of 10 with sheets 600mm x 150mm.</p><p>Natural stone Peel and Stick tiles - The Alpes: Box of 10 with sheets 600mm x 150mm.</p></div>"
+        ]
+      },
+      "fields_to_update": "description",
+      "action": "Update",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3950,
+        "name": "Peel and Stick - The Highlands",
+        "slug": "peel-and-stick-the-highlands",
+        "permalink": "https://techniclad.local/product/peel-and-stick-the-highlands/",
+        "date_created": "2025-07-29T20:53:23",
+        "date_created_gmt": "2025-07-29T18:53:23",
+        "date_modified": "2025-08-04T20:28:00",
+        "date_modified_gmt": "2025-08-04T18:28:00",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - The Highlands: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-The-Highlands",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3949,
+            "date_created": "2025-07-29T22:53:21",
+            "date_created_gmt": "2025-07-29T18:53:21",
+            "date_modified": "2025-07-29T23:01:52",
+            "date_modified_gmt": "2025-07-29T19:01:52",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4767-The-Highlands-Tiles.jpg",
+            "name": "2023-02-4767-The-Highlands-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3944,
+          3948,
+          3934,
+          3938,
+          3940
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3950",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "new": {
+        "sku": "PST-The-Highlands",
+        "name": "Peel and Stick - The Highlands",
+        "description": "Natural stone Peel and Stick tiles - The Highlands: Box of 10 with sheets 600mm x 150mm",
+        "regular_price": "600.0",
+        "brands": [
+          {
+            "id": 57
+          }
+        ],
+        "stock_quantity": 0,
+        "has_variants": 0,
+        "erp_img_sizes": [
+          117476
+        ],
+        "wc_img_sizes": [
+          117476
+        ],
+        "image_diff": false
+      },
+      "fields_changed": [
+        "regular_price"
+      ],
+      "fields_diff": {
+        "regular_price": [
+          "795.5",
+          "600.0"
+        ]
+      },
+      "fields_to_update": "regular_price",
+      "action": "Update",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3951,
+        "name": "Tile and Floor Care 1S01 Invisible Sealer 1 L",
+        "slug": "tile-and-floor-care-1s01-invisible-sealer-1-l",
+        "permalink": "https://techniclad.local/product/tile-and-floor-care-1s01-invisible-sealer-1-l/",
+        "date_created": "2025-07-29T21:05:17",
+        "date_created_gmt": "2025-07-29T19:05:17",
+        "date_modified": "2025-08-04T20:28:10",
+        "date_modified_gmt": "2025-08-04T18:28:10",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Invisible Sealer is a penetrating clear silicone sealer that will maintain the natural look of the stone while repelling water and most oils. It is UV stable and thus suitable for interior and exterior applications. Coverage is \u00b1 7 to 30m\u00b2 per L depending on stone porosity  </p>\n",
+        "short_description": "",
+        "sku": "SLR_1S01",
+        "price": "357.1",
+        "regular_price": "357.1",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 45,
+            "name": "Adhesives and Sealants",
+            "slug": "adhesives-and-sealants"
+          }
+        ],
+        "brands": [
+          {
+            "id": 58,
+            "name": "TFC",
+            "slug": "tfc"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3998,
+            "date_created": "2025-07-30T01:03:31",
+            "date_created_gmt": "2025-07-29T21:03:31",
+            "date_modified": "2025-07-30T01:03:33",
+            "date_modified_gmt": "2025-07-29T21:03:33",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/TFC-1S01-Invisible-Sealer-1-L.png",
+            "name": "TFC-1S01-Invisible-Sealer-1-L",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>357,10</bdi></span>",
+        "related_ids": [
+          3914
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3951",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "new": {
+        "sku": "SLR_1S01",
+        "name": "Tile and Floor Care 1S01 Invisible Sealer 1 L",
+        "description": "Invisible Sealer is a penetrating clear silicone sealer that will maintain the natural look of the stone while repelling water and most oils. It is UV stable and thus suitable for interior and exterior applications. Coverage is \u00b1 7 to 30m\u00b2 per L depending on stone porosity  ",
+        "regular_price": "357.1",
+        "brands": [
+          {
+            "id": 58
+          }
+        ],
+        "stock_quantity": 12.0,
+        "has_variants": 0,
+        "erp_img_sizes": [
+          205765
+        ],
+        "wc_img_sizes": [
+          205765
+        ],
+        "image_diff": false
+      },
+      "fields_changed": [
+        "stock_quantity"
+      ],
+      "fields_diff": {
+        "stock_quantity": [
+          0,
+          12.0
+        ]
+      },
+      "fields_to_update": "stock_quantity",
+      "action": "Update",
+      "image_diff": false
+    }
+  ],
+  "already_synced": [
+    {
+      "current": {
+        "id": 3918,
+        "name": "Micro Stone - Andes",
+        "slug": "micro-stone-andes",
+        "permalink": "https://techniclad.local/product/micro-stone-andes/",
+        "date_created": "2025-07-29T20:51:11",
+        "date_created_gmt": "2025-07-29T18:51:11",
+        "date_modified": "2025-08-04T20:25:36",
+        "date_modified_gmt": "2025-08-04T18:25:36",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Micro Stone panels - Andes: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "MST-Andes-M",
+        "price": "882.95",
+        "regular_price": "882.95",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 49,
+            "name": "Micro Stone",
+            "slug": "micro-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3917,
+            "date_created": "2025-07-29T22:51:09",
+            "date_created_gmt": "2025-07-29T18:51:09",
+            "date_modified": "2025-07-29T23:00:42",
+            "date_modified_gmt": "2025-07-29T19:00:42",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4522-Andes-Sheet4af478.jpg",
+            "name": "2023-02-4522-Andes-Sheet4af478",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>882,95</bdi></span>",
+        "related_ids": [
+          3926,
+          3924,
+          3920,
+          3922
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3918",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3920,
+        "name": "Micro Stone - Drakensberg",
+        "slug": "micro-stone-drakensberg",
+        "permalink": "https://techniclad.local/product/micro-stone-drakensberg/",
+        "date_created": "2025-07-29T20:51:18",
+        "date_created_gmt": "2025-07-29T18:51:18",
+        "date_modified": "2025-08-04T20:25:46",
+        "date_modified_gmt": "2025-08-04T18:25:46",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Micro Stone panels - Drakensberg: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "MST-Drakensberg-M",
+        "price": "882.95",
+        "regular_price": "882.95",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 49,
+            "name": "Micro Stone",
+            "slug": "micro-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3919,
+            "date_created": "2025-07-29T22:51:16",
+            "date_created_gmt": "2025-07-29T18:51:16",
+            "date_modified": "2025-07-29T23:00:46",
+            "date_modified_gmt": "2025-07-29T19:00:46",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4494-Drakensberg-Sheetcee294.jpg",
+            "name": "2023-02-4494-Drakensberg-Sheetcee294",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>882,95</bdi></span>",
+        "related_ids": [
+          3926,
+          3924,
+          3918,
+          3922
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3920",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3922,
+        "name": "Micro Stone - Everest",
+        "slug": "micro-stone-everest",
+        "permalink": "https://techniclad.local/product/micro-stone-everest/",
+        "date_created": "2025-07-29T20:51:27",
+        "date_created_gmt": "2025-07-29T18:51:27",
+        "date_modified": "2025-08-04T20:25:55",
+        "date_modified_gmt": "2025-08-04T18:25:55",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Micro Stone panels - Everest: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "MST-Everest-M",
+        "price": "882.95",
+        "regular_price": "882.95",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 49,
+            "name": "Micro Stone",
+            "slug": "micro-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3921,
+            "date_created": "2025-07-29T22:51:23",
+            "date_created_gmt": "2025-07-29T18:51:23",
+            "date_modified": "2025-07-29T23:00:50",
+            "date_modified_gmt": "2025-07-29T19:00:50",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4510-Everest-Sheet.jpg",
+            "name": "2023-02-4510-Everest-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>882,95</bdi></span>",
+        "related_ids": [
+          3920,
+          3926,
+          3924,
+          3918
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3922",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3924,
+        "name": "Micro Stone - Himalayas",
+        "slug": "micro-stone-himalayas",
+        "permalink": "https://techniclad.local/product/micro-stone-himalayas/",
+        "date_created": "2025-07-29T20:51:33",
+        "date_created_gmt": "2025-07-29T18:51:33",
+        "date_modified": "2025-08-04T20:26:03",
+        "date_modified_gmt": "2025-08-04T18:26:03",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Micro Stone panels - Himalayas: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "MST-Himalayas-M",
+        "price": "882.95",
+        "regular_price": "882.95",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 49,
+            "name": "Micro Stone",
+            "slug": "micro-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3923,
+            "date_created": "2025-07-29T22:51:32",
+            "date_created_gmt": "2025-07-29T18:51:32",
+            "date_modified": "2025-07-29T23:00:53",
+            "date_modified_gmt": "2025-07-29T19:00:53",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4514-Himalayas-Sheet.jpg",
+            "name": "2023-02-4514-Himalayas-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>882,95</bdi></span>",
+        "related_ids": [
+          3926,
+          3918,
+          3922,
+          3920
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3924",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3926,
+        "name": "Micro Stone - The Highlands",
+        "slug": "micro-stone-the-highlands",
+        "permalink": "https://techniclad.local/product/micro-stone-the-highlands/",
+        "date_created": "2025-07-29T20:51:44",
+        "date_created_gmt": "2025-07-29T18:51:44",
+        "date_modified": "2025-08-04T20:26:12",
+        "date_modified_gmt": "2025-08-04T18:26:12",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Micro Stone panels - The Highlands: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "MST-The-Highlands-M",
+        "price": "882.95",
+        "regular_price": "882.95",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 49,
+            "name": "Micro Stone",
+            "slug": "micro-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3925,
+            "date_created": "2025-07-29T22:51:43",
+            "date_created_gmt": "2025-07-29T18:51:43",
+            "date_modified": "2025-07-29T23:00:57",
+            "date_modified_gmt": "2025-07-29T19:00:57",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4502-The-Highlands-Sheet.jpg",
+            "name": "2023-02-4502-The-Highlands-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>882,95</bdi></span>",
+        "related_ids": [
+          3920,
+          3922,
+          3918,
+          3924
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3926",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3930,
+        "name": "Peel and Stick - Andes",
+        "slug": "peel-and-stick-andes",
+        "permalink": "https://techniclad.local/product/peel-and-stick-andes/",
+        "date_created": "2025-07-29T20:51:58",
+        "date_created_gmt": "2025-07-29T18:51:58",
+        "date_modified": "2025-08-04T20:26:24",
+        "date_modified_gmt": "2025-08-04T18:26:24",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Andes: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Andes",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3929,
+            "date_created": "2025-07-29T22:51:56",
+            "date_created_gmt": "2025-07-29T18:51:56",
+            "date_modified": "2025-07-29T23:01:04",
+            "date_modified_gmt": "2025-07-29T19:01:04",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4778-Andes-Tiles.jpg",
+            "name": "2023-02-4778-Andes-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3932,
+          3936,
+          3950,
+          3934,
+          3938
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3930",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3932,
+        "name": "Peel and Stick - Atlas",
+        "slug": "peel-and-stick-atlas",
+        "permalink": "https://techniclad.local/product/peel-and-stick-atlas/",
+        "date_created": "2025-07-29T20:52:18",
+        "date_created_gmt": "2025-07-29T18:52:18",
+        "date_modified": "2025-08-04T20:26:33",
+        "date_modified_gmt": "2025-08-04T18:26:33",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Atlas: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Atlas",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3931,
+            "date_created": "2025-07-29T22:52:09",
+            "date_created_gmt": "2025-07-29T18:52:09",
+            "date_modified": "2025-07-29T23:01:08",
+            "date_modified_gmt": "2025-07-29T19:01:08",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4656-Atlas-Tiles.png",
+            "name": "2023-02-4656-Atlas-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3930,
+          3944,
+          3948,
+          3938,
+          3934
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3932",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3934,
+        "name": "Peel and Stick - Ceres",
+        "slug": "peel-and-stick-ceres",
+        "permalink": "https://techniclad.local/product/peel-and-stick-ceres/",
+        "date_created": "2025-07-29T20:52:26",
+        "date_created_gmt": "2025-07-29T18:52:26",
+        "date_modified": "2025-08-04T20:26:47",
+        "date_modified_gmt": "2025-08-04T18:26:47",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Ceres: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Ceres",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3933,
+            "date_created": "2025-07-29T22:52:24",
+            "date_created_gmt": "2025-07-29T18:52:24",
+            "date_modified": "2025-07-29T23:01:12",
+            "date_modified_gmt": "2025-07-29T19:01:12",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4739-Ceres-Tiles.jpg",
+            "name": "2023-02-4739-Ceres-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3944,
+          3938,
+          3950,
+          3930,
+          3936
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3934",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3936,
+        "name": "Peel and Stick - Drakensberg",
+        "slug": "peel-and-stick-drakensberg",
+        "permalink": "https://techniclad.local/product/peel-and-stick-drakensberg/",
+        "date_created": "2025-07-29T20:52:33",
+        "date_created_gmt": "2025-07-29T18:52:33",
+        "date_modified": "2025-08-04T20:26:55",
+        "date_modified_gmt": "2025-08-04T18:26:55",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Drakensberg: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Drakensberg",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3935,
+            "date_created": "2025-07-29T22:52:32",
+            "date_created_gmt": "2025-07-29T18:52:32",
+            "date_modified": "2025-07-29T23:01:15",
+            "date_modified_gmt": "2025-07-29T19:01:15",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4753-Drakensberg-Tiles.jpg",
+            "name": "2023-02-4753-Drakensberg-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3940,
+          3934,
+          3932,
+          3946,
+          3930
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3936",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3938,
+        "name": "Peel and Stick - Everest",
+        "slug": "peel-and-stick-everest",
+        "permalink": "https://techniclad.local/product/peel-and-stick-everest/",
+        "date_created": "2025-07-29T20:52:41",
+        "date_created_gmt": "2025-07-29T18:52:41",
+        "date_modified": "2025-08-04T20:27:07",
+        "date_modified_gmt": "2025-08-04T18:27:07",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Everest: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Everest",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3937,
+            "date_created": "2025-07-29T22:52:39",
+            "date_created_gmt": "2025-07-29T18:52:39",
+            "date_modified": "2025-07-29T23:01:19",
+            "date_modified_gmt": "2025-07-29T19:01:19",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4763-Everest-Tiles.jpg",
+            "name": "2023-02-4763-Everest-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3942,
+          3946,
+          3930,
+          3940,
+          3934
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3938",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3940,
+        "name": "Peel and Stick - Himalayas",
+        "slug": "peel-and-stick-himalayas",
+        "permalink": "https://techniclad.local/product/peel-and-stick-himalayas/",
+        "date_created": "2025-07-29T20:52:48",
+        "date_created_gmt": "2025-07-29T18:52:48",
+        "date_modified": "2025-08-04T20:27:15",
+        "date_modified_gmt": "2025-08-04T18:27:15",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Himalayas: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Himalayas",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3939,
+            "date_created": "2025-07-29T22:52:46",
+            "date_created_gmt": "2025-07-29T18:52:46",
+            "date_modified": "2025-07-29T23:01:22",
+            "date_modified_gmt": "2025-07-29T19:01:22",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4773-Himalayas-Tiles.jpg",
+            "name": "2023-02-4773-Himalayas-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3948,
+          3944,
+          3942,
+          3938,
+          3946
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3940",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3942,
+        "name": "Peel and Stick - Mount Fuji",
+        "slug": "peel-and-stick-mount-fuji",
+        "permalink": "https://techniclad.local/product/peel-and-stick-mount-fuji/",
+        "date_created": "2025-07-29T20:52:55",
+        "date_created_gmt": "2025-07-29T18:52:55",
+        "date_modified": "2025-08-04T20:27:23",
+        "date_modified_gmt": "2025-08-04T18:27:23",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Mount Fuji: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Mount-Fuji",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3941,
+            "date_created": "2025-07-29T22:52:54",
+            "date_created_gmt": "2025-07-29T18:52:54",
+            "date_modified": "2025-07-29T23:01:30",
+            "date_modified_gmt": "2025-07-29T19:01:30",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4749-Mount-Fuji-Tiles.jpg",
+            "name": "2023-02-4749-Mount-Fuji-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3944,
+          3950,
+          3938,
+          3948,
+          3936
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3942",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3944,
+        "name": "Peel and Stick - Nevada",
+        "slug": "peel-and-stick-nevada",
+        "permalink": "https://techniclad.local/product/peel-and-stick-nevada/",
+        "date_created": "2025-07-29T20:53:02",
+        "date_created_gmt": "2025-07-29T18:53:02",
+        "date_modified": "2025-08-04T20:27:31",
+        "date_modified_gmt": "2025-08-04T18:27:31",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<div>\n<p>Natural stone Peel and Stick tiles (Nevada): Box of 10 with sheets 600mm x 150mm</p>\n</div>\n",
+        "short_description": "",
+        "sku": "PST-Nevada",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3943,
+            "date_created": "2025-07-29T22:53:00",
+            "date_created_gmt": "2025-07-29T18:53:00",
+            "date_modified": "2025-07-29T23:01:35",
+            "date_modified_gmt": "2025-07-29T19:01:35",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4785-Navada-Tiles.jpg",
+            "name": "2023-02-4785-Navada-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3942,
+          3932,
+          3950,
+          3930,
+          3938
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3944",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3946,
+        "name": "Peel and Stick - Rocky Mountain",
+        "slug": "peel-and-stick-rocky-mountain",
+        "permalink": "https://techniclad.local/product/peel-and-stick-rocky-mountain/",
+        "date_created": "2025-07-29T20:53:10",
+        "date_created_gmt": "2025-07-29T18:53:10",
+        "date_modified": "2025-08-04T20:27:41",
+        "date_modified_gmt": "2025-08-04T18:27:41",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone Peel and Stick tiles - Rocky Mountain: Box of 10 with sheets 600mm x 150mm</p>\n",
+        "short_description": "",
+        "sku": "PST-Rocky-Mountain",
+        "price": "795.5",
+        "regular_price": "795.5",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 50,
+            "name": "Peel and Stick",
+            "slug": "peel-and-stick"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3945,
+            "date_created": "2025-07-29T22:53:08",
+            "date_created_gmt": "2025-07-29T18:53:08",
+            "date_modified": "2025-07-29T23:01:41",
+            "date_modified_gmt": "2025-07-29T19:01:41",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4793-Rocky-Mountain-Tiles.jpg",
+            "name": "2023-02-4793-Rocky-Mountain-Tiles",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>795,50</bdi></span>",
+        "related_ids": [
+          3948,
+          3944,
+          3938,
+          3940,
+          3942
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3946",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3955,
+        "name": "Stone Veneer - Alaska",
+        "slug": "stone-veneer-alaska",
+        "permalink": "https://techniclad.local/product/stone-veneer-alaska/",
+        "date_created": "2025-07-29T21:05:34",
+        "date_created_gmt": "2025-07-29T19:05:34",
+        "date_modified": "2025-08-04T20:28:20",
+        "date_modified_gmt": "2025-08-04T18:28:20",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Alaska: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Alaska-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3954,
+            "date_created": "2025-07-29T23:05:32",
+            "date_created_gmt": "2025-07-29T19:05:32",
+            "date_modified": "2025-07-29T23:29:47",
+            "date_modified_gmt": "2025-07-29T19:29:47",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4548-Alaska.jpg",
+            "name": "2023-02-4548-Alaska",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3979,
+          3970,
+          3961,
+          3967,
+          3974
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3955",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3957,
+        "name": "Stone Veneer - Alaska",
+        "slug": "stone-veneer-alaska-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-alaska-2/",
+        "date_created": "2025-07-29T21:05:41",
+        "date_created_gmt": "2025-07-29T19:05:41",
+        "date_modified": "2025-08-04T20:28:33",
+        "date_modified_gmt": "2025-08-04T18:28:33",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Alaska: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Alaska-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3956,
+            "date_created": "2025-07-29T23:05:39",
+            "date_created_gmt": "2025-07-29T19:05:39",
+            "date_modified": "2025-07-29T23:29:50",
+            "date_modified_gmt": "2025-07-29T19:29:50",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4536-Alaska-Sheet568629.jpg",
+            "name": "2023-02-4536-Alaska-Sheet568629",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3966,
+          3958,
+          3970,
+          3965,
+          3967
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3957",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3958,
+        "name": "Stone Veneer - Andes",
+        "slug": "stone-veneer-andes",
+        "permalink": "https://techniclad.local/product/stone-veneer-andes/",
+        "date_created": "2025-07-29T21:05:49",
+        "date_created_gmt": "2025-07-29T19:05:49",
+        "date_modified": "2025-08-04T20:28:47",
+        "date_modified_gmt": "2025-08-04T18:28:47",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Andes: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Andes-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3917,
+            "date_created": "2025-07-29T22:51:09",
+            "date_created_gmt": "2025-07-29T18:51:09",
+            "date_modified": "2025-07-29T23:00:42",
+            "date_modified_gmt": "2025-07-29T19:00:42",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4522-Andes-Sheet4af478.jpg",
+            "name": "2023-02-4522-Andes-Sheet4af478",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3980,
+          3974,
+          3969,
+          3966,
+          3970
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3958",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3959,
+        "name": "Stone Veneer - Andes",
+        "slug": "stone-veneer-andes-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-andes-2/",
+        "date_created": "2025-07-29T21:05:55",
+        "date_created_gmt": "2025-07-29T19:05:55",
+        "date_modified": "2025-08-04T20:28:56",
+        "date_modified_gmt": "2025-08-04T18:28:56",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Andes: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Andes-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3917,
+            "date_created": "2025-07-29T22:51:09",
+            "date_created_gmt": "2025-07-29T18:51:09",
+            "date_modified": "2025-07-29T23:00:42",
+            "date_modified_gmt": "2025-07-29T19:00:42",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4522-Andes-Sheet4af478.jpg",
+            "name": "2023-02-4522-Andes-Sheet4af478",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3976,
+          3979,
+          3968,
+          3962,
+          3974
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3959",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3961,
+        "name": "Stone Veneer - Atlas",
+        "slug": "stone-veneer-atlas",
+        "permalink": "https://techniclad.local/product/stone-veneer-atlas/",
+        "date_created": "2025-07-29T21:06:07",
+        "date_created_gmt": "2025-07-29T19:06:07",
+        "date_modified": "2025-08-04T20:29:11",
+        "date_modified_gmt": "2025-08-04T18:29:11",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Atlas: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Atlas-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3960,
+            "date_created": "2025-07-29T23:06:06",
+            "date_created_gmt": "2025-07-29T19:06:06",
+            "date_modified": "2025-07-29T23:30:02",
+            "date_modified_gmt": "2025-07-29T19:30:02",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4533-Atlas-Sheet.jpg",
+            "name": "2023-02-4533-Atlas-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3984,
+          3969,
+          3977,
+          3979,
+          3959
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3961",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3962,
+        "name": "Stone Veneer - Atlas",
+        "slug": "stone-veneer-atlas-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-atlas-2/",
+        "date_created": "2025-07-29T21:06:15",
+        "date_created_gmt": "2025-07-29T19:06:15",
+        "date_modified": "2025-08-04T20:29:19",
+        "date_modified_gmt": "2025-08-04T18:29:19",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Atlas: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Atlas-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3960,
+            "date_created": "2025-07-29T23:06:06",
+            "date_created_gmt": "2025-07-29T19:06:06",
+            "date_modified": "2025-07-29T23:30:02",
+            "date_modified_gmt": "2025-07-29T19:30:02",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4533-Atlas-Sheet.jpg",
+            "name": "2023-02-4533-Atlas-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3957,
+          3967,
+          3976,
+          3973,
+          3985
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3962",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3964,
+        "name": "Stone Veneer - Cascade",
+        "slug": "stone-veneer-cascade",
+        "permalink": "https://techniclad.local/product/stone-veneer-cascade/",
+        "date_created": "2025-07-29T21:06:23",
+        "date_created_gmt": "2025-07-29T19:06:23",
+        "date_modified": "2025-08-04T20:29:29",
+        "date_modified_gmt": "2025-08-04T18:29:29",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Cascade: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Cascade-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3963,
+            "date_created": "2025-07-29T23:06:21",
+            "date_created_gmt": "2025-07-29T19:06:21",
+            "date_modified": "2025-07-29T23:30:12",
+            "date_modified_gmt": "2025-07-29T19:30:12",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4517-Cascade-Sheet414964.jpg",
+            "name": "2023-02-4517-Cascade-Sheet414964",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3961,
+          3958,
+          3970,
+          3968,
+          3967
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3964",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3965,
+        "name": "Stone Veneer - Cascade",
+        "slug": "stone-veneer-cascade-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-cascade-2/",
+        "date_created": "2025-07-29T21:06:27",
+        "date_created_gmt": "2025-07-29T19:06:27",
+        "date_modified": "2025-08-04T20:29:41",
+        "date_modified_gmt": "2025-08-04T18:29:41",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Cascade: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Cascade-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3963,
+            "date_created": "2025-07-29T23:06:21",
+            "date_created_gmt": "2025-07-29T19:06:21",
+            "date_modified": "2025-07-29T23:30:12",
+            "date_modified_gmt": "2025-07-29T19:30:12",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4517-Cascade-Sheet414964.jpg",
+            "name": "2023-02-4517-Cascade-Sheet414964",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3961,
+          3959,
+          3984,
+          3976,
+          3983
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3965",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3966,
+        "name": "Stone Veneer - Drakensberg",
+        "slug": "stone-veneer-drakensberg",
+        "permalink": "https://techniclad.local/product/stone-veneer-drakensberg/",
+        "date_created": "2025-07-29T21:06:31",
+        "date_created_gmt": "2025-07-29T19:06:31",
+        "date_modified": "2025-08-04T20:29:53",
+        "date_modified_gmt": "2025-08-04T18:29:53",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Drakensberg: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Drakensberg-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3919,
+            "date_created": "2025-07-29T22:51:16",
+            "date_created_gmt": "2025-07-29T18:51:16",
+            "date_modified": "2025-07-29T23:00:46",
+            "date_modified_gmt": "2025-07-29T19:00:46",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4494-Drakensberg-Sheetcee294.jpg",
+            "name": "2023-02-4494-Drakensberg-Sheetcee294",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3984,
+          3957,
+          3955,
+          3980,
+          3967
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3966",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3967,
+        "name": "Stone Veneer - Drakensberg",
+        "slug": "stone-veneer-drakensberg-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-drakensberg-2/",
+        "date_created": "2025-07-29T21:06:35",
+        "date_created_gmt": "2025-07-29T19:06:35",
+        "date_modified": "2025-08-04T20:30:03",
+        "date_modified_gmt": "2025-08-04T18:30:03",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Drakensberg: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Drakensberg-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3919,
+            "date_created": "2025-07-29T22:51:16",
+            "date_created_gmt": "2025-07-29T18:51:16",
+            "date_modified": "2025-07-29T23:00:46",
+            "date_modified_gmt": "2025-07-29T19:00:46",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4494-Drakensberg-Sheetcee294.jpg",
+            "name": "2023-02-4494-Drakensberg-Sheetcee294",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3969,
+          3976,
+          3957,
+          3982,
+          3977
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3967",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3968,
+        "name": "Stone Veneer - Everest",
+        "slug": "stone-veneer-everest",
+        "permalink": "https://techniclad.local/product/stone-veneer-everest/",
+        "date_created": "2025-07-29T21:06:40",
+        "date_created_gmt": "2025-07-29T19:06:40",
+        "date_modified": "2025-08-04T20:30:12",
+        "date_modified_gmt": "2025-08-04T18:30:12",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Everest: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Everest-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3921,
+            "date_created": "2025-07-29T22:51:23",
+            "date_created_gmt": "2025-07-29T18:51:23",
+            "date_modified": "2025-07-29T23:00:50",
+            "date_modified_gmt": "2025-07-29T19:00:50",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4510-Everest-Sheet.jpg",
+            "name": "2023-02-4510-Everest-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3971,
+          3985,
+          3976,
+          3959,
+          3974
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3968",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3969,
+        "name": "Stone Veneer - Everest",
+        "slug": "stone-veneer-everest-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-everest-2/",
+        "date_created": "2025-07-29T21:06:44",
+        "date_created_gmt": "2025-07-29T19:06:44",
+        "date_modified": "2025-08-04T20:30:28",
+        "date_modified_gmt": "2025-08-04T18:30:28",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Everest: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Everest-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3921,
+            "date_created": "2025-07-29T22:51:23",
+            "date_created_gmt": "2025-07-29T18:51:23",
+            "date_modified": "2025-07-29T23:00:50",
+            "date_modified_gmt": "2025-07-29T19:00:50",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4510-Everest-Sheet.jpg",
+            "name": "2023-02-4510-Everest-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3980,
+          3985,
+          3984,
+          3957,
+          3961
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3969",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3970,
+        "name": "Stone Veneer - Himalayas",
+        "slug": "stone-veneer-himalayas",
+        "permalink": "https://techniclad.local/product/stone-veneer-himalayas/",
+        "date_created": "2025-07-29T21:06:48",
+        "date_created_gmt": "2025-07-29T19:06:48",
+        "date_modified": "2025-08-04T20:30:37",
+        "date_modified_gmt": "2025-08-04T18:30:37",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Himalayas: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Himalayas-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3923,
+            "date_created": "2025-07-29T22:51:32",
+            "date_created_gmt": "2025-07-29T18:51:32",
+            "date_modified": "2025-07-29T23:00:53",
+            "date_modified_gmt": "2025-07-29T19:00:53",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4514-Himalayas-Sheet.jpg",
+            "name": "2023-02-4514-Himalayas-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3969,
+          3984,
+          3971,
+          3968,
+          3979
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3970",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3971,
+        "name": "Stone Veneer - Himalayas",
+        "slug": "stone-veneer-himalayas-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-himalayas-2/",
+        "date_created": "2025-07-29T21:06:52",
+        "date_created_gmt": "2025-07-29T19:06:52",
+        "date_modified": "2025-08-04T20:30:47",
+        "date_modified_gmt": "2025-08-04T18:30:47",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Himalayas: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Himalayas-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3923,
+            "date_created": "2025-07-29T22:51:32",
+            "date_created_gmt": "2025-07-29T18:51:32",
+            "date_modified": "2025-07-29T23:00:53",
+            "date_modified_gmt": "2025-07-29T19:00:53",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4514-Himalayas-Sheet.jpg",
+            "name": "2023-02-4514-Himalayas-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3974,
+          3966,
+          3962,
+          3969,
+          3964
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3971",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3973,
+        "name": "Stone Veneer - Mount Cameroon",
+        "slug": "stone-veneer-mount-cameroon",
+        "permalink": "https://techniclad.local/product/stone-veneer-mount-cameroon/",
+        "date_created": "2025-07-29T21:06:59",
+        "date_created_gmt": "2025-07-29T19:06:59",
+        "date_modified": "2025-08-04T20:30:56",
+        "date_modified_gmt": "2025-08-04T18:30:56",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Mount Cameroon: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Mount-Cameroon-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3972,
+            "date_created": "2025-07-29T23:06:58",
+            "date_created_gmt": "2025-07-29T19:06:58",
+            "date_modified": "2025-07-29T23:30:50",
+            "date_modified_gmt": "2025-07-29T19:30:50",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4519-Mount-Cameroon-Sheetdbeb45.jpg",
+            "name": "2023-02-4519-Mount-Cameroon-Sheetdbeb45",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3977,
+          3985,
+          3980,
+          3964,
+          3970
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3973",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3974,
+        "name": "Stone Veneer - Mount Cameroon",
+        "slug": "stone-veneer-mount-cameroon-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-mount-cameroon-2/",
+        "date_created": "2025-07-29T21:07:04",
+        "date_created_gmt": "2025-07-29T19:07:04",
+        "date_modified": "2025-08-04T20:31:09",
+        "date_modified_gmt": "2025-08-04T18:31:09",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Mount Cameroon: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Mount-Cameroon-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3972,
+            "date_created": "2025-07-29T23:06:58",
+            "date_created_gmt": "2025-07-29T19:06:58",
+            "date_modified": "2025-07-29T23:30:50",
+            "date_modified_gmt": "2025-07-29T19:30:50",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4519-Mount-Cameroon-Sheetdbeb45.jpg",
+            "name": "2023-02-4519-Mount-Cameroon-Sheetdbeb45",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3965,
+          3980,
+          3984,
+          3973,
+          3957
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3974",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3976,
+        "name": "Stone Veneer - Mount Cook",
+        "slug": "stone-veneer-mount-cook",
+        "permalink": "https://techniclad.local/product/stone-veneer-mount-cook/",
+        "date_created": "2025-07-29T21:07:11",
+        "date_created_gmt": "2025-07-29T19:07:11",
+        "date_modified": "2025-08-04T20:31:19",
+        "date_modified_gmt": "2025-08-04T18:31:19",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Mount Cook: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Mount-Cook-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3975,
+            "date_created": "2025-07-29T23:07:10",
+            "date_created_gmt": "2025-07-29T19:07:10",
+            "date_modified": "2025-07-29T23:30:58",
+            "date_modified_gmt": "2025-07-29T19:30:58",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4594-Mount-Cook.jpg",
+            "name": "2023-02-4594-Mount-Cook",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3979,
+          3955,
+          3977,
+          3983,
+          3958
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3976",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3977,
+        "name": "Stone Veneer - Mount Cook",
+        "slug": "stone-veneer-mount-cook-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-mount-cook-2/",
+        "date_created": "2025-07-29T21:07:15",
+        "date_created_gmt": "2025-07-29T19:07:15",
+        "date_modified": "2025-08-04T20:31:26",
+        "date_modified_gmt": "2025-08-04T18:31:26",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Mount Cook: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Mount-Cook-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3975,
+            "date_created": "2025-07-29T23:07:10",
+            "date_created_gmt": "2025-07-29T19:07:10",
+            "date_modified": "2025-07-29T23:30:58",
+            "date_modified_gmt": "2025-07-29T19:30:58",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4594-Mount-Cook.jpg",
+            "name": "2023-02-4594-Mount-Cook",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3962,
+          3968,
+          3982,
+          3959,
+          3967
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3977",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3979,
+        "name": "Stone Veneer - Sierra",
+        "slug": "stone-veneer-sierra",
+        "permalink": "https://techniclad.local/product/stone-veneer-sierra/",
+        "date_created": "2025-07-29T21:07:27",
+        "date_created_gmt": "2025-07-29T19:07:27",
+        "date_modified": "2025-08-04T20:31:39",
+        "date_modified_gmt": "2025-08-04T18:31:39",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Sierra: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Sierra-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3978,
+            "date_created": "2025-07-29T23:07:22",
+            "date_created_gmt": "2025-07-29T19:07:22",
+            "date_modified": "2025-07-29T23:31:04",
+            "date_modified_gmt": "2025-07-29T19:31:04",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4525-Sierra-Sheet.jpg",
+            "name": "2023-02-4525-Sierra-Sheet",
+            "alt": ""
+          },
+          {
+            "id": 3978,
+            "date_created": "2025-07-29T23:07:22",
+            "date_created_gmt": "2025-07-29T19:07:22",
+            "date_modified": "2025-07-29T23:31:04",
+            "date_modified_gmt": "2025-07-29T19:31:04",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4525-Sierra-Sheet.jpg",
+            "name": "2023-02-4525-Sierra-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3984,
+          3976,
+          3985,
+          3962,
+          3961
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3979",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3980,
+        "name": "Stone Veneer - Sierra",
+        "slug": "stone-veneer-sierra-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-sierra-2/",
+        "date_created": "2025-07-29T21:07:31",
+        "date_created_gmt": "2025-07-29T19:07:31",
+        "date_modified": "2025-08-04T20:31:47",
+        "date_modified_gmt": "2025-08-04T18:31:47",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - Sierra: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-Sierra-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3978,
+            "date_created": "2025-07-29T23:07:22",
+            "date_created_gmt": "2025-07-29T19:07:22",
+            "date_modified": "2025-07-29T23:31:04",
+            "date_modified_gmt": "2025-07-29T19:31:04",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4525-Sierra-Sheet.jpg",
+            "name": "2023-02-4525-Sierra-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3966,
+          3973,
+          3957,
+          3965,
+          3967
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3980",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3982,
+        "name": "Stone Veneer - The Dolomites",
+        "slug": "stone-veneer-the-dolomites",
+        "permalink": "https://techniclad.local/product/stone-veneer-the-dolomites/",
+        "date_created": "2025-07-29T21:07:38",
+        "date_created_gmt": "2025-07-29T19:07:38",
+        "date_modified": "2025-08-04T20:31:55",
+        "date_modified_gmt": "2025-08-04T18:31:55",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - The Dolomites: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-The-Dolomites-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3981,
+            "date_created": "2025-07-29T23:07:36",
+            "date_created_gmt": "2025-07-29T19:07:36",
+            "date_modified": "2025-07-29T23:31:12",
+            "date_modified_gmt": "2025-07-29T19:31:12",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4496-The-Dolomites-Sheet.jpg",
+            "name": "2023-02-4496-The-Dolomites-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3985,
+          3961,
+          3957,
+          3973,
+          3984
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3982",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3983,
+        "name": "Stone Veneer - The Dolomites",
+        "slug": "stone-veneer-the-dolomites-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-the-dolomites-2/",
+        "date_created": "2025-07-29T21:07:42",
+        "date_created_gmt": "2025-07-29T19:07:42",
+        "date_modified": "2025-08-04T20:32:03",
+        "date_modified_gmt": "2025-08-04T18:32:03",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - The Dolomites: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-The-Dolomites-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3981,
+            "date_created": "2025-07-29T23:07:36",
+            "date_created_gmt": "2025-07-29T19:07:36",
+            "date_modified": "2025-07-29T23:31:12",
+            "date_modified_gmt": "2025-07-29T19:31:12",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4496-The-Dolomites-Sheet.jpg",
+            "name": "2023-02-4496-The-Dolomites-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3958,
+          3970,
+          3984,
+          3969,
+          3967
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3983",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3984,
+        "name": "Stone Veneer - The Highlands",
+        "slug": "stone-veneer-the-highlands",
+        "permalink": "https://techniclad.local/product/stone-veneer-the-highlands/",
+        "date_created": "2025-07-29T21:07:46",
+        "date_created_gmt": "2025-07-29T19:07:46",
+        "date_modified": "2025-08-04T20:32:12",
+        "date_modified_gmt": "2025-08-04T18:32:12",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - The Highlands: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-The-Highlands-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3925,
+            "date_created": "2025-07-29T22:51:43",
+            "date_created_gmt": "2025-07-29T18:51:43",
+            "date_modified": "2025-07-29T23:00:57",
+            "date_modified_gmt": "2025-07-29T19:00:57",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4502-The-Highlands-Sheet.jpg",
+            "name": "2023-02-4502-The-Highlands-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3973,
+          3970,
+          3967,
+          3965,
+          3982
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3984",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3985,
+        "name": "Stone Veneer - The Highlands",
+        "slug": "stone-veneer-the-highlands-2",
+        "permalink": "https://techniclad.local/product/stone-veneer-the-highlands-2/",
+        "date_created": "2025-07-29T21:07:51",
+        "date_created_gmt": "2025-07-29T19:07:51",
+        "date_modified": "2025-08-04T20:32:20",
+        "date_modified_gmt": "2025-08-04T18:32:20",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural stone veneer panels - The Highlands: Sheet size 1220mm x 610mm</p>\n",
+        "short_description": "",
+        "sku": "SVR-The-Highlands-M",
+        "price": "764.3",
+        "regular_price": "764.3",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 54,
+            "name": "Stone Veneer",
+            "slug": "stone-veneer"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3925,
+            "date_created": "2025-07-29T22:51:43",
+            "date_created_gmt": "2025-07-29T18:51:43",
+            "date_modified": "2025-07-29T23:00:57",
+            "date_modified_gmt": "2025-07-29T19:00:57",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/2023-02-4502-The-Highlands-Sheet.jpg",
+            "name": "2023-02-4502-The-Highlands-Sheet",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>764,30</bdi></span>",
+        "related_ids": [
+          3971,
+          3965,
+          3968,
+          3961,
+          3979
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3985",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3989,
+        "name": "Translucent Stone - Andes",
+        "slug": "translucent-stone-andes",
+        "permalink": "https://techniclad.local/product/translucent-stone-andes/",
+        "date_created": "2025-07-29T21:08:15",
+        "date_created_gmt": "2025-07-29T19:08:15",
+        "date_modified": "2025-08-04T20:32:29",
+        "date_modified_gmt": "2025-08-04T18:32:29",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural, translucent stone panels - Andes: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "TSL-Andes-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 56,
+            "name": "Translucent Stone",
+            "slug": "translucent-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3988,
+            "date_created": "2025-07-29T23:08:14",
+            "date_created_gmt": "2025-07-29T19:08:14",
+            "date_modified": "2025-07-29T23:31:31",
+            "date_modified_gmt": "2025-07-29T19:31:31",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/Andes-Backlit.jpg",
+            "name": "Andes-Backlit",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3991,
+          3993,
+          3995,
+          3997
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3989",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3991,
+        "name": "Translucent Stone - Drakensberg",
+        "slug": "translucent-stone-drakensberg",
+        "permalink": "https://techniclad.local/product/translucent-stone-drakensberg/",
+        "date_created": "2025-07-29T21:08:26",
+        "date_created_gmt": "2025-07-29T19:08:26",
+        "date_modified": "2025-08-04T20:32:38",
+        "date_modified_gmt": "2025-08-04T18:32:38",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural, translucent stone panels - Drakensberg: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "TSL-Drakensberg-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 56,
+            "name": "Translucent Stone",
+            "slug": "translucent-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3990,
+            "date_created": "2025-07-29T23:08:21",
+            "date_created_gmt": "2025-07-29T19:08:21",
+            "date_modified": "2025-07-29T23:31:35",
+            "date_modified_gmt": "2025-07-29T19:31:35",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/Drakensberg-Backlit.jpg",
+            "name": "Drakensberg-Backlit",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3997,
+          3989,
+          3995,
+          3993
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3991",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3993,
+        "name": "Translucent Stone - Everest",
+        "slug": "translucent-stone-everest",
+        "permalink": "https://techniclad.local/product/translucent-stone-everest/",
+        "date_created": "2025-07-29T21:08:35",
+        "date_created_gmt": "2025-07-29T19:08:35",
+        "date_modified": "2025-08-04T20:32:49",
+        "date_modified_gmt": "2025-08-04T18:32:49",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural, translucent stone panels - Everest: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "TSL-Everest-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 56,
+            "name": "Translucent Stone",
+            "slug": "translucent-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3992,
+            "date_created": "2025-07-29T23:08:33",
+            "date_created_gmt": "2025-07-29T19:08:33",
+            "date_modified": "2025-07-29T23:31:39",
+            "date_modified_gmt": "2025-07-29T19:31:39",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/Everest-Backlit.jpg",
+            "name": "Everest-Backlit",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3995,
+          3991,
+          3989,
+          3997
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3993",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3995,
+        "name": "Translucent Stone - Himalayas",
+        "slug": "translucent-stone-himalayas",
+        "permalink": "https://techniclad.local/product/translucent-stone-himalayas/",
+        "date_created": "2025-07-29T21:08:43",
+        "date_created_gmt": "2025-07-29T19:08:43",
+        "date_modified": "2025-08-04T20:32:57",
+        "date_modified_gmt": "2025-08-04T18:32:57",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural, translucent stone panels - Himalayas: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "TSL-Himalayas-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 56,
+            "name": "Translucent Stone",
+            "slug": "translucent-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3994,
+            "date_created": "2025-07-29T23:08:42",
+            "date_created_gmt": "2025-07-29T19:08:42",
+            "date_modified": "2025-07-29T23:31:44",
+            "date_modified_gmt": "2025-07-29T19:31:44",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/Himalayas-Backlit.jpg",
+            "name": "Himalayas-Backlit",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3997,
+          3991,
+          3993,
+          3989
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3995",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    },
+    {
+      "current": {
+        "id": 3997,
+        "name": "Translucent Stone - The Highlands",
+        "slug": "translucent-stone-the-highlands",
+        "permalink": "https://techniclad.local/product/translucent-stone-the-highlands/",
+        "date_created": "2025-07-29T21:08:52",
+        "date_created_gmt": "2025-07-29T19:08:52",
+        "date_modified": "2025-08-04T20:33:09",
+        "date_modified_gmt": "2025-08-04T18:33:09",
+        "type": "simple",
+        "status": "publish",
+        "featured": false,
+        "catalog_visibility": "visible",
+        "description": "<p>Natural, translucent stone panels - The Highlands: Sheet size 2440mm x 1220mm</p>\n",
+        "short_description": "",
+        "sku": "TSL-The-Highlands-L",
+        "price": "3566.2",
+        "regular_price": "3566.2",
+        "sale_price": "",
+        "date_on_sale_from": null,
+        "date_on_sale_from_gmt": null,
+        "date_on_sale_to": null,
+        "date_on_sale_to_gmt": null,
+        "on_sale": false,
+        "purchasable": true,
+        "total_sales": 0,
+        "virtual": false,
+        "downloadable": false,
+        "downloads": [],
+        "download_limit": -1,
+        "download_expiry": -1,
+        "external_url": "",
+        "button_text": "",
+        "tax_status": "taxable",
+        "tax_class": "",
+        "manage_stock": true,
+        "stock_quantity": 0,
+        "backorders": "no",
+        "backorders_allowed": false,
+        "backordered": false,
+        "low_stock_amount": null,
+        "sold_individually": false,
+        "weight": "",
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "shipping_required": true,
+        "shipping_taxable": true,
+        "shipping_class": "",
+        "shipping_class_id": 0,
+        "reviews_allowed": true,
+        "average_rating": "0.00",
+        "rating_count": 0,
+        "upsell_ids": [],
+        "cross_sell_ids": [],
+        "parent_id": 0,
+        "purchase_note": "",
+        "categories": [
+          {
+            "id": 56,
+            "name": "Translucent Stone",
+            "slug": "translucent-stone"
+          }
+        ],
+        "brands": [
+          {
+            "id": 57,
+            "name": "Techniclad",
+            "slug": "techniclad"
+          }
+        ],
+        "tags": [],
+        "images": [
+          {
+            "id": 3996,
+            "date_created": "2025-07-29T23:08:50",
+            "date_created_gmt": "2025-07-29T19:08:50",
+            "date_modified": "2025-07-29T23:31:47",
+            "date_modified_gmt": "2025-07-29T19:31:47",
+            "src": "https://techniclad.local/wp-content/uploads/2025/07/The-Highlands-Backlit.jpg",
+            "name": "The-Highlands-Backlit",
+            "alt": ""
+          }
+        ],
+        "attributes": [],
+        "default_attributes": [],
+        "variations": [],
+        "grouped_products": [],
+        "menu_order": 0,
+        "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#82;</span>3 566,20</bdi></span>",
+        "related_ids": [
+          3993,
+          3995,
+          3989,
+          3991
+        ],
+        "meta_data": [],
+        "stock_status": "outofstock",
+        "has_options": false,
+        "post_password": "",
+        "global_unique_id": "",
+        "_links": {
+          "self": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products/3997",
+              "targetHints": {
+                "allow": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              }
+            }
+          ],
+          "collection": [
+            {
+              "href": "https://techniclad.local/wp-json/wc/v3/products"
+            }
+          ]
+        }
+      },
+      "action": "No Change",
+      "fields_to_update": "",
+      "image_diff": false
+    }
+  ],
+  "variant_parents": [],
+  "variant_to_create": [],
+  "variant_to_update": [],
+  "variant_synced": []
+}

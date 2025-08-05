@@ -10,9 +10,15 @@
 import html
 import httpx
 import logging
+import json
+import os
+import re
+
+from html import unescape
 from urllib.parse import urlparse, quote
 from app.erpnext import get_erpnext_categories
 from app.woocommerce import get_wc_categories, create_wc_category
+from app.field_mapping import get_wc_sync_fields
 from app.config import settings
 
 ERP_URL = settings.ERP_URL
@@ -362,3 +368,75 @@ async def sync_categories(dry_run=False):
         "total_erp_categories": len(erp_cats),
         "total_wc_categories": len(wc_cats)
     }
+
+# --- Partial sync - recording sync_products_preview output for partial sync in JSON file ---
+import os
+import json
+
+def save_preview_to_file(preview: dict, filename: str = "products_to_sync.json"):
+    """
+    Save sync preview output to app/mapping/products_to_sync.json for partial sync.
+    Uses atomic write (temp file + replace), utf-8 encoding, and ensures the mapping directory exists.
+    """
+    base_dir = os.path.dirname(__file__)
+    mapping_dir = os.path.join(base_dir, "mapping")
+    os.makedirs(mapping_dir, exist_ok=True)
+    target_path = os.path.join(mapping_dir, filename)
+    tmp_file = target_path + ".tmp"
+
+    print(f"*** Writing sync preview to: {target_path}")
+    with open(tmp_file, "w", encoding="utf-8") as f:
+        json.dump(preview, f, indent=2, ensure_ascii=False)
+    os.replace(tmp_file, target_path)
+
+
+def load_preview_from_file(filename: str = "products_to_sync.json"):
+    """Load the saved sync preview file for partial sync."""
+    file_path = os.path.join(os.path.dirname(__file__), filename)
+    with open(file_path, "r") as f:
+        return json.load(f)
+
+# This helper could be your main sync logic with erp_items and wc_products as parameters:
+async def sync_products_filtered(erp_items, wc_products, dry_run=False):
+    # ... your main sync code, but scoped to filtered lists ...
+    # (You may need to refactor your sync_products to be more modular.)
+    return {"ok": True, "synced_count": len(erp_items)}
+
+def diff_fields(wc, erp, include=None, ignore=None):
+    import re
+    from app.field_mapping import get_wc_sync_fields
+    ignore = set(ignore or [])
+    ignore.update({"erp_img_sizes", "wc_img_sizes", "image_diff", "images", "has_variants"})
+    if include is None:
+        include = get_wc_sync_fields()
+    diffs = {}
+    for k in include:
+        if k in ignore:
+            continue
+        v1 = wc.get(k)
+        v2 = erp.get(k)
+        # Normalize
+        if k == "regular_price":
+            v1 = str(v1 or "").strip()
+            v2 = str(v2 or "").strip()
+        if k == "categories":
+            v1 = [c["id"] for c in v1] if isinstance(v1, list) else []
+            v2 = [c["id"] for c in v2] if isinstance(v2, list) else []
+        if k == "description":
+            def strip_html(s):
+                s = re.sub(r"<[^>]+>", "", (s or "")).strip()
+                s = re.sub(r"\s+", " ", s)
+                return s
+            v1s = strip_html(v1)
+            v2s = strip_html(v2)
+            #print(f"COMPARE DESC STRIPPED: '{v1s}' | '{v2s}'")  # or logger.info()
+            if v1s != v2s:
+                diffs[k] = [v1, v2]
+            continue
+        # You could even add this for all string fields
+        if isinstance(v1, str): v1 = v1.strip()
+        if isinstance(v2, str): v2 = v2.strip()
+        if v1 != v2:
+            diffs[k] = [v1, v2]
+    return diffs
+

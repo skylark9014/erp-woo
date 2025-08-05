@@ -5,14 +5,18 @@
 #===========================================================================
 
 import httpx
+import json
 import logging
-logger = logging.getLogger("uvicorn.error")
 
+from app.field_mapping import get_erp_sync_fields
 from app.config import settings
+
 ERP_URL = settings.ERP_URL
 ERP_API_KEY = settings.ERP_API_KEY
 ERP_API_SECRET = settings.ERP_API_SECRET
 ERP_SELLING_PRICE_LIST = settings.ERP_SELLING_PRICE_LIST
+
+logger = logging.getLogger("uvicorn.error")
 
 async def get_price_map(price_list=None):
     """
@@ -70,12 +74,12 @@ async def get_price_map(price_list=None):
 
 async def get_erpnext_items():
     """
-    Fetch all items (products) from ERPNext using the REST API.
-    Returns: list of ERPNext item dicts, or empty list on error.
+    Fetch all items (products) from ERPNext using fields from mapping file.
     """
+    erp_fields = get_erp_sync_fields()
     url = (
         f"{ERP_URL}/api/resource/Item"
-        "?fields=[\"item_code\",\"item_name\",\"description\",\"stock_uom\",\"standard_rate\",\"image\",\"item_group\",\"brand\",\"has_variants\"]"
+        f"?fields={json.dumps(erp_fields)}"
         "&limit_page_length=5000"
     )
     headers = {
@@ -152,3 +156,25 @@ async def get_erp_images(item):
 
     # Deduplicate
     return list(dict.fromkeys(image_urls))
+
+async def get_stock_map():
+    """
+    Returns a dict { (item_code, warehouse): actual_qty }
+    """
+    fields = ["item_code", "warehouse", "actual_qty"]
+    url = (
+        f"{ERP_URL}/api/resource/Bin"
+        f"?fields={json.dumps(fields)}"
+        f"&limit_page_length=5000"
+    )
+    headers = {"Authorization": f"token {ERP_API_KEY}:{ERP_API_SECRET}"}
+    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
+        resp = await client.get(url, headers=headers)
+        if resp.status_code == 200 and resp.json().get("data"):
+            stock_map = {}
+            for row in resp.json()["data"]:
+                key = (row["item_code"], row["warehouse"])
+                stock_map[key] = row.get("actual_qty", 0) or 0
+            return stock_map
+        return {}
+

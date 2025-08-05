@@ -3,11 +3,21 @@
 # FastAPI routes for Admin Panel AJAX
 # ===========================
 
-from fastapi import APIRouter, Request, Depends, Body, HTTPException, status
+from fastapi import (
+    APIRouter, 
+    Body, 
+    HTTPException,
+)
+from app.mapping_store import (
+    build_or_load_mapping, 
+    save_mapping_file,
+)
+from app.sync.sync import (
+    sync_products_preview, 
+    sync_products, 
+    sync_products_partial
+)
 from fastapi.responses import JSONResponse
-from app.mapping.mapping_store import build_or_load_mapping, save_mapping_file
-from app.sync.sync import sync_products_preview, sync_products
-
 import logging
 logger = logging.getLogger("uvicorn.error")
 
@@ -65,3 +75,9 @@ from fastapi.responses import JSONResponse
 @router.get("/stock-adjustment")
 async def get_stock_adjustment():
     return JSONResponse(content={}, status_code=200)
+
+# --- Partial Sync Function ---
+@router.post("/partial-sync")
+async def api_partial_sync():
+    result = await sync_products_partial()
+    return result
