@@ -1,41 +1,48 @@
+#=======================================================================================
 # app/admin_routes.py
-# ===========================
-# FastAPI routes for Admin Panel AJAX
-# ===========================
+# Admin endpoints. These are protected via Basic Auth in main_app.py.
+#
+# NOTE:
+# - We intentionally DO NOT define /api/sync/* here to avoid collisions with public
+#   endpoints from app.routes (new pipeline).
+# - Admin UI should call the public /api/sync/* endpoints directly.
+#=======================================================================================
 
-from fastapi import (
-    APIRouter, 
-    Body, 
-    HTTPException,
-)
-from app.mapping_store import (
-    build_or_load_mapping, 
-    save_mapping_file,
-)
-from app.sync.sync import (
-    sync_products_preview, 
-    sync_products, 
-    sync_products_partial
-)
+from fastapi import APIRouter, Body, HTTPException
 from fastapi.responses import JSONResponse
 import logging
+
+# Mapping store (KEEP)
+from app.mapping_store import build_or_load_mapping, save_mapping_file
+
+# LEGACY pipeline admin shims (KEEP for comparison; remove later)
+from app.sync.sync import (
+    sync_products as legacy_sync_products,
+    sync_products_preview as legacy_sync_products_preview,
+    sync_products_partial as legacy_sync_products_partial,
+)
+
 logger = logging.getLogger("uvicorn.error")
 
-router = APIRouter(prefix="/admin/api", tags=["Admin API"])
+# Keep these under /api so they get Basic-Auth protected by main_app.secure_router()
+router = APIRouter(prefix="/api", tags=["Admin API"])
 
+# ------------------------------------------------------------------------------
+# Mapping file — ✅ KEEP (Basic-Auth protected)
+# ------------------------------------------------------------------------------
 
-# --- GET Mapping File ---
 @router.get("/mapping")
-async def get_mapping():
+def get_mapping():
+    """Admin: Load mapping file."""
     try:
         mapping = build_or_load_mapping()
         return {"mapping": mapping}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to load mapping: {str(e)}")
 
-# --- POST Mapping File (Save) ---
 @router.post("/mapping")
-async def save_mapping(payload: dict = Body(...)):
+def post_mapping(payload: dict = Body(...)):
+    """Admin: Save mapping file."""
     try:
         mapping = payload.get("mapping")
         if not isinstance(mapping, list):
@@ -45,39 +52,41 @@ async def save_mapping(payload: dict = Body(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save mapping: {str(e)}")
 
-# --- GET Sync Preview ---
-@router.get("/preview-sync")
-async def get_sync_preview():
+# ------------------------------------------------------------------------------
+# LEGACY PIPELINE Admin shims — 🟠 DEPRECATE SOON
+#   Keep these for now if your Admin UI still calls them directly.
+# ------------------------------------------------------------------------------
+
+@router.get("/legacy/sync/preview")
+async def admin_legacy_preview_sync():
+    """Admin → LEGACY PIPELINE: Preview (old)."""
     try:
-        preview = await sync_products_preview()
-        # The function should return a list of dicts:
-        # [{erp_item_code, wc_sku, action, fields_to_update, images_changed}, ...]
+        preview = await legacy_sync_products_preview()
         return {"preview": preview}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Preview failed: {str(e)}")
 
-# --- POST Full Sync ---
-@router.post("/full-sync")
-async def post_full_sync():
+@router.post("/legacy/sync/full")
+async def admin_legacy_full_sync():
+    """Admin → LEGACY PIPELINE: Full sync (old)."""
     try:
-        result = await sync_products()
-        # Optionally: result = {summary, details, ...}
+        result = await legacy_sync_products()
         return {"ok": True, "result": result}
     except Exception as e:
-        # this will print the full stack to your logs
-        logger.exception("Error in full-sync")
-        # now still return the same HTTP error to the client
+        logger.exception("Error in legacy full-sync")
         raise HTTPException(status_code=500, detail=f"Sync failed: {str(e)}")
 
-from fastapi.responses import JSONResponse
+@router.post("/legacy/sync/partial")
+async def admin_legacy_partial_sync():
+    """Admin → LEGACY PIPELINE: Partial sync (old). Signature may differ."""
+    result = await legacy_sync_products_partial()
+    return {"ok": True, "result": result}
 
-# --- Stock Adjustment Function ---
+# ------------------------------------------------------------------------------
+# Misc Admin — ✅ KEEP (if you still need it)
+# ------------------------------------------------------------------------------
+
 @router.get("/stock-adjustment")
-async def get_stock_adjustment():
+def get_stock_adjustment():
+    """Admin: Placeholder stock-adjustment endpoint (no-op)."""
     return JSONResponse(content={}, status_code=200)
-
-# --- Partial Sync Function ---
-@router.post("/partial-sync")
-async def api_partial_sync():
-    result = await sync_products_partial()
-    return result

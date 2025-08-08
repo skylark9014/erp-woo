@@ -518,3 +518,10 @@ async def sync_products_filtered(erp_items, wc_products, dry_run=False):
 
     logger.info(f"Partial sync: {stats['updated']} updated, {stats['skipped']} skipped, {len(stats['errors'])} errors.")
     return stats
+
+def strip_html_tags(text):
+    """
+    Naive HTML tag stripper (for comparing descriptions). Replace with a more robust solution if needed.
+    """
+    import re
+    return re.sub(r"<[^>]+>", "", text or "")

@@ -15,44 +15,44 @@ ERP_URL = settings.ERP_URL
 ERP_API_KEY = settings.ERP_API_KEY
 ERP_API_SECRET = settings.ERP_API_SECRET
 ERP_SELLING_PRICE_LIST = settings.ERP_SELLING_PRICE_LIST
+LAST_PRICE_LIST_USED = None
 
 logger = logging.getLogger("uvicorn.error")
 
-async def get_price_map(price_list=None):
+# --- replace get_price_map with this drop-in (signature stays compatible) ---
+async def get_price_map(price_list=None, return_name: bool = False):
     """
     Auto-detect the current selling price list (enabled and has prices).
     Fallback: "Standard Selling".
-    Returns: dict {item_code: price}
+    Returns:
+      - dict {item_code: price}            (default, backward compatible)
+      - (dict, price_list_name)            if return_name=True
     """
     import httpx
     from app.erpnext import ERP_URL, ERP_API_KEY, ERP_API_SECRET
     headers = {"Authorization": f"token {ERP_API_KEY}:{ERP_API_SECRET}"}
-    
-    # 1. If price_list is given, check it first
+
     candidate_lists = []
     if price_list:
         candidate_lists.append(price_list)
-    
-    # 2. Fetch all enabled selling price lists, most recent first
+
     url = f"{ERP_URL}/api/resource/Price List?fields=[\"name\",\"enabled\",\"selling\"]&filters=[[\"enabled\",\"=\",1],[\"selling\",\"=\",1]]&order_by=creation desc"
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         resp = await client.get(url, headers=headers)
         data = resp.json().get("data", []) if resp.status_code == 200 else []
         candidate_lists += [pl["name"] for pl in data]
-    
-    # 3. Always add Standard Selling as final fallback
+
     if "Standard Selling" not in candidate_lists:
         candidate_lists.append("Standard Selling")
 
-    # 4. Try each price list until we find one with Item Price rows
     for pl_name in candidate_lists:
-        # Confirm enabled
         check_url = f"{ERP_URL}/api/resource/Price List/{pl_name}?fields=[\"name\",\"enabled\"]"
         async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
             check_resp = await client.get(check_url, headers=headers)
             enabled = check_resp.status_code == 200 and check_resp.json().get("data", {}).get("enabled", 1)
             if not enabled:
                 continue
+
             price_url = (
                 f"{ERP_URL}/api/resource/Item Price"
                 f"?fields=[\"item_code\",\"price_list_rate\"]"
@@ -65,11 +65,15 @@ async def get_price_map(price_list=None):
                 for row in price_resp.json()["data"]:
                     price_map[row["item_code"]] = row["price_list_rate"]
                 if price_map:
-                    logger.info(f"Using price list: {pl_name} with {len(price_map)} prices")
-                    return price_map
-    # No prices found anywhere
+                    #logger.info(f"Using price list: {pl_name} with {len(price_map)} prices")
+                    # remember last used
+                    from app.erpnext import LAST_PRICE_LIST_USED as _unused  # just to avoid linter inlined import
+                    globals()["LAST_PRICE_LIST_USED"] = pl_name
+                    return (price_map, pl_name) if return_name else price_map
+
     logger.warning("No prices found in any price list, all products will have price=0")
-    return {}
+    return ({}, None) if return_name else {}
+
 
 
 async def get_erpnext_items():

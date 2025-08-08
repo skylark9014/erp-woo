@@ -6,7 +6,8 @@ const $$ = sel => Array.from(document.querySelectorAll(sel));
 function showOverlay(msg = "Loading…") {
     const overlay = $("#overlay");
     if (overlay) {
-        overlay.querySelector(".message")?.textContent !== undefined && (overlay.querySelector(".message").textContent = msg);
+        const el = overlay.querySelector(".message");
+        if (el) el.textContent = msg;
         overlay.classList.remove("hidden");
     }
 }
@@ -29,15 +30,21 @@ async function loadSyncPreviewTable() {
     const tbody = $("#sync-preview-tbody");
     tbody.innerHTML = `<tr><td colspan="5" class="centered">&nbsp;&nbsp;Running preview...</td></tr>`;
     try {
-        const res = await axios.get('/admin/api/preview-sync');
-        const previewObj = res.data.preview || {};
-        // Only products requiring sync
+        // NEW ENDPOINT (was /admin/api/preview-sync)
+        const res = await axios.get('/api/sync/preview');
+
+        // NEW SHAPE: { category_report, sync_report, dry_run }
+        // Fallback to { preview } if a shim wraps it.
+        const payload = res.data || {};
+        const previewObj = payload.sync_report || payload.preview || {};
+
         const rows = []
             .concat(previewObj.to_create || [])
             .concat(previewObj.to_update || [])
             .concat(previewObj.variant_parents || [])
             .concat(previewObj.variant_to_create || [])
             .concat(previewObj.variant_to_update || []);
+
         renderSyncPreviewTable(rows);
     } catch (e) {
         tbody.innerHTML = `<tr><td colspan="5" class="centered">&nbsp;&nbsp;Preview failed: ${esc(e.message)}</td></tr>`;
@@ -46,7 +53,7 @@ async function loadSyncPreviewTable() {
     hideOverlay();
 }
 
-// --- Key UI rendering fix below ---
+// --- Key UI rendering ---
 function renderSyncPreviewTable(rows) {
     const tbody = $("#sync-preview-tbody");
     if (!rows.length) {
@@ -78,13 +85,16 @@ function renderSyncPreviewTable(rows) {
         let fieldsToUpdate = "";
         if (Array.isArray(row.fields_changed) && row.fields_changed.length > 0) {
             fieldsToUpdate = row.fields_changed.join(", ");
-        } else if (row.fields_to_update) {
+        } else if (Array.isArray(row.fields_to_update) && row.fields_to_update.length > 0) {
+            fieldsToUpdate = row.fields_to_update.join(", ");
+        } else if (typeof row.fields_to_update === "string" && row.fields_to_update) {
             fieldsToUpdate = row.fields_to_update;
         } else if (row.fields_diff && typeof row.fields_diff === "object") {
             fieldsToUpdate = Object.keys(row.fields_diff).join(", ");
         }
 
-        let imagesChanged = (row.images_changed || row.image_diff) ? "Yes" : "No";
+        // New preview returns gallery_diff; older code used image_diff/images_changed
+        const imagesChanged = (row.gallery_diff || row.image_diff || row.images_changed) ? "Yes" : "No";
 
         return `
             <tr>
@@ -98,7 +108,6 @@ function renderSyncPreviewTable(rows) {
     }).join('');
 }
 
-
 // --- Product Mapping Table ---
 let mappingData = [];
 let mappingEdited = false;
@@ -109,7 +118,8 @@ async function loadMappingTable() {
     const tbody = $("#mapping-tbody");
     tbody.innerHTML = `<tr><td colspan="5" class="centered">&nbsp;&nbsp;Loading mapping...</td></tr>`;
     try {
-        const res = await axios.get('/admin/api/mapping');
+        // NEW ENDPOINT (was /admin/api/mapping)
+        const res = await axios.get('/api/mapping');
         const mappingObj = res.data.mapping;
         let mapping = [];
         mappingLastSynced = "";
@@ -164,7 +174,8 @@ async function saveMapping() {
     showOverlay();
     $("#save-mapping-btn").disabled = true;
     try {
-        await axios.post('/admin/api/mapping', { mapping: mappingData });
+        // NEW ENDPOINT (was /admin/api/mapping)
+        await axios.post('/api/mapping', { mapping: mappingData });
         showAlert('Mapping saved!', "success");
         await loadMappingTable();
     } catch (e) {
@@ -184,7 +195,8 @@ async function loadStockTable() {
     const tbody = $("#stock-tbody");
     tbody.innerHTML = `<tr><td colspan="3" class="centered">&nbsp;&nbsp;Loading stock adjustments...</td></tr>`;
     try {
-        const res = await axios.get('/admin/api/stock-adjustment');
+        // NEW ENDPOINT (was /admin/api/stock-adjustment)
+        const res = await axios.get('/api/stock-adjustment');
         const obj = res.data.stock_adjustment || {};
         stockData = Array.isArray(obj.stock) ? obj.stock : [];
         renderStockTable(stockData);
@@ -227,7 +239,8 @@ async function saveStock() {
     showOverlay();
     $("#apply-stock-btn").disabled = true;
     try {
-        await axios.post('/admin/api/stock-adjustment', { stock: stockData });
+        // NEW ENDPOINT (was /admin/api/stock-adjustment)
+        await axios.post('/api/stock-adjustment', { stock: stockData });
         showAlert('Stock adjustments saved!', "success");
         await loadStockTable();
     } catch (e) {
@@ -242,7 +255,8 @@ async function applyStockAdjustment() {
     showOverlay("Updating stock in ERPNext…");
     try {
         await saveStock();
-        await axios.post('/admin/api/apply-stock-adjustment');
+        // NOTE: If/when you add a real apply endpoint, update path below.
+        await axios.post('/api/apply-stock-adjustment');
         showAlert('Stock successfully updated in ERPNext!', "success");
         await loadStockTable();
     } catch (e) {
@@ -261,17 +275,40 @@ window.addEventListener("DOMContentLoaded", async () => {
     await loadSyncPreviewTable();
     await loadMappingTable();
     await loadStockTable();
-    $("#sync-btn").onclick = async () => { showOverlay("Synchronising…"); try { await axios.post('/admin/api/full-sync'); showAlert("Sync complete!", "success"); await loadSyncPreviewTable(); await loadMappingTable(); } catch (e) { showAlert("Sync failed: " + e.message, "error"); } hideOverlay(); };
+
+    // NEW ENDPOINTS (were /admin/api/*)
+    $("#sync-btn").onclick = async () => {
+        showOverlay("Synchronising…");
+        try {
+            // POST to new full sync endpoint (defaults to dry_run=false if no body)
+            await axios.post('/api/sync/full', { dry_run: false });
+            showAlert("Sync complete!", "success");
+            await loadSyncPreviewTable();
+            await loadMappingTable();
+        } catch (e) {
+            showAlert("Sync failed: " + e.message, "error");
+        }
+        hideOverlay();
+    };
+
     $("#save-mapping-btn").onclick = saveMapping;
     $("#preview-refresh").onclick = loadSyncPreviewTable;
     $("#apply-stock-btn").onclick = applyStockAdjustment;
+
     $("#partial-sync-btn").onclick = async () => {
         showOverlay("Partial synchronising…");
         try {
-            await axios.post('/admin/api/partial-sync');
-            showAlert("Partial sync complete!", "success");
-            await loadSyncPreviewTable();
-            await loadMappingTable();
+            // Prompt for SKUs to sync
+            const input = prompt("Enter SKUs to partial-sync (comma-separated):", "");
+            const skus = input ? input.split(",").map(s => s.trim()).filter(Boolean) : [];
+            if (skus.length === 0) {
+                showAlert("No SKUs provided for partial sync.", "warning");
+            } else {
+                await axios.post('/api/sync/partial', { skus, dry_run: false });
+                showAlert("Partial sync complete!", "success");
+                await loadSyncPreviewTable();
+                await loadMappingTable();
+            }
         } catch (e) {
             showAlert("Partial sync failed: " + e.message, "error");
         }

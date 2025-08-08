@@ -1,3 +1,7 @@
+# app/config.py
+# ----------------------------------------------------------------
+# import configuration variables to be used throughout the project
+# ----------------------------------------------------------------
 import os
 from dotenv import load_dotenv
 

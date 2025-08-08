@@ -3,3 +3,5 @@ uvicorn[standard]
 httpx
 python-dotenv
 beautifulsoup4>=4.12
+pandas
+requests
