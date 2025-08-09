@@ -4,11 +4,11 @@
 # Functions to interact with WooCommerce for products, categories, images, and maintenance.
 #==========================================================================================
 import httpx
-import base64
+import os
 import logging
 import hashlib
+from urllib.parse import urlparse
 from app.config import settings
-from fastapi import Header
 
 WC_BASE_URL = settings.WC_BASE_URL
 WC_API_KEY = settings.WC_API_KEY
@@ -288,6 +288,9 @@ async def ensure_wp_image_uploaded(erp_img_url, filename, size_hint=None):
     Checks WP media for an image matching ERPNext's (by size or SHA256 hash).
     If not found, uploads it. Returns WP media ID.
     """
+    if not filename:
+        filename = os.path.basename(urlparse(erp_img_url).path) or "image.jpg"
+        
     media = await wp_list_media()
     found_id = None
 

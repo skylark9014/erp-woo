@@ -13,7 +13,6 @@ import logging
 import json
 import os
 
-from bs4 import BeautifulSoup
 from urllib.parse import urlparse, quote
 from app.erpnext import get_erpnext_categories
 from app.woocommerce import (
@@ -377,8 +376,6 @@ async def sync_categories(dry_run=False):
     }
 
 # --- Partial sync - recording sync_products_preview output for partial sync in JSON file ---
-import os
-import json
 
 def save_preview_to_file(preview: dict, filename: str = "products_to_sync.json"):
     """
@@ -396,7 +393,6 @@ def save_preview_to_file(preview: dict, filename: str = "products_to_sync.json")
         json.dump(preview, f, indent=2, ensure_ascii=False)
     os.replace(tmp_file, target_path)
 
-
 def load_preview_from_file(filename: str = "products_to_sync.json"):
     # Always load from app/mapping/
     base_dir = os.path.dirname(__file__)
@@ -405,7 +401,6 @@ def load_preview_from_file(filename: str = "products_to_sync.json"):
     #print(f"*** Loading sync preview from: {file_path}")
     with open(file_path, "r") as f:
         return json.load(f)
-
 
 def diff_fields(wc, erp, include=None, ignore=None):
     import re
@@ -455,6 +450,7 @@ def diff_fields(wc, erp, include=None, ignore=None):
 async def sync_products_filtered(erp_items, wc_products, dry_run=False):
     """
     Run the real sync logic for a filtered set of items (for partial sync).
+    - Now builds correct featured + gallery images per the rules.
     """
     logger.info(f"Starting filtered sync with {len(erp_items)} ERP and {len(wc_products)} Woo products (dry_run={dry_run})")
 
@@ -466,9 +462,8 @@ async def sync_products_filtered(erp_items, wc_products, dry_run=False):
     price_map = await get_price_map()
     stock_map = await get_stock_map()
 
-    # NOTE: In partial sync, we assume *no* new product creation (if you want, keep that logic!)
     for item in erp_items:
-        sku = item.get("item_code") or item.get("Item Code")
+        sku = item.get("item_code") or item.get("Item Code") or item.get("name")
         wc = wc_map.get(sku)
         price = price_map.get(sku, item.get("standard_rate", 0))
         default_wh = item.get("default_warehouse")
@@ -478,7 +473,19 @@ async def sync_products_filtered(erp_items, wc_products, dry_run=False):
             else sum(qty for (code, wh), qty in stock_map.items() if code == sku)
         )
 
-        wc_payload = map_erp_to_wc_product(item, category_map=None, brand_map=None, image_list=None)
+        # === NEW: build featured + gallery according to type ===
+        # Variant item?
+        is_variant = bool(item.get("variant_of") or item.get("Variant Of"))
+        if is_variant:
+            featured, gallery = await erp_get_variant_family_media_from_list(item, erp_items)
+        else:
+            featured = await erp_get_item_featured(sku)
+            gallery = await erp_get_item_gallery(sku)
+
+        image_list = ([featured] if featured else []) + (gallery or [])
+
+        # Build WC payload
+        wc_payload = map_erp_to_wc_product(item, category_map=None, brand_map=None, image_list=image_list)
         wc_payload["regular_price"] = str(price)
         wc_payload["stock_quantity"] = stock_qty
 
@@ -498,6 +505,7 @@ async def sync_products_filtered(erp_items, wc_products, dry_run=False):
                     stats["errors"].append({"sku": sku, "error": str(e)})
             continue
 
+        # Update existing
         fields_changed = diff_fields(wc, wc_payload, include=get_wc_sync_fields())
         if fields_changed:
             logger.info(f"SKU {sku}: Updating Woo fields {fields_changed}")
@@ -525,3 +533,213 @@ def strip_html_tags(text):
     """
     import re
     return re.sub(r"<[^>]+>", "", text or "")
+
+async def erp_get_variant_family_media(variant_codes: list[str]) -> tuple[str | None, list[str]]:
+    """
+    For a set of variant SKUs:
+    - Featured: take image of the first variant (assume all equal).
+    - Gallery: intersection of non-featured File attachments across ALL variants.
+    Returns (featured_file_url, gallery_file_urls[])
+    """
+    if not variant_codes:
+        return None, []
+
+    # Featured from first variant
+    featured = await erp_get_item_featured(variant_codes[0])
+
+    # Gather per-variant galleries (excluding image/website_image & excluding featured)
+    per_variant_lists = []
+    for code in variant_codes:
+        fields = quote(json.dumps(["file_url", "attached_to_field", "attached_to_name"]))
+        filters = quote(json.dumps([
+            ["attached_to_doctype", "=", "Item"],
+            ["attached_to_name", "=", code],
+        ]))
+        url = f"{ERP_URL}/api/resource/File?fields={fields}&filters={filters}&order_by=creation%20asc&limit_page_length=1000"
+        headers = {"Authorization": f"token {ERP_API_KEY}:{ERP_API_SECRET}"}
+        async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
+            r = await client.get(url, headers=headers)
+            data = r.json().get("data", []) if r.status_code == 200 else []
+        # filter this variant’s list
+        seen, this_list = set(), []
+        for row in data:
+            fu = row.get("file_url")
+            fld = (row.get("attached_to_field") or "").lower()
+            if not fu or fld in {"image", "website_image"}:
+                continue
+            if featured and fu == featured:
+                continue
+            if fu not in seen:
+                seen.add(fu)
+                this_list.append(fu)
+        per_variant_lists.append(this_list)
+
+    # Intersection, with order preserved from the first variant
+    if not per_variant_lists:
+        return featured, []
+    common = set(per_variant_lists[0])
+    for lst in per_variant_lists[1:]:
+        common &= set(lst)
+    gallery = [fu for fu in per_variant_lists[0] if fu in common]
+    return featured, gallery
+
+# --- NEW: ERP image fetch helpers implementing agreed rules ---
+
+async def erp_get_item_featured(item_code: str) -> str | None:
+    """
+    ERPNext: return Item.image (file_url) for an item code.
+    """
+    headers = {"Authorization": f"token {ERP_API_KEY}:{ERP_API_SECRET}"}
+    filters = quote(json.dumps({"name": item_code}))
+    url = f"{ERP_URL}/api/method/frappe.client.get_value?doctype=Item&fieldname=image&filters={filters}"
+    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
+        r = await client.get(url, headers=headers)
+        if r.status_code == 200:
+            return (r.json().get("message") or {}).get("image") or None
+    return None
+
+async def erp_get_item_gallery(item_code: str) -> list[str]:
+    """
+    ERPNext: for a simple item, return all File.file_url attached to that Item
+    excluding rows attached to fields 'image' or 'website_image' and excluding duplicates.
+    """
+    headers = {"Authorization": f"token {ERP_API_KEY}:{ERP_API_SECRET}"}
+    fields = quote(json.dumps(["file_url", "attached_to_field"]))
+    filters = quote(json.dumps([
+        ["attached_to_doctype", "=", "Item"],
+        ["attached_to_name", "=", item_code],
+    ]))
+    url = f"{ERP_URL}/api/resource/File?fields={fields}&filters={filters}&order_by=creation%20asc&limit_page_length=1000"
+    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
+        r = await client.get(url, headers=headers)
+        data = r.json().get("data", []) if r.status_code == 200 else []
+    seen, out = set(), []
+    for row in data:
+        fu = row.get("file_url")
+        fld = (row.get("attached_to_field") or "").lower()
+        if not fu or fld in {"image", "website_image"}:
+            continue
+        if fu not in seen:
+            seen.add(fu)
+            out.append(fu)
+    return out
+
+def _attrs_dict(item: dict) -> dict:
+    """
+    Get a dict of variant attributes from ERP item row (works with both legacy pair and list form).
+    """
+    d = {}
+    # pair form
+    a_col = "Attribute (Variant Attributes)"
+    v_col = "Attribute Value (Variant Attributes)"
+    if a_col in item and v_col in item and item.get(a_col) and item.get(v_col):
+        d[item[a_col]] = item[v_col]
+    # list form
+    if "attributes" in item and isinstance(item["attributes"], list):
+        for row in item["attributes"]:
+            n = row.get("attribute")
+            v = row.get("attribute_value")
+            if n and v:
+                d[n] = v
+    if "variant_attributes" in item and isinstance(item["variant_attributes"], list):
+        for row in item["variant_attributes"]:
+            n = row.get("attribute")
+            v = row.get("attribute_value")
+            if n and v:
+                d[n] = v
+    return d
+
+def _style_key(item: dict) -> tuple:
+    """
+    Build a 'style' key for a variant family (exclude size-ish attributes).
+    We explicitly ignore 'Sheet Size' and any attribute whose name contains 'size' (case-insensitive).
+    """
+    attrs = _attrs_dict(item)
+    style = []
+    for k, v in attrs.items():
+        if k.lower() in {"sheet size"} or "size" in k.lower():
+            continue
+        style.append((k, v))
+    style.sort()
+    return tuple(style)
+
+async def erp_get_variant_family_media_from_list(item: dict, erp_items: list[dict]) -> tuple[str | None, list[str]]:
+    """
+    For a single variant item and the list of all ERP items:
+      - featured = that variant's Item.image
+      - gallery  = intersection of File.file_url across all sibling variants in the family
+                   (same variant_of and same non-size attributes), excluding image/website_image and the featured.
+    Returns (featured:str|None, gallery:list[str]).
+    """
+    headers = {"Authorization": f"token {ERP_API_KEY}:{ERP_API_SECRET}"}
+
+    # Collect family
+    variant_of = item.get("variant_of") or item.get("Variant Of")
+    if not variant_of:
+        # Not a variant row
+        return await erp_get_item_featured(item.get("item_code") or item.get("Item Code") or item.get("name")), []
+
+    key = _style_key(item)
+    family = []
+    for it in erp_items:
+        if (it.get("variant_of") or it.get("Variant Of")) != variant_of:
+            continue
+        if _style_key(it) == key:
+            code = it.get("item_code") or it.get("Item Code") or it.get("name")
+            if code:
+                family.append(code)
+
+    # Featured is the current variant's image (we expect it to be same across family)
+    this_code = item.get("item_code") or item.get("Item Code") or item.get("name")
+    featured = await erp_get_item_featured(this_code)
+
+    if not family:
+        return featured, []
+
+    # Fetch all File rows for the family in one query
+    fields = quote(json.dumps(["file_url", "attached_to_field", "attached_to_name", "creation"]))
+    filters = quote(json.dumps([
+        ["attached_to_doctype", "=", "Item"],
+        ["attached_to_name", "in", family],
+    ]))
+    url = f"{ERP_URL}/api/resource/File?fields={fields}&filters={filters}&order_by=creation%20asc&limit_page_length=1000"
+    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
+        r = await client.get(url, headers=headers)
+        data = r.json().get("data", []) if r.status_code == 200 else []
+
+    # Count per file_url across distinct items; filter to those present for ALL family members
+    per_file = {}
+    order_hint = {}
+    for row in data:
+        fu = row.get("file_url")
+        fld = (row.get("attached_to_field") or "").lower()
+        name = row.get("attached_to_name")
+        crt = row.get("creation")
+        if not fu or fld in {"image", "website_image"}:
+            continue
+        per_file.setdefault(fu, set()).add(name)
+        # remember earliest creation for ordering
+        if fu not in order_hint or (crt and str(crt) < str(order_hint[fu])):
+            order_hint[fu] = crt
+
+    gallery = []
+    for fu, names in per_file.items():
+        if len(names) == len(set(family)):
+            if not featured or fu != featured:
+                gallery.append(fu)
+
+    # Order by earliest creation for stability
+    gallery.sort(key=lambda fu: str(order_hint.get(fu, "")) or fu)
+    return featured, gallery
+
+async def erp_head_sizes(file_urls: list[str]) -> list[int]:
+    """
+    HEAD each file URL (ERP private or public) and return content-lengths.
+    """
+    out = []
+    for fu in file_urls or []:
+        size, _, _ = await get_image_size_with_fallback(fu)  # returns (size, full_url, headers)
+        if size is not None:
+            out.append(size)
+    return out
+
