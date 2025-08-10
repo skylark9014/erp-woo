@@ -13,6 +13,8 @@ import logging
 import json
 import os
 
+from pathlib import Path
+from decimal import Decimal, ROUND_HALF_UP
 from urllib.parse import urlparse, quote
 from app.erpnext import get_erpnext_categories
 from app.woocommerce import (
@@ -38,6 +40,18 @@ WP_PASSWORD = settings.WP_PASSWORD
 
 logger = logging.getLogger("uvicorn.error")
 
+def _mapping_dir() -> Path:
+    # Prefer container canonical path; fall back to repo layout when running locally
+    prefer = Path("/app/mapping")
+    try:
+        prefer.mkdir(parents=True, exist_ok=True)
+        return prefer
+    except Exception:
+        pass
+    fallback = Path(__file__).resolve().parent / "mapping"
+    fallback.mkdir(parents=True, exist_ok=True)
+    return fallback
+
 # --- Category & Name Utilities ---
 
 def normalize_category_name(name):
@@ -50,6 +64,37 @@ def normalize_category_name(name):
 def build_wc_cat_map(wc_categories):
     """Map normalized Woo category names to their IDs."""
     return {normalize_category_name(cat["name"]): cat["id"] for cat in wc_categories}
+
+def format_wc_price(value) -> str:
+    try:
+        d = Decimal(str(value or 0)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        # avoid scientific notation and guarantee 2 decimals
+        return f"{d:.2f}"
+    except Exception:
+        return "0.00"
+
+async def sync_categories(dry_run=False):
+    erp_cats = await get_erpnext_categories()
+    wc_cats = await get_wc_categories()
+    wc_cat_map = {normalize_category_name(cat["name"]): cat for cat in wc_cats}
+    created = []
+    for erp_cat in erp_cats:
+        name = erp_cat["name"]
+        name_normalized = normalize_category_name(name)
+        if name_normalized not in wc_cat_map:
+            logger.info(f"🟢 Creating Woo category: {name}")
+            if not dry_run:
+                resp = await create_wc_category(name)
+            else:
+                resp = {"dry_run": True}
+            created.append({"erp_category": name, "wc_response": resp})
+    if not dry_run and created:
+        wc_cats = await get_wc_categories()
+    return {
+        "created": created,
+        "total_erp_categories": len(erp_cats),
+        "total_wc_categories": len(wc_cats)
+    }
 
 # --- Image Utilities ---
 
@@ -220,8 +265,6 @@ async def get_erpnext_item_attributes():
             attr_map[attr] = values
     return attr_map
 
-# --- ATTRIBUTE UTILS ---
-
 async def get_attribute_id_map():
     url = f"{WC_BASE_URL}/wp-json/wc/v3/products/attributes?per_page=100"
     auth = (WC_API_KEY, WC_API_SECRET)
@@ -264,53 +307,274 @@ async def create_attribute_term(attr_id, value):
             logger.error(f"Failed to create term '{value}' for attribute {attr_id}: {resp.text}")
     return None
 
-# --- BRAND UTILS (unchanged) ---
+# --- BRAND UTILS (updated) ---
+
+def _norm_brand(s: str) -> str:
+    return (s or "").strip()
+
+def _norm_key(s: str) -> str:
+    return _norm_brand(s).lower()
 
 async def get_brand_id_map():
-    url = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand?per_page=100"
+    """
+    Returns {brand_name: term_id} for ALL brand terms (paginated).
+    Keys are the exact names from WP; compare case-insensitively in callers.
+    """
+    base = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand"
     auth = (WP_USERNAME, WP_PASSWORD)
-    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
-        resp = await client.get(url, auth=auth)
-        if resp.status_code == 200:
-            return {b["name"]: b["id"] for b in resp.json()}
-    return {}
+    out = {}
+    page = 1
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
+        while True:
+            resp = await client.get(f"{base}?per_page=100&page={page}")
+            if resp.status_code != 200:
+                logger.error("[Brand] list failed: %s %s", resp.status_code, resp.text)
+                break
+            batch = resp.json() or []
+            if not batch:
+                break
+            for b in batch:
+                name = _norm_brand(b.get("name"))
+                bid = b.get("id")
+                if name and bid:
+                    out[name] = bid
+            if len(batch) < 100:
+                break
+            page += 1
+    return out
 
-async def create_brand(name):
+async def create_brand(name: str):
+    """
+    Creates a product_brand term via WP REST. If it already exists,
+    returns the existing term_id from the error body when available.
+    """
     url = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand"
     auth = (WP_USERNAME, WP_PASSWORD)
-    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
-        resp = await client.post(url, auth=auth, json={"name": name})
+    payload = {"name": _norm_brand(name)}
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
+        resp = await client.post(url, json=payload)
+
+        # Happy path
         if resp.status_code in (200, 201):
-            logger.info(f"Created Woo brand '{name}' (id={resp.json()['id']})")
-            return resp.json()["id"]
-        else:
-            logger.error(f"Failed to create brand '{name}' (status {resp.status_code}): {resp.text}")
-    return None
+            data = resp.json()
+            bid = data.get("id")
+            logger.info("Created Woo brand %r (id=%s)", payload["name"], bid)
+            return bid
+
+        # Many WP installs return {"code":"term_exists", ..., "data":{"term_id": <id>}}
+        term_id = None
+        try:
+            data = resp.json()
+            term_id = (data or {}).get("data", {}).get("term_id")
+        except Exception:
+            pass
+        if term_id:
+            logger.info("Brand %r already exists (id=%s) — using existing.", payload["name"], term_id)
+            return term_id
+
+        logger.error("Failed to create brand %r (status %s): %s",
+                     payload["name"], resp.status_code, resp.text)
+        return None
 
 async def ensure_all_erp_brands_exist(erp_items):
-    all_brands = set()
-    for item in erp_items:
-        brand = item.get("brand") or item.get("Brand")
-        if brand:
-            all_brands.add(brand)
-    brand_id_map = await get_brand_id_map()
-    for brand in all_brands:
-        if brand not in brand_id_map:
-            brand_id = await create_brand(brand)
-            if brand_id:
-                brand_id_map[brand] = brand_id
-            else:
-                logger.error(f"Could not create or map Woo brand for '{brand}'")
+    """
+    Collect unique ERP brands (brand/Brand), ensure terms exist,
+    and return {original_brand_name: term_id}.
+    """
+    # Gather unique, normalized non-empty brand names
+    all_brands = {
+        _norm_brand(item.get("brand") or item.get("Brand"))
+        for item in erp_items
+        if (item.get("brand") or item.get("Brand"))
+    }
+    all_brands = {b for b in all_brands if b}
+
+    existing = await get_brand_id_map()
+    existing_lc = {_norm_key(k): v for k, v in existing.items()}
+
+    brand_id_map = {}
+    for b in sorted(all_brands):
+        key = _norm_key(b)
+        if key in existing_lc:
+            brand_id_map[b] = existing_lc[key]
+            continue
+        bid = await create_brand(b)
+        if bid:
+            brand_id_map[b] = bid
+        else:
+            logger.error("Could not create or map Woo brand for %r", b)
     return brand_id_map
 
-async def assign_brand_to_product(product_id, brand_id):
+async def assign_brand_to_product(product_id: int, brand_id: int) -> bool:
+    """
+    Attach brand term(s) to a product via WP REST (Basic Auth).
+    Returns True on success. Uses POST per WP REST conventions.
+    """
     url = f"{WC_BASE_URL}/wp-json/wp/v2/product/{product_id}"
     auth = (WP_USERNAME, WP_PASSWORD)
-    payload = {"product_brand": [brand_id]}
-    async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
-        resp = await client.post(url, auth=auth, json=payload)
-        if not resp.status_code in (200, 201):
-            logger.error(f"Failed to assign brand {brand_id} to product {product_id}: {resp.status_code} {resp.text}")
+    payload = {"product_brand": [int(brand_id)]}
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
+        resp = await client.post(url, json=payload)
+        if resp.status_code in (200, 201):
+            return True
+        # Log full body to help debug plugin/permission issues
+        try:
+            body = resp.json()
+        except Exception:
+            body = resp.text
+        logger.error("Failed to assign brand %s to product %s: %s %s",
+                     brand_id, product_id, resp.status_code, body)
+        return False
+
+# --- BRAND RECONCILIATION (new) ---
+
+async def list_wp_brands_full():
+    """
+    Return a full list of product_brand terms with fields like:
+    [{id, name, slug, count, ...}, ...]
+    """
+    base = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand"
+    auth = (WP_USERNAME, WP_PASSWORD)
+    out, page = [], 1
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
+        while True:
+            resp = await client.get(f"{base}?per_page=100&page={page}")
+            if resp.status_code != 200:
+                logger.error("[Brand] list failed: %s %s", resp.status_code, resp.text)
+                break
+            batch = resp.json() or []
+            if not batch:
+                break
+            out.extend(batch)
+            if len(batch) < 100:
+                break
+            page += 1
+    return out
+
+async def update_brand(term_id, *, name=None, slug=None):
+    """
+    Update a product_brand term's name/slug.
+    WordPress accepts POST for updates on term endpoints.
+    """
+    if not name and not slug:
+        return False
+    url = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand/{int(term_id)}"
+    auth = (WP_USERNAME, WP_PASSWORD)
+    payload = {}
+    if name is not None:
+        payload["name"] = name
+    if slug is not None:
+        payload["slug"] = slug
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
+        resp = await client.post(url, json=payload)
+        if resp.status_code in (200, 201):
+            return True
+        logger.error("[Brand] update %s failed: %s %s", term_id, resp.status_code, resp.text)
+        return False
+
+async def delete_brand(term_id, *, force=True):
+    """
+    Delete a product_brand term. If force=True, permanently deletes.
+    """
+    url = f"{WC_BASE_URL}/wp-json/wp/v2/product_brand/{int(term_id)}?force={'true' if force else 'false'}"
+    auth = (WP_USERNAME, WP_PASSWORD)
+    async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
+        resp = await client.delete(url)
+        if resp.status_code in (200, 410):  # 410 gone is ok
+            return True
+        logger.error("[Brand] delete %s failed: %s %s", term_id, resp.status_code, resp.text)
+        return False
+
+def _norm_brand(s):
+    return (s or "").strip()
+
+def _norm_key(s):
+    return _norm_brand(s).lower()
+
+async def reconcile_woocommerce_brands(
+    erp_brand_names,
+    *,
+    delete_missing=False,
+    dry_run=False,
+    skip_in_use=True
+):
+    """
+    Compare ERP brand set with Woo product_brand terms and:
+      - create missing
+      - update case-only name differences
+      - (optional) delete brands not present in ERP (skips terms with products by default)
+
+    Returns a report dict with created/updated/deleted/skipped and totals.
+    """
+    # Normalize ERP set
+    erp_set = {_norm_brand(b) for b in (erp_brand_names or []) if _norm_brand(b)}
+    erp_lc = {_norm_key(b) for b in erp_set}
+
+    # Current Woo terms (full + convenience maps)
+    terms = await list_wp_brands_full()
+    by_lc = {_norm_key(t.get("name")): t for t in terms if t.get("name")}
+    by_id = {t.get("id"): t for t in terms if t.get("id")}
+
+    report = {
+        "created": [],
+        "updated": [],
+        "deleted": [],
+        "skipped": [],
+        "total_erp_brands": len(erp_set),
+        "total_wc_brands": len(terms),
+        "dry_run": dry_run,
+        "delete_missing": delete_missing,
+    }
+
+    # ADD or UPDATE (case-only adjustments)
+    for b in sorted(erp_set):
+        lc = _norm_key(b)
+        t = by_lc.get(lc)
+        if not t:
+            if dry_run:
+                report["created"].append({"name": b})
+            else:
+                tid = await create_brand(b)
+                if tid:
+                    report["created"].append({"id": tid, "name": b})
+                else:
+                    report["skipped"].append({"name": b, "reason": "create_failed"})
+            continue
+
+        # If only case differs, update name to match ERP canonical case
+        current_name = t.get("name") or ""
+        if current_name != b and current_name.lower() == b.lower():
+            if dry_run:
+                report["updated"].append({"id": t["id"], "from": current_name, "to": b})
+            else:
+                ok = await update_brand(t["id"], name=b)
+                (report["updated"] if ok else report["skipped"]).append(
+                    {"id": t["id"], "from": current_name, "to": b, **({} if ok else {"reason": "update_failed"})}
+                )
+        else:
+            report["skipped"].append({"id": t["id"], "name": current_name, "reason": "exists"})
+
+    # DELETE extras not in ERP (optional)
+    if delete_missing:
+        for t in terms:
+            name = t.get("name") or ""
+            lc = _norm_key(name)
+            if lc in erp_lc:
+                continue
+            if skip_in_use and int(t.get("count") or 0) > 0:
+                report["skipped"].append({"id": t["id"], "name": name, "reason": "in_use"})
+                continue
+            if dry_run:
+                report["deleted"].append({"id": t["id"], "name": name})
+            else:
+                ok = await delete_brand(t["id"], force=True)
+                (report["deleted"] if ok else report["skipped"]).append(
+                    {"id": t["id"], "name": name, **({} if ok else {"reason": "delete_failed"})}
+                )
+
+    return report
+
+# --- GALLERY LOGIC FOR VARIANTS ---
 
 def get_gallery_images(item, template=None, get_erp_images=None):
     """
@@ -331,7 +595,6 @@ def get_gallery_images(item, template=None, get_erp_images=None):
             imgs = template.get("gallery_images", []) or []
     return imgs
 
-# --- GALLERY LOGIC FOR VARIANTS ---
 async def get_variant_gallery_images(variant, template, get_erp_images):
     """Return [variant item image] + variant attached images + template attached images (deduped), NOT template item image."""
     images = []
@@ -352,29 +615,6 @@ async def get_variant_gallery_images(variant, template, get_erp_images):
                 images.append(img)
     return images
 
-async def sync_categories(dry_run=False):
-    erp_cats = await get_erpnext_categories()
-    wc_cats = await get_wc_categories()
-    wc_cat_map = {normalize_category_name(cat["name"]): cat for cat in wc_cats}
-    created = []
-    for erp_cat in erp_cats:
-        name = erp_cat["name"]
-        name_normalized = normalize_category_name(name)
-        if name_normalized not in wc_cat_map:
-            logger.info(f"🟢 Creating Woo category: {name}")
-            if not dry_run:
-                resp = await create_wc_category(name)
-            else:
-                resp = {"dry_run": True}
-            created.append({"erp_category": name, "wc_response": resp})
-    if not dry_run and created:
-        wc_cats = await get_wc_categories()
-    return {
-        "created": created,
-        "total_erp_categories": len(erp_cats),
-        "total_wc_categories": len(wc_cats)
-    }
-
 # --- Partial sync - recording sync_products_preview output for partial sync in JSON file ---
 
 def save_preview_to_file(preview: dict, filename: str = "products_to_sync.json"):
@@ -382,22 +622,18 @@ def save_preview_to_file(preview: dict, filename: str = "products_to_sync.json")
     Save sync preview output to app/mapping/products_to_sync.json for partial sync.
     Uses atomic write (temp file + replace), utf-8 encoding, and ensures the mapping directory exists.
     """
-    base_dir = os.path.dirname(__file__)
-    mapping_dir = os.path.join(base_dir, "mapping")
-    os.makedirs(mapping_dir, exist_ok=True)
-    target_path = os.path.join(mapping_dir, filename)
+    os.makedirs(_mapping_dir(), exist_ok=True)
+    target_path = os.path.join(_mapping_dir(), filename)
     tmp_file = target_path + ".tmp"
 
-    #print(f"*** Writing sync preview to: {target_path}")
+    logger.info(f"Saving partial sync reference file '{target_path}'")
     with open(tmp_file, "w", encoding="utf-8") as f:
         json.dump(preview, f, indent=2, ensure_ascii=False)
     os.replace(tmp_file, target_path)
 
 def load_preview_from_file(filename: str = "products_to_sync.json"):
     # Always load from app/mapping/
-    base_dir = os.path.dirname(__file__)
-    mapping_dir = os.path.join(base_dir, "mapping")
-    file_path = os.path.join(mapping_dir, filename)
+    file_path = os.path.join(_mapping_dir, filename)
     #print(f"*** Loading sync preview from: {file_path}")
     with open(file_path, "r") as f:
         return json.load(f)
@@ -446,7 +682,6 @@ def diff_fields(wc, erp, include=None, ignore=None):
             diffs[k] = [v1, v2]
     return diffs
 
-# This helper could be your main sync logic with erp_items and wc_products as parameters:
 async def sync_products_filtered(erp_items, wc_products, dry_run=False):
     """
     Run the real sync logic for a filtered set of items (for partial sync).
@@ -486,7 +721,7 @@ async def sync_products_filtered(erp_items, wc_products, dry_run=False):
 
         # Build WC payload
         wc_payload = map_erp_to_wc_product(item, category_map=None, brand_map=None, image_list=image_list)
-        wc_payload["regular_price"] = str(price)
+        wc_payload["regular_price"] = format_wc_price(price)
         wc_payload["stock_quantity"] = stock_qty
 
         # Create new products in Woo
@@ -583,7 +818,7 @@ async def erp_get_variant_family_media(variant_codes: list[str]) -> tuple[str | 
     gallery = [fu for fu in per_variant_lists[0] if fu in common]
     return featured, gallery
 
-# --- NEW: ERP image fetch helpers implementing agreed rules ---
+# --- NEW: ERP image fetch helpers ---
 
 async def erp_get_item_featured(item_code: str) -> str | None:
     """

@@ -266,14 +266,28 @@ async def get_erpnext_items():
 
 # --- Categories ------------------------------------------------------------
 
-async def get_erpnext_categories() -> List[Dict[str, Any]]:
+# app/erpnext.py
+async def get_erpnext_categories(leaves_only: bool = True) -> list[dict[str, Any]]:
     """
-    Fetch all item groups (categories) from ERPNext.
-    Returns: list of {"name": ..., "parent_item_group": ...}
+    Fetch Item Groups. By default only returns leaves (is_group = 0).
+    Returns: [{"name": ..., "parent_item_group": ..., "is_group": 0}, ...]
     """
     try:
-        r = await _http_get('/api/resource/Item Group?fields=["name","parent_item_group"]')
-        return r.json().get("data", []) if r.status_code == 200 else []
+        params = {
+            "fields": json.dumps(["name", "parent_item_group", "is_group"]),
+            "limit_page_length": 1000,
+        }
+        if leaves_only:
+            params["filters"] = json.dumps([["is_group", "=", 0]])
+
+        r = await _http_get("/api/resource/Item Group", params)
+        data = r.json().get("data", []) if r.status_code == 200 else []
+
+        # Double-safety filter (in case an older server ignores the filter param)
+        if leaves_only:
+            data = [row for row in data if not (row.get("is_group") in (1, True))]
+
+        return data
     except Exception as e:
         logger.error("Error fetching ERPNext categories: %s", e)
         return []

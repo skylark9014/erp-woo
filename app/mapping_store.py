@@ -5,10 +5,15 @@
 
 import json
 import os
-from typing import List, Dict, Any
-from datetime import datetime
+import logging
 
-MAPPING_JSON_FILE = os.path.join(os.path.dirname(__file__), "mapping_store.json")
+from typing import List, Dict, Any
+from datetime import datetime, timezone
+from app.sync_utils import _mapping_dir
+
+logger = logging.getLogger("uvicorn.error")
+
+MAPPING_JSON_FILE = os.path.join(_mapping_dir(), "mapping_store.json")
 
 def build_product_mapping(erp_items, wc_products):
     wc_by_sku = {p.get("sku"): p for p in wc_products}
@@ -46,9 +51,11 @@ def build_or_load_mapping() -> Dict[str, Any]:
 def save_mapping_file(mapping: List[Dict]):
     record = {
         "products": mapping,
-        "last_synced": datetime.utcnow().isoformat(timespec="seconds") + "Z"
+        "last_synced": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
     }
     tmp_file = MAPPING_JSON_FILE + ".tmp"
+    
+    logger.info(f"Saving ERPNext-Woocommerce product mapping file '{MAPPING_JSON_FILE}'")
     with open(tmp_file, "w", encoding="utf-8") as f:
         json.dump(record, f, indent=2, ensure_ascii=False)
     os.replace(tmp_file, MAPPING_JSON_FILE)

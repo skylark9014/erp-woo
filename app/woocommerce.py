@@ -46,16 +46,26 @@ async def get_wc_products():
         page += 1
     return products
 
+
 async def create_wc_product(product_data):
-    """Create a new product in WooCommerce."""
     url = f"{WC_BASE_URL}/wp-json/wc/v3/products"
     auth = (WC_API_KEY, WC_API_SECRET)
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         try:
             resp = await client.post(url, auth=auth, json=product_data)
-            return {"status_code": resp.status_code, "data": resp.json() if resp.content else None}
+            if resp.status_code not in (200, 201):
+                ctype = (resp.headers.get("content-type") or "").lower()
+                body = resp.text
+                try:
+                    if "application/json" in ctype:
+                        body = resp.json()
+                except Exception:
+                    pass
+                logger.error(f"[WC] create product {resp.status_code} {ctype} body={str(body)[:800]}")
+            return {"status_code": resp.status_code, "data": resp.json() if resp.content else None, "raw": resp.text}
         except Exception as e:
             return {"error": str(e)}
+
 
 async def update_wc_product(product_id, product_data):
     """Update a WooCommerce product by ID."""
@@ -81,6 +91,7 @@ async def get_wc_categories():
         except Exception as e:
             print("Error fetching WooCommerce categories:", e)
             return []
+
 
 async def create_wc_category(name, parent_id=None):
     """Create a WooCommerce product category."""
@@ -122,6 +133,7 @@ async def purge_wc_bin_products():
     except Exception as e:
         return {"error": str(e)}
 
+
 async def purge_all_wc_products():
     """Force-delete ALL WooCommerce products (use with caution!)."""
     try:
@@ -141,6 +153,7 @@ async def purge_all_wc_products():
         return {"count_deleted": len(results), "results": results}
     except Exception as e:
         return {"error": str(e)}
+
 
 async def purge_wc_product_variations(product_id):
     """Delete all variations for a specific product."""
@@ -163,6 +176,7 @@ async def purge_wc_product_variations(product_id):
     except Exception as e:
         return {"error": str(e)}
 
+
 async def list_wc_bin_products():
     """Lists all WooCommerce products in the BIN (Trash)."""
     url = f"{WC_BASE_URL}/wp-json/wc/v3/products?status=trash&per_page=100"
@@ -179,6 +193,7 @@ async def list_wc_bin_products():
 # -------------------------------------------------------------------
 # 1) Download from ERPNext and upload via App Password + site-Basic Auth
 # -------------------------------------------------------------------
+
 async def upload_wc_image_from_erpnext(image_url: str, filename: str,
                                         erp_api_key: str, erp_api_secret: str):
     """
@@ -216,10 +231,10 @@ async def upload_wc_image_from_erpnext(image_url: str, filename: str,
             }
         return up_resp.json()
     
-
 # -------------------------------------------------------------------
 # 2) List all WP media (with size details) using site-Basic Auth + App Password
 # -------------------------------------------------------------------
+
 async def wp_list_media():
     """
     Fetch all images from WP media library (paginated) using
@@ -249,6 +264,7 @@ async def wp_list_media():
 # -------------------------------------------------------------------
 # 3) Upload an arbitrary URL to WP media library (same auth pattern)
 # -------------------------------------------------------------------
+
 async def wp_upload_image_from_url(url: str, filename: str):
     """
     Download a public URL then upload to WP media (Basic auth).
@@ -336,6 +352,7 @@ async def set_wc_variant_image(parent_id, variant_id, media_id):
             return resp.json()
         except Exception as e:
             return {"error": str(e)}
+
 
 async def get_wc_variations(parent_id):
     """

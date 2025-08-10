@@ -593,7 +593,7 @@ async def sync_products_partial(dry_run=False, filename: str = "products_to_sync
     Partial sync: sync only the products flagged in the last preview file.
     """
     preview = load_preview_from_file(filename)
-    #logger.info(f"Loaded sync preview from '{filename}' with keys: {list(preview.keys())}")
+    logger.info(f"Loaded sync preview from '{filename}' with keys: {list(preview.keys())}")
 
     flagged_skus = set()
     for section in ("to_create", "to_update"):

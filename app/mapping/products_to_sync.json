@@ -1,715 +1,2230 @@
 {
-  "to_create": [
-    {
-      "sku": "GLU_35S",
-      "name": "Multibond 35-S - S GREY-290",
-      "description": "<div><p><strong>Soudal Multibond</strong> 35 S - S GREY 290 is an <em>adhesive </em>and high-quality, permanently flexible joint <em>sealant </em>based on SMX Polymer and with a \"Shore A\" hardness of 35 (allowing accommodation of movement in joints). It is suitable for internal and external applications while bonding to a wide range of substrate forming a strong, flexible, and waterproof seal. It comes in a 290ml cartridge in Concrete Grey or Dark Grey color.</p></div>",
-      "regular_price": "146.9",
-      "stock_quantity": 46.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        94328
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+  "created": [],
+  "updated": [],
+  "skipped": [],
+  "errors": [],
+  "mapping": {
+    "PST-TALPS": {
+      "template": "PST-TALPS",
+      "attributes": {
+        "Stone": "The Alps"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "MST-ANDES-MEDIUM",
-      "name": "Micro Stone - Andes",
-      "description": "Micro Stone - Andes",
-      "regular_price": "882.95",
-      "stock_quantity": 96.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        66832
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-RCYMT": {
+      "template": "PST-RCYMT",
+      "attributes": {
+        "Stone": "Rocky Mountain"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "MST-DBERG-MEDIUM",
-      "name": "Micro Stone - Drakensberg",
-      "description": "Micro Stone - Drakensberg",
-      "regular_price": "882.95",
-      "stock_quantity": 95.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        125232
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-NEVDA": {
+      "template": "PST-NEVDA",
+      "attributes": {
+        "Stone": "Nevada"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "MST-EVRST-MEDIUM",
-      "name": "Micro Stone - Everest",
-      "description": "Micro Stone - Everest",
-      "regular_price": "882.95",
-      "stock_quantity": 93.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        118617
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-MTFJI": {
+      "template": "PST-MTFJI",
+      "attributes": {
+        "Stone": "Mount Fuji"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "MST-HIGHL-MEDIUM",
-      "name": "Micro Stone - The Highlands",
-      "description": "Micro Stone - The Highlands",
-      "regular_price": "882.95",
-      "stock_quantity": 95.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        77282
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-HLYAS": {
+      "template": "PST-HLYAS",
+      "attributes": {
+        "Stone": "Himalayas"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "MST-HLYAS-MEDIUM",
-      "name": "Micro Stone - Himalayas",
-      "description": "Micro Stone - Himalayas",
-      "regular_price": "882.95",
-      "stock_quantity": 97.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        73835
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-EVRST": {
+      "template": "PST-EVRST",
+      "attributes": {
+        "Stone": "Everest"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "PST-ANDES",
-      "name": "Peel and Stick - Andes",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Andes: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 125.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        111327
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-DBERG": {
+      "template": "PST-DBERG",
+      "attributes": {
+        "Stone": "Drakensberg"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "PST-ATLAS",
-      "name": "Peel and Stick - Atlas",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Atlas: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 82.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        124905
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-CERES": {
+      "template": "PST-CERES",
+      "attributes": {
+        "Stone": "Ceres"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "PST-CERES",
-      "name": "Peel and Stick - Ceres",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Ceres: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 130.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        185293
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-ATLAS": {
+      "template": "PST-ATLAS",
+      "attributes": {
+        "Stone": "Atlas"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "PST-DBERG",
-      "name": "Peel and Stick - Drakensberg",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Drakensberg: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 108.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        91642
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-ANDES": {
+      "template": "PST-ANDES",
+      "attributes": {
+        "Stone": "Andes"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "PST-EVRST",
-      "name": "Peel and Stick - Everest",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Everest: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 114.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        169907
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "PST-HIGHL": {
+      "template": "PST-HIGHL",
+      "attributes": {
+        "Stone": "The Highlands"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "peel and stick"
+      ]
     },
-    {
-      "sku": "PST-HIGHL",
-      "name": "Peel and Stick - The Highlands",
-      "description": "Peel and Stick-HIGHL",
-      "regular_price": "795.5",
-      "stock_quantity": 113.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        117476
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "SVR-HIGHL-MEDIUM": {
+      "template": "SVR-HIGHL",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
     },
-    {
-      "sku": "PST-HLYAS",
-      "name": "Peel and Stick - Himalayas",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Himalayas: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 130.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        103836
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "SVR-HIGHL-LARGE": {
+      "template": "SVR-HIGHL",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
     },
-    {
-      "sku": "PST-MTFJI",
-      "name": "Peel and Stick - Mount Fuji",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Mount Fuji: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 70.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        97067
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+    "SVR-DOLOM-MEDIUM": {
+      "template": "SVR-DOLOM",
+      "attributes": {
+        "Stone": "The Dolomites",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
     },
+    "SVR-DOLOM-LARGE": {
+      "template": "SVR-DOLOM",
+      "attributes": {
+        "Stone": "The Dolomites",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-SIERA-MEDIUM": {
+      "template": "SVR-SIERA",
+      "attributes": {
+        "Stone": "Sierra",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-SIERA-LARGE": {
+      "template": "SVR-SIERA",
+      "attributes": {
+        "Stone": "Sierra",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-MCOOK-MEDIUM": {
+      "template": "SVR-MCOOK",
+      "attributes": {
+        "Stone": "Mount Cook",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-MCOOK-LARGE": {
+      "template": "SVR-MCOOK",
+      "attributes": {
+        "Stone": "Mount Cook",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-MTCAM-MEDIUM": {
+      "template": "SVR-MTCAM",
+      "attributes": {
+        "Stone": "Mount Cameroon",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-MTCAM-LARGE": {
+      "template": "SVR-MTCAM",
+      "attributes": {
+        "Stone": "Mount Cameroon",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-HLYAS-MEDIUM": {
+      "template": "SVR-HLYAS",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-HLYAS-LARGE": {
+      "template": "SVR-HLYAS",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-EVRST-MEDIUM": {
+      "template": "SVR-EVRST",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-EVRST-LARGE": {
+      "template": "SVR-EVRST",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-DBERG-MEDIUM": {
+      "template": "SVR-DBERG",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-DBERG-LARGE": {
+      "template": "SVR-DBERG",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-CASDE-MEDIUM": {
+      "template": "SVR-CASDE",
+      "attributes": {
+        "Stone": "Cascade",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-CASDE-LARGE": {
+      "template": "SVR-CASDE",
+      "attributes": {
+        "Stone": "Cascade",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-ATLAS-MEDIUM": {
+      "template": "SVR-ATLAS",
+      "attributes": {
+        "Stone": "Atlas",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-ATLAS-LARGE": {
+      "template": "SVR-ATLAS",
+      "attributes": {
+        "Stone": "Atlas",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-ANDES-MEDIUM": {
+      "template": "SVR-ANDES",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-ANDES-LARGE": {
+      "template": "SVR-ANDES",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-ALSKA-MEDIUM": {
+      "template": "SVR-ALSKA",
+      "attributes": {
+        "Stone": "Alaska",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "SVR-ALSKA-LARGE": {
+      "template": "SVR-ALSKA",
+      "attributes": {
+        "Stone": "Alaska",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ]
+    },
+    "MST-HIGHL-MEDIUM": {
+      "template": "MST-HIGHL",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ]
+    },
+    "MST-HLYAS-MEDIUM": {
+      "template": "MST-HLYAS",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ]
+    },
+    "MST-EVRST-MEDIUM": {
+      "template": "MST-EVRST",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ]
+    },
+    "MST-DBERG-MEDIUM": {
+      "template": "MST-DBERG",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ]
+    },
+    "MST-ANDES-MEDIUM": {
+      "template": "MST-ANDES",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ]
+    },
+    "TSL-HIGHL-LARGE": {
+      "template": "TSL-HIGHL",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ]
+    },
+    "TSL-HLYAS-LARGE": {
+      "template": "TSL-HLYAS",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ]
+    },
+    "TSL-EVRST-LARGE": {
+      "template": "TSL-EVRST",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ]
+    },
+    "TSL-DBERG-LARGE": {
+      "template": "TSL-DBERG",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ]
+    },
+    "TSL-ANDES-LARGE": {
+      "template": "TSL-ANDES",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ]
+    },
+    "SLR_1S01": {
+      "template": "SLR_1S01",
+      "attributes": {},
+      "brand": "Tile and Floor Care",
+      "categories": [
+        "adhesives and sealants"
+      ]
+    },
+    "GLU_35S": {
+      "template": "GLU_35S",
+      "attributes": {},
+      "brand": "Soudal",
+      "categories": [
+        "adhesives and sealants"
+      ]
+    }
+  },
+  "to_create": [],
+  "to_update": [
     {
-      "sku": "PST-NEVDA",
-      "name": "Peel and Stick - Nevada",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Nevada: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 112.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        111873
+      "sku": "PST-TALPS",
+      "name": "Peel and Stick - The Alps",
+      "regular_price": 795.5,
+      "stock_quantity": 128.0,
+      "categories": [
+        "peel and stick"
       ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Alps"
+      },
+      "attr_abbr": {
+        "Stone": "TALPS"
+      },
+      "erp_img_sizes": [
+        86855,
+        45247
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
     },
     {
       "sku": "PST-RCYMT",
       "name": "Peel and Stick - Rocky Mountain",
-      "description": "<div><p>Natural stone Peel and Stick tiles - Rocky Mountain: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
+      "regular_price": 795.5,
       "stock_quantity": 112.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        208921
+      "categories": [
+        "peel and stick"
       ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Rocky Mountain"
+      },
+      "attr_abbr": {
+        "Stone": "RCYMT"
+      },
+      "erp_img_sizes": [
+        208921,
+        88702
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
     },
     {
-      "sku": "PST-TALPS",
-      "name": "Peel and Stick - The Alps",
-      "description": "<div><p>Natural stone Peel and Stick tiles - The Alpes: Box of 10 with sheets 600mm x 150mm</p></div>",
-      "regular_price": "795.5",
-      "stock_quantity": 128.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        86855
+      "sku": "PST-NEVDA",
+      "name": "Peel and Stick - Nevada",
+      "regular_price": 795.5,
+      "stock_quantity": 112.0,
+      "categories": [
+        "peel and stick"
       ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Nevada"
+      },
+      "attr_abbr": {
+        "Stone": "NEVDA"
+      },
+      "erp_img_sizes": [
+        111873,
+        53555
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-MTFJI",
+      "name": "Peel and Stick - Mount Fuji",
+      "regular_price": 795.5,
+      "stock_quantity": 70.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Mount Fuji"
+      },
+      "attr_abbr": {
+        "Stone": "MTFJI"
+      },
+      "erp_img_sizes": [
+        97067,
+        51388
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-HLYAS",
+      "name": "Peel and Stick - Himalayas",
+      "regular_price": 795.5,
+      "stock_quantity": 130.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Himalayas"
+      },
+      "attr_abbr": {
+        "Stone": "HLYAS"
+      },
+      "erp_img_sizes": [
+        103836,
+        37077
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-EVRST",
+      "name": "Peel and Stick - Everest",
+      "regular_price": 795.5,
+      "stock_quantity": 114.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Everest"
+      },
+      "attr_abbr": {
+        "Stone": "EVRST"
+      },
+      "erp_img_sizes": [
+        169907,
+        75182
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-DBERG",
+      "name": "Peel and Stick - Drakensberg",
+      "regular_price": 795.5,
+      "stock_quantity": 108.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Drakensberg"
+      },
+      "attr_abbr": {
+        "Stone": "DBERG"
+      },
+      "erp_img_sizes": [
+        91642,
+        43658
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-CERES",
+      "name": "Peel and Stick - Ceres",
+      "regular_price": 795.5,
+      "stock_quantity": 130.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Ceres"
+      },
+      "attr_abbr": {
+        "Stone": "CERES"
+      },
+      "erp_img_sizes": [
+        185293,
+        79014
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-ATLAS",
+      "name": "Peel and Stick - Atlas",
+      "regular_price": 795.5,
+      "stock_quantity": 82.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Atlas"
+      },
+      "attr_abbr": {
+        "Stone": "ATLAS"
+      },
+      "erp_img_sizes": [
+        124905,
+        62674
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-ANDES",
+      "name": "Peel and Stick - Andes",
+      "regular_price": 795.5,
+      "stock_quantity": 125.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Andes"
+      },
+      "attr_abbr": {
+        "Stone": "ANDES"
+      },
+      "erp_img_sizes": [
+        111327,
+        42793
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    },
+    {
+      "sku": "PST-HIGHL",
+      "name": "Peel and Stick - The Highlands",
+      "regular_price": 795.5,
+      "stock_quantity": 113.0,
+      "categories": [
+        "peel and stick"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Highlands"
+      },
+      "attr_abbr": {
+        "Stone": "HIGHL"
+      },
+      "erp_img_sizes": [
+        117476,
+        42223
+      ],
+      "wc_img_sizes": [
+        0,
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
+      "has_variants": 0,
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
     },
     {
       "sku": "SLR_1S01",
       "name": "Tile and Floor Care 1S01 Invisible Sealer 1 L",
-      "description": "<div><p><strong>TFC Invisible Sealer</strong> is a penetrating <em>clear silicone sealer</em> that will maintain the natural look of the stone while <em>repelling water and most oils</em>. It is UV stable and thus suitable for interior and exterior applications. Coverage is ± 7 to 30m² per L depending on stone porosity.</p></div>",
-      "regular_price": "357.1",
+      "regular_price": 357.1,
       "stock_quantity": 11.0,
-      "has_variants": 0,
+      "categories": [
+        "adhesives and sealants"
+      ],
+      "brand": "Tile and Floor Care",
+      "attributes": {},
+      "attr_abbr": {},
       "erp_img_sizes": [
         205765
       ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-ALSKA-LARGE",
-      "name": "Stone Veneer - Alaska",
-      "description": "Stone Veneer - Alaska",
-      "regular_price": "3566.2",
-      "stock_quantity": 16.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        157097
+      "wc_img_sizes": [
+        0
       ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-ALSKA-MEDIUM",
-      "name": "Stone Veneer - Alaska",
-      "description": "Stone Veneer - Alaska",
-      "regular_price": "764.3",
-      "stock_quantity": 117.0,
+      "gallery_diff": true,
+      "description_diff": false,
       "has_variants": 0,
-      "erp_img_sizes": [
-        157097
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
     },
     {
-      "sku": "SVR-ANDES-LARGE",
-      "name": "Stone Veneer - Andes",
-      "description": "Stone Veneer - Andes",
-      "regular_price": "3566.2",
-      "stock_quantity": 36.0,
+      "sku": "GLU_35S",
+      "name": "Multibond 35-S - S GREY-290",
+      "regular_price": 146.9,
+      "stock_quantity": 46.0,
+      "categories": [
+        "adhesives and sealants"
+      ],
+      "brand": "Soudal",
+      "attributes": {},
+      "attr_abbr": {},
+      "erp_img_sizes": [
+        94328
+      ],
+      "wc_img_sizes": [
+        0
+      ],
+      "gallery_diff": true,
+      "description_diff": false,
       "has_variants": 0,
-      "erp_img_sizes": [
-        66832
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images",
+        "price"
+      ]
+    }
+  ],
+  "already_synced": [],
+  "variant_parents": [
+    {
+      "sku": "SVR-HIGHL",
+      "name": "Stone Veneer - The Highlands",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
     },
     {
-      "sku": "SVR-ANDES-MEDIUM",
-      "name": "Stone Veneer - Andes",
-      "description": "Stone Veneer - Andes",
-      "regular_price": "764.3",
-      "stock_quantity": 115.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        66832
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-ATLAS-LARGE",
-      "name": "Stone Veneer - Atlas",
-      "description": "Stone Veneer - Atlas",
-      "regular_price": "3566.2",
-      "stock_quantity": 23.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        76753
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-ATLAS-MEDIUM",
-      "name": "Stone Veneer - Atlas",
-      "description": "Stone Veneer - Atlas",
-      "regular_price": "764.3",
-      "stock_quantity": 119.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        76753
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-CASDE-LARGE",
-      "name": "Stone Veneer - Cascade",
-      "description": "Stone Veneer - Cascade",
-      "regular_price": "3566.2",
-      "stock_quantity": 24.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        68210
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-CASDE-MEDIUM",
-      "name": "Stone Veneer - Cascade",
-      "description": "Stone Veneer - Cascade",
-      "regular_price": "764.3",
-      "stock_quantity": 119.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        68210
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-DBERG-LARGE",
-      "name": "Stone Veneer - Drakensberg",
-      "description": "Stone Veneer - Drakensberg",
-      "regular_price": "3566.2",
-      "stock_quantity": 36.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        125232
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-DBERG-MEDIUM",
-      "name": "Stone Veneer - Drakensberg",
-      "description": "Stone Veneer - Drakensberg",
-      "regular_price": "764.3",
-      "stock_quantity": 115.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        125232
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-DOLOM-LARGE",
+      "sku": "SVR-DOLOM",
       "name": "Stone Veneer - The Dolomites",
-      "description": "Stone Veneer - The Dolomites",
-      "regular_price": "3566.2",
-      "stock_quantity": 35.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        92252
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
     },
     {
-      "sku": "SVR-DOLOM-MEDIUM",
-      "name": "Stone Veneer - The Dolomites",
-      "description": "Stone Veneer - The Dolomites",
-      "regular_price": "764.3",
-      "stock_quantity": 116.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        92252
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "sku": "SVR-SIERA",
+      "name": "Stone Veneer - Sierra",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
     },
     {
-      "sku": "SVR-EVRST-LARGE",
+      "sku": "SVR-MCOOK",
+      "name": "Stone Veneer - Mount Cook",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "SVR-MTCAM",
+      "name": "Stone Veneer - Mount Cameroon",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "SVR-HLYAS",
+      "name": "Stone Veneer - Himalayas",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "SVR-EVRST",
       "name": "Stone Veneer - Everest",
-      "description": "Stone Veneer - Everest",
-      "regular_price": "3566.2",
-      "stock_quantity": 16.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        118617
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
     },
     {
-      "sku": "SVR-EVRST-MEDIUM",
-      "name": "Stone Veneer - Everest",
-      "description": "Stone Veneer - Everest",
-      "regular_price": "764.3",
-      "stock_quantity": 120.0,
-      "has_variants": 0,
+      "sku": "SVR-DBERG",
+      "name": "Stone Veneer - Drakensberg",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "SVR-CASDE",
+      "name": "Stone Veneer - Cascade",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "SVR-ATLAS",
+      "name": "Stone Veneer - Atlas",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "SVR-ANDES",
+      "name": "Stone Veneer - Andes",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "SVR-ALSKA",
+      "name": "Stone Veneer - Alaska",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm",
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "MST-HIGHL",
+      "name": "Micro Stone - The Highlands",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "MST-HLYAS",
+      "name": "Micro Stone - Himalayas",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "MST-EVRST",
+      "name": "Micro Stone - Everest",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "MST-DBERG",
+      "name": "Micro Stone - Drakensberg",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "MST-ANDES",
+      "name": "Micro Stone - Andes",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "1220mm x 610mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "TSL-HIGHL",
+      "name": "Translucent Stone - The Highlands",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "TSL-HLYAS",
+      "name": "Translucent Stone - Himalayas",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "TSL-EVRST",
+      "name": "Translucent Stone - Everest",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "TSL-DBERG",
+      "name": "Translucent Stone - Drakensberg",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    },
+    {
+      "sku": "TSL-ANDES",
+      "name": "Translucent Stone - Andes",
+      "has_variants": 1,
+      "action": "Sync",
+      "fields_to_update": "None",
+      "attributes": [
+        {
+          "name": "Sheet Size",
+          "options": [
+            "2440mm x 1220mm"
+          ],
+          "variation": true,
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "variant_to_create": [
+    {
+      "sku": "SVR-HIGHL-MEDIUM",
+      "name": "Stone Veneer - The Highlands",
+      "regular_price": 764.3,
+      "stock_quantity": 121.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "HIGHL",
+        "Sheet Size": "MEDIUM"
+      },
       "erp_img_sizes": [
-        118617
+        77282
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
       "sku": "SVR-HIGHL-LARGE",
       "name": "Stone Veneer - The Highlands",
-      "description": "Stone Veneer - The Highlands",
-      "regular_price": "3566.2",
+      "regular_price": 3566.2,
       "stock_quantity": 24.0,
-      "has_variants": 0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "HIGHL",
+        "Sheet Size": "LARGE"
+      },
       "erp_img_sizes": [
         77282
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
-      "sku": "SVR-HIGHL-MEDIUM",
-      "name": "Stone Veneer - The Highlands",
-      "description": "Stone Veneer - The Highlands",
-      "regular_price": "764.3",
-      "stock_quantity": 121.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        77282
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-HLYAS-LARGE",
-      "name": "Stone Veneer - Himalayas",
-      "description": "Stone Veneer - Himalayas",
-      "regular_price": "3566.2",
-      "stock_quantity": 33.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        73835
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-HLYAS-MEDIUM",
-      "name": "Stone Veneer - Himalayas",
-      "description": "Stone Veneer - Himalayas",
-      "regular_price": "764.3",
-      "stock_quantity": 115.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        73835
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-MCOOK-LARGE",
-      "name": "Stone Veneer - Mount Cook",
-      "description": "Stone Veneer - Mount Cook",
-      "regular_price": "3566.2",
-      "stock_quantity": 24.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        103204
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-MCOOK-MEDIUM",
-      "name": "Stone Veneer - Mount Cook",
-      "description": "Stone Veneer - Mount Cook",
-      "regular_price": "764.3",
-      "stock_quantity": 122.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        103204
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-MTCAM-LARGE",
-      "name": "Stone Veneer - Mount Cameroon",
-      "description": "Stone Veneer - Mount Cameroon",
-      "regular_price": "3566.2",
-      "stock_quantity": 30.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        134676
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "SVR-MTCAM-MEDIUM",
-      "name": "Stone Veneer - Mount Cameroon",
-      "description": "Stone Veneer - Mount Cameroon",
-      "regular_price": "764.3",
+      "sku": "SVR-DOLOM-MEDIUM",
+      "name": "Stone Veneer - The Dolomites",
+      "regular_price": 764.3,
       "stock_quantity": 116.0,
-      "has_variants": 0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Dolomites",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "DOLOM",
+        "Sheet Size": "MEDIUM"
+      },
       "erp_img_sizes": [
-        134676
+        92252
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
-      "sku": "SVR-SIERA-LARGE",
-      "name": "Stone Veneer - Sierra",
-      "description": "Stone Veneer - Sierra",
-      "regular_price": "3566.2",
-      "stock_quantity": 24.0,
-      "has_variants": 0,
+      "sku": "SVR-DOLOM-LARGE",
+      "name": "Stone Veneer - The Dolomites",
+      "regular_price": 3566.2,
+      "stock_quantity": 35.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Dolomites",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "DOLOM",
+        "Sheet Size": "LARGE"
+      },
       "erp_img_sizes": [
-        79281
+        92252
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
       "sku": "SVR-SIERA-MEDIUM",
       "name": "Stone Veneer - Sierra",
-      "description": "Stone Veneer - Sierra",
-      "regular_price": "764.3",
+      "regular_price": 764.3,
       "stock_quantity": 115.0,
-      "has_variants": 0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Sierra",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "SIERA",
+        "Sheet Size": "MEDIUM"
+      },
       "erp_img_sizes": [
         79281
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
-      "sku": "TSL-ANDES-LARGE",
-      "name": "Translucent Stone - Andes",
-      "description": "Translucent Stone - Andes",
-      "regular_price": "3744.5",
-      "stock_quantity": 23.0,
-      "has_variants": 0,
-      "erp_img_sizes": [
-        205367
-      ],
-      "wc_img_sizes": [],
-      "image_diff": true,
-      "action": "Create",
-      "fields_to_update": "ALL"
-    },
-    {
-      "sku": "TSL-DBERG-LARGE",
-      "name": "Translucent Stone - Drakensberg",
-      "description": "Translucent Stone - Drakensberg",
-      "regular_price": "3744.5",
+      "sku": "SVR-SIERA-LARGE",
+      "name": "Stone Veneer - Sierra",
+      "regular_price": 3566.2,
       "stock_quantity": 24.0,
-      "has_variants": 0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Sierra",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "SIERA",
+        "Sheet Size": "LARGE"
+      },
       "erp_img_sizes": [
-        237626
+        79281
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
-      "sku": "TSL-EVRST-LARGE",
-      "name": "Translucent Stone - Everest",
-      "description": "Translucent Stone - Everest",
-      "regular_price": "3744.5",
-      "stock_quantity": 21.0,
-      "has_variants": 0,
+      "sku": "SVR-MCOOK-MEDIUM",
+      "name": "Stone Veneer - Mount Cook",
+      "regular_price": 764.3,
+      "stock_quantity": 122.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Mount Cook",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "MCOOK",
+        "Sheet Size": "MEDIUM"
+      },
       "erp_img_sizes": [
-        231409
+        103204
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-MCOOK-LARGE",
+      "name": "Stone Veneer - Mount Cook",
+      "regular_price": 3566.2,
+      "stock_quantity": 24.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Mount Cook",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "MCOOK",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        103204
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-MTCAM-MEDIUM",
+      "name": "Stone Veneer - Mount Cameroon",
+      "regular_price": 764.3,
+      "stock_quantity": 116.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Mount Cameroon",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "MTCAM",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        134676
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-MTCAM-LARGE",
+      "name": "Stone Veneer - Mount Cameroon",
+      "regular_price": 3566.2,
+      "stock_quantity": 30.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Mount Cameroon",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "MTCAM",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        134676
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-HLYAS-MEDIUM",
+      "name": "Stone Veneer - Himalayas",
+      "regular_price": 764.3,
+      "stock_quantity": 115.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "HLYAS",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        73835
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-HLYAS-LARGE",
+      "name": "Stone Veneer - Himalayas",
+      "regular_price": 3566.2,
+      "stock_quantity": 33.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "HLYAS",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        73835
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-EVRST-MEDIUM",
+      "name": "Stone Veneer - Everest",
+      "regular_price": 764.3,
+      "stock_quantity": 120.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "EVRST",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        118617
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-EVRST-LARGE",
+      "name": "Stone Veneer - Everest",
+      "regular_price": 3566.2,
+      "stock_quantity": 16.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "EVRST",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        118617
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-DBERG-MEDIUM",
+      "name": "Stone Veneer - Drakensberg",
+      "regular_price": 764.3,
+      "stock_quantity": 115.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "DBERG",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        125232
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-DBERG-LARGE",
+      "name": "Stone Veneer - Drakensberg",
+      "regular_price": 3566.2,
+      "stock_quantity": 36.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "DBERG",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        125232
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-CASDE-MEDIUM",
+      "name": "Stone Veneer - Cascade",
+      "regular_price": 764.3,
+      "stock_quantity": 119.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Cascade",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "CASDE",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        68210
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-CASDE-LARGE",
+      "name": "Stone Veneer - Cascade",
+      "regular_price": 3566.2,
+      "stock_quantity": 24.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Cascade",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "CASDE",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        68210
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-ATLAS-MEDIUM",
+      "name": "Stone Veneer - Atlas",
+      "regular_price": 764.3,
+      "stock_quantity": 119.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Atlas",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "ATLAS",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        76753
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-ATLAS-LARGE",
+      "name": "Stone Veneer - Atlas",
+      "regular_price": 3566.2,
+      "stock_quantity": 23.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Atlas",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "ATLAS",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        76753
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-ANDES-MEDIUM",
+      "name": "Stone Veneer - Andes",
+      "regular_price": 764.3,
+      "stock_quantity": 115.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "ANDES",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        66832
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-ANDES-LARGE",
+      "name": "Stone Veneer - Andes",
+      "regular_price": 3566.2,
+      "stock_quantity": 36.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "ANDES",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        66832
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-ALSKA-MEDIUM",
+      "name": "Stone Veneer - Alaska",
+      "regular_price": 764.3,
+      "stock_quantity": 117.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Alaska",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "ALSKA",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        157097
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "SVR-ALSKA-LARGE",
+      "name": "Stone Veneer - Alaska",
+      "regular_price": 3566.2,
+      "stock_quantity": 16.0,
+      "categories": [
+        "stone veneer"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Alaska",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "ALSKA",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        157097
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "MST-HIGHL-MEDIUM",
+      "name": "Micro Stone - The Highlands",
+      "regular_price": 882.95,
+      "stock_quantity": 95.0,
+      "categories": [
+        "micro stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "HIGHL",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        77282
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "MST-HLYAS-MEDIUM",
+      "name": "Micro Stone - Himalayas",
+      "regular_price": 882.95,
+      "stock_quantity": 97.0,
+      "categories": [
+        "micro stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "HLYAS",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        73835
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "MST-EVRST-MEDIUM",
+      "name": "Micro Stone - Everest",
+      "regular_price": 882.95,
+      "stock_quantity": 93.0,
+      "categories": [
+        "micro stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "EVRST",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        118617
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "MST-DBERG-MEDIUM",
+      "name": "Micro Stone - Drakensberg",
+      "regular_price": 882.95,
+      "stock_quantity": 95.0,
+      "categories": [
+        "micro stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "DBERG",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        125232
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "MST-ANDES-MEDIUM",
+      "name": "Micro Stone - Andes",
+      "regular_price": 882.95,
+      "stock_quantity": 96.0,
+      "categories": [
+        "micro stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "1220mm x 610mm"
+      },
+      "attr_abbr": {
+        "Stone": "ANDES",
+        "Sheet Size": "MEDIUM"
+      },
+      "erp_img_sizes": [
+        66832
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
       "sku": "TSL-HIGHL-LARGE",
       "name": "Translucent Stone - The Highlands",
-      "description": "Translucent Stone - The Highlands",
-      "regular_price": "3744.5",
+      "regular_price": 3744.5,
       "stock_quantity": 22.0,
-      "has_variants": 0,
+      "categories": [
+        "translucent stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "The Highlands",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "HIGHL",
+        "Sheet Size": "LARGE"
+      },
       "erp_img_sizes": [
-        209253
+        209253,
+        123265
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     },
     {
       "sku": "TSL-HLYAS-LARGE",
       "name": "Translucent Stone - Himalayas",
-      "description": "Translucent Stone - Himalayas",
-      "regular_price": "3744.5",
+      "regular_price": 3744.5,
       "stock_quantity": 21.0,
-      "has_variants": 0,
+      "categories": [
+        "translucent stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Himalayas",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "HLYAS",
+        "Sheet Size": "LARGE"
+      },
       "erp_img_sizes": [
-        163292
+        163292,
+        55670
       ],
       "wc_img_sizes": [],
-      "image_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "TSL-EVRST-LARGE",
+      "name": "Translucent Stone - Everest",
+      "regular_price": 3744.5,
+      "stock_quantity": 21.0,
+      "categories": [
+        "translucent stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Everest",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "EVRST",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        231409,
+        125073
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "TSL-DBERG-LARGE",
+      "name": "Translucent Stone - Drakensberg",
+      "regular_price": 3744.5,
+      "stock_quantity": 24.0,
+      "categories": [
+        "translucent stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Drakensberg",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "DBERG",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        237626
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
+      "action": "Create",
+      "fields_to_update": "ALL"
+    },
+    {
+      "sku": "TSL-ANDES-LARGE",
+      "name": "Translucent Stone - Andes",
+      "regular_price": 3744.5,
+      "stock_quantity": 23.0,
+      "categories": [
+        "translucent stone"
+      ],
+      "brand": "Techniclad",
+      "attributes": {
+        "Stone": "Andes",
+        "Sheet Size": "2440mm x 1220mm"
+      },
+      "attr_abbr": {
+        "Stone": "ANDES",
+        "Sheet Size": "LARGE"
+      },
+      "erp_img_sizes": [
+        205367,
+        86485
+      ],
+      "wc_img_sizes": [],
+      "gallery_diff": false,
+      "description_diff": false,
+      "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
     }
   ],
-  "to_update": [],
-  "already_synced": [],
-  "variant_parents": [],
-  "variant_to_create": [],
   "variant_to_update": [],
   "variant_synced": []
 }
