@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-08-11T07:59:21.151531+00:00",
+  "generated_at": "2025-08-11T14:14:38.087600+00:00",
   "defaults": {
     "weight_kg": 0,
     "length_cm": 0,
@@ -9,80 +9,80 @@
   },
   "simples": {
     "PST-TALPS": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-RCYMT": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-NEVDA": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-MTFJI": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-HLYAS": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-EVRST": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-DBERG": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-CERES": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-ATLAS": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-ANDES": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "PST-HIGHL": {
-      "weight_kg": 3.1,
-      "length_cm": 62,
-      "width_cm": 16,
-      "height_cm": 4.5,
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
       "shipping_class": ""
     },
     "SLR_1S01": {

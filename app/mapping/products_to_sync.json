@@ -136,21 +136,6 @@
       "woo_product_id": 4400,
       "woo_status": "publish"
     },
-    "SVR-HIGHL": {
-      "template": "SVR-HIGHL",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4401,
-      "woo_status": "publish"
-    },
     "SVR-HIGHL-MEDIUM": {
       "template": "SVR-HIGHL",
       "attributes": {
@@ -175,21 +160,6 @@
         "stone veneer"
       ],
       "woo_product_id": 4403,
-      "woo_status": "publish"
-    },
-    "SVR-DOLOM": {
-      "template": "SVR-DOLOM",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4404,
       "woo_status": "publish"
     },
     "SVR-DOLOM-MEDIUM": {
@@ -218,21 +188,6 @@
       "woo_product_id": 4406,
       "woo_status": "publish"
     },
-    "SVR-SIERA": {
-      "template": "SVR-SIERA",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4407,
-      "woo_status": "publish"
-    },
     "SVR-SIERA-MEDIUM": {
       "template": "SVR-SIERA",
       "attributes": {
@@ -257,21 +212,6 @@
         "stone veneer"
       ],
       "woo_product_id": 4409,
-      "woo_status": "publish"
-    },
-    "SVR-MCOOK": {
-      "template": "SVR-MCOOK",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4410,
       "woo_status": "publish"
     },
     "SVR-MCOOK-MEDIUM": {
@@ -300,21 +240,6 @@
       "woo_product_id": 4412,
       "woo_status": "publish"
     },
-    "SVR-MTCAM": {
-      "template": "SVR-MTCAM",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4413,
-      "woo_status": "publish"
-    },
     "SVR-MTCAM-MEDIUM": {
       "template": "SVR-MTCAM",
       "attributes": {
@@ -339,21 +264,6 @@
         "stone veneer"
       ],
       "woo_product_id": 4415,
-      "woo_status": "publish"
-    },
-    "SVR-HLYAS": {
-      "template": "SVR-HLYAS",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4416,
       "woo_status": "publish"
     },
     "SVR-HLYAS-MEDIUM": {
@@ -382,21 +292,6 @@
       "woo_product_id": 4418,
       "woo_status": "publish"
     },
-    "SVR-EVRST": {
-      "template": "SVR-EVRST",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4419,
-      "woo_status": "publish"
-    },
     "SVR-EVRST-MEDIUM": {
       "template": "SVR-EVRST",
       "attributes": {
@@ -421,21 +316,6 @@
         "stone veneer"
       ],
       "woo_product_id": 4421,
-      "woo_status": "publish"
-    },
-    "SVR-DBERG": {
-      "template": "SVR-DBERG",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4422,
       "woo_status": "publish"
     },
     "SVR-DBERG-MEDIUM": {
@@ -464,21 +344,6 @@
       "woo_product_id": 4424,
       "woo_status": "publish"
     },
-    "SVR-CASDE": {
-      "template": "SVR-CASDE",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4425,
-      "woo_status": "publish"
-    },
     "SVR-CASDE-MEDIUM": {
       "template": "SVR-CASDE",
       "attributes": {
@@ -503,21 +368,6 @@
         "stone veneer"
       ],
       "woo_product_id": 4427,
-      "woo_status": "publish"
-    },
-    "SVR-ATLAS": {
-      "template": "SVR-ATLAS",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4428,
       "woo_status": "publish"
     },
     "SVR-ATLAS-MEDIUM": {
@@ -546,21 +396,6 @@
       "woo_product_id": 4430,
       "woo_status": "publish"
     },
-    "SVR-ANDES": {
-      "template": "SVR-ANDES",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4431,
-      "woo_status": "publish"
-    },
     "SVR-ANDES-MEDIUM": {
       "template": "SVR-ANDES",
       "attributes": {
@@ -585,21 +420,6 @@
         "stone veneer"
       ],
       "woo_product_id": 4433,
-      "woo_status": "publish"
-    },
-    "SVR-ALSKA": {
-      "template": "SVR-ALSKA",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm",
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "stone veneer"
-      ],
-      "woo_product_id": 4434,
       "woo_status": "publish"
     },
     "SVR-ALSKA-MEDIUM": {
@@ -628,20 +448,6 @@
       "woo_product_id": 4436,
       "woo_status": "publish"
     },
-    "MST-HIGHL": {
-      "template": "MST-HIGHL",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "micro stone"
-      ],
-      "woo_product_id": 4437,
-      "woo_status": "publish"
-    },
     "MST-HIGHL-MEDIUM": {
       "template": "MST-HIGHL",
       "attributes": {
@@ -653,20 +459,6 @@
         "micro stone"
       ],
       "woo_product_id": 4438,
-      "woo_status": "publish"
-    },
-    "MST-HLYAS": {
-      "template": "MST-HLYAS",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "micro stone"
-      ],
-      "woo_product_id": 4439,
       "woo_status": "publish"
     },
     "MST-HLYAS-MEDIUM": {
@@ -682,20 +474,6 @@
       "woo_product_id": 4440,
       "woo_status": "publish"
     },
-    "MST-EVRST": {
-      "template": "MST-EVRST",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "micro stone"
-      ],
-      "woo_product_id": 4441,
-      "woo_status": "publish"
-    },
     "MST-EVRST-MEDIUM": {
       "template": "MST-EVRST",
       "attributes": {
@@ -707,20 +485,6 @@
         "micro stone"
       ],
       "woo_product_id": 4442,
-      "woo_status": "publish"
-    },
-    "MST-DBERG": {
-      "template": "MST-DBERG",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "micro stone"
-      ],
-      "woo_product_id": 4443,
       "woo_status": "publish"
     },
     "MST-DBERG-MEDIUM": {
@@ -736,20 +500,6 @@
       "woo_product_id": 4444,
       "woo_status": "publish"
     },
-    "MST-ANDES": {
-      "template": "MST-ANDES",
-      "attributes": {
-        "Sheet Size": [
-          "1220mm x 610mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "micro stone"
-      ],
-      "woo_product_id": 4445,
-      "woo_status": "publish"
-    },
     "MST-ANDES-MEDIUM": {
       "template": "MST-ANDES",
       "attributes": {
@@ -761,20 +511,6 @@
         "micro stone"
       ],
       "woo_product_id": 4446,
-      "woo_status": "publish"
-    },
-    "TSL-HIGHL": {
-      "template": "TSL-HIGHL",
-      "attributes": {
-        "Sheet Size": [
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "translucent stone"
-      ],
-      "woo_product_id": 4447,
       "woo_status": "publish"
     },
     "TSL-HIGHL-LARGE": {
@@ -790,20 +526,6 @@
       "woo_product_id": 4448,
       "woo_status": "publish"
     },
-    "TSL-HLYAS": {
-      "template": "TSL-HLYAS",
-      "attributes": {
-        "Sheet Size": [
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "translucent stone"
-      ],
-      "woo_product_id": 4449,
-      "woo_status": "publish"
-    },
     "TSL-HLYAS-LARGE": {
       "template": "TSL-HLYAS",
       "attributes": {
@@ -815,20 +537,6 @@
         "translucent stone"
       ],
       "woo_product_id": 4450,
-      "woo_status": "publish"
-    },
-    "TSL-EVRST": {
-      "template": "TSL-EVRST",
-      "attributes": {
-        "Sheet Size": [
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "translucent stone"
-      ],
-      "woo_product_id": 4451,
       "woo_status": "publish"
     },
     "TSL-EVRST-LARGE": {
@@ -844,20 +552,6 @@
       "woo_product_id": 4452,
       "woo_status": "publish"
     },
-    "TSL-DBERG": {
-      "template": "TSL-DBERG",
-      "attributes": {
-        "Sheet Size": [
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "translucent stone"
-      ],
-      "woo_product_id": 4453,
-      "woo_status": "publish"
-    },
     "TSL-DBERG-LARGE": {
       "template": "TSL-DBERG",
       "attributes": {
@@ -869,20 +563,6 @@
         "translucent stone"
       ],
       "woo_product_id": 4454,
-      "woo_status": "publish"
-    },
-    "TSL-ANDES": {
-      "template": "TSL-ANDES",
-      "attributes": {
-        "Sheet Size": [
-          "2440mm x 1220mm"
-        ]
-      },
-      "brand": "Techniclad",
-      "categories": [
-        "translucent stone"
-      ],
-      "woo_product_id": 4455,
       "woo_status": "publish"
     },
     "TSL-ANDES-LARGE": {
@@ -920,7 +600,9 @@
     }
   },
   "to_create": [],
-  "to_update": [
+  "to_update": [],
+  "to_delete": [],
+  "already_synced": [
     {
       "sku": "PST-TALPS",
       "name": "Peel and Stick - The Alps",
@@ -944,14 +626,15 @@
         86855,
         45247
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4390,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-RCYMT",
@@ -976,14 +659,15 @@
         208921,
         88702
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4391,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-NEVDA",
@@ -1008,14 +692,15 @@
         111873,
         53555
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4392,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-MTFJI",
@@ -1040,14 +725,15 @@
         97067,
         51388
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4393,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-HLYAS",
@@ -1072,14 +758,15 @@
         103836,
         37077
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4394,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-EVRST",
@@ -1104,14 +791,15 @@
         169907,
         75182
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4395,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-DBERG",
@@ -1136,14 +824,15 @@
         91642,
         43658
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4396,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-CERES",
@@ -1164,15 +853,19 @@
         185293,
         79014
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        185293,
+        79014
+      ],
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4397,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-ATLAS",
@@ -1197,14 +890,15 @@
         124905,
         62674
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4398,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-ANDES",
@@ -1229,14 +923,15 @@
         111327,
         42793
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4399,
+        "status": "publish"
+      }
     },
     {
       "sku": "PST-HIGHL",
@@ -1261,14 +956,15 @@
         117476,
         42223
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4400,
+        "status": "publish"
+      }
     },
     {
       "sku": "SLR_1S01",
@@ -1287,14 +983,15 @@
       "wc_img_sizes": [
         205765
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4457,
+        "status": "publish"
+      }
     },
     {
       "sku": "GLU_35S",
@@ -1313,17 +1010,17 @@
       "wc_img_sizes": [
         94328
       ],
-      "gallery_diff": true,
+      "gallery_diff": false,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Update",
-      "fields_to_update": [
-        "gallery_images",
-        "price"
-      ]
+      "action": "Synced",
+      "fields_to_update": [],
+      "woo": {
+        "id": 4458,
+        "status": "publish"
+      }
     }
   ],
-  "already_synced": [],
   "variant_parents": [
     {
       "sku": "SVR-HIGHL",
@@ -1341,7 +1038,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4401,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-DOLOM",
@@ -1359,7 +1060,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4404,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-SIERA",
@@ -1377,7 +1082,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4407,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-MCOOK",
@@ -1395,7 +1104,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4410,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-MTCAM",
@@ -1413,7 +1126,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4413,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-HLYAS",
@@ -1431,7 +1148,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4416,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-EVRST",
@@ -1449,7 +1170,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4419,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-DBERG",
@@ -1467,7 +1192,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4422,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-CASDE",
@@ -1485,7 +1214,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4425,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-ATLAS",
@@ -1503,7 +1236,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4428,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-ANDES",
@@ -1521,7 +1258,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4431,
+        "status": "publish"
+      }
     },
     {
       "sku": "SVR-ALSKA",
@@ -1539,7 +1280,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4434,
+        "status": "publish"
+      }
     },
     {
       "sku": "MST-HIGHL",
@@ -1556,7 +1301,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4437,
+        "status": "publish"
+      }
     },
     {
       "sku": "MST-HLYAS",
@@ -1573,7 +1322,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4439,
+        "status": "publish"
+      }
     },
     {
       "sku": "MST-EVRST",
@@ -1590,7 +1343,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4441,
+        "status": "publish"
+      }
     },
     {
       "sku": "MST-DBERG",
@@ -1607,7 +1364,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4443,
+        "status": "publish"
+      }
     },
     {
       "sku": "MST-ANDES",
@@ -1624,7 +1385,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4445,
+        "status": "publish"
+      }
     },
     {
       "sku": "TSL-HIGHL",
@@ -1641,7 +1406,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4447,
+        "status": "publish"
+      }
     },
     {
       "sku": "TSL-HLYAS",
@@ -1658,7 +1427,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4449,
+        "status": "publish"
+      }
     },
     {
       "sku": "TSL-EVRST",
@@ -1675,7 +1448,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4451,
+        "status": "publish"
+      }
     },
     {
       "sku": "TSL-DBERG",
@@ -1692,7 +1469,11 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4453,
+        "status": "publish"
+      }
     },
     {
       "sku": "TSL-ANDES",
@@ -1709,10 +1490,15 @@
           "variation": true,
           "visible": true
         }
-      ]
+      ],
+      "woo": {
+        "id": 4455,
+        "status": "publish"
+      }
     }
   ],
-  "variant_to_create": [
+  "variant_to_create": [],
+  "variant_to_update": [
     {
       "sku": "SVR-HIGHL-MEDIUM",
       "name": "Stone Veneer - The Highlands",
@@ -1733,12 +1519,21 @@
       "erp_img_sizes": [
         77282
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        77282
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4402,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-HIGHL"
     },
     {
       "sku": "SVR-HIGHL-LARGE",
@@ -1760,12 +1555,21 @@
       "erp_img_sizes": [
         77282
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        77282
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4403,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-HIGHL"
     },
     {
       "sku": "SVR-DOLOM-MEDIUM",
@@ -1787,12 +1591,21 @@
       "erp_img_sizes": [
         92252
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        92252
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4405,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-DOLOM"
     },
     {
       "sku": "SVR-DOLOM-LARGE",
@@ -1814,12 +1627,21 @@
       "erp_img_sizes": [
         92252
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        92252
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4406,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-DOLOM"
     },
     {
       "sku": "SVR-SIERA-MEDIUM",
@@ -1841,12 +1663,21 @@
       "erp_img_sizes": [
         79281
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        79281
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4408,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-SIERA"
     },
     {
       "sku": "SVR-SIERA-LARGE",
@@ -1868,12 +1699,21 @@
       "erp_img_sizes": [
         79281
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        79281
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4409,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-SIERA"
     },
     {
       "sku": "SVR-MCOOK-MEDIUM",
@@ -1895,12 +1735,21 @@
       "erp_img_sizes": [
         103204
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        103204
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4411,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-MCOOK"
     },
     {
       "sku": "SVR-MCOOK-LARGE",
@@ -1922,12 +1771,21 @@
       "erp_img_sizes": [
         103204
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        103204
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4412,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-MCOOK"
     },
     {
       "sku": "SVR-MTCAM-MEDIUM",
@@ -1949,12 +1807,21 @@
       "erp_img_sizes": [
         134676
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        134676
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4414,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-MTCAM"
     },
     {
       "sku": "SVR-MTCAM-LARGE",
@@ -1976,12 +1843,21 @@
       "erp_img_sizes": [
         134676
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        134676
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4415,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-MTCAM"
     },
     {
       "sku": "SVR-HLYAS-MEDIUM",
@@ -2003,12 +1879,21 @@
       "erp_img_sizes": [
         73835
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        73835
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4417,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-HLYAS"
     },
     {
       "sku": "SVR-HLYAS-LARGE",
@@ -2030,12 +1915,21 @@
       "erp_img_sizes": [
         73835
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        73835
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4418,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-HLYAS"
     },
     {
       "sku": "SVR-EVRST-MEDIUM",
@@ -2057,12 +1951,21 @@
       "erp_img_sizes": [
         118617
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        118617
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4420,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-EVRST"
     },
     {
       "sku": "SVR-EVRST-LARGE",
@@ -2084,12 +1987,21 @@
       "erp_img_sizes": [
         118617
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        118617
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4421,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-EVRST"
     },
     {
       "sku": "SVR-DBERG-MEDIUM",
@@ -2111,12 +2023,21 @@
       "erp_img_sizes": [
         125232
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        125232
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4423,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-DBERG"
     },
     {
       "sku": "SVR-DBERG-LARGE",
@@ -2138,12 +2059,21 @@
       "erp_img_sizes": [
         125232
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        125232
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4424,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-DBERG"
     },
     {
       "sku": "SVR-CASDE-MEDIUM",
@@ -2165,12 +2095,21 @@
       "erp_img_sizes": [
         68210
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        68210
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4426,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-CASDE"
     },
     {
       "sku": "SVR-CASDE-LARGE",
@@ -2192,12 +2131,21 @@
       "erp_img_sizes": [
         68210
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        68210
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4427,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-CASDE"
     },
     {
       "sku": "SVR-ATLAS-MEDIUM",
@@ -2219,12 +2167,21 @@
       "erp_img_sizes": [
         76753
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        76753
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4429,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-ATLAS"
     },
     {
       "sku": "SVR-ATLAS-LARGE",
@@ -2246,12 +2203,21 @@
       "erp_img_sizes": [
         76753
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        76753
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4430,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-ATLAS"
     },
     {
       "sku": "SVR-ANDES-MEDIUM",
@@ -2273,12 +2239,21 @@
       "erp_img_sizes": [
         66832
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        66832
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4432,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-ANDES"
     },
     {
       "sku": "SVR-ANDES-LARGE",
@@ -2300,12 +2275,21 @@
       "erp_img_sizes": [
         66832
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        66832
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4433,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-ANDES"
     },
     {
       "sku": "SVR-ALSKA-MEDIUM",
@@ -2327,12 +2311,21 @@
       "erp_img_sizes": [
         157097
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        157097
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4435,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-ALSKA"
     },
     {
       "sku": "SVR-ALSKA-LARGE",
@@ -2354,12 +2347,21 @@
       "erp_img_sizes": [
         157097
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        157097
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4436,
+        "status": "publish"
+      },
+      "parent_sku": "SVR-ALSKA"
     },
     {
       "sku": "MST-HIGHL-MEDIUM",
@@ -2381,12 +2383,21 @@
       "erp_img_sizes": [
         77282
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        77282
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4438,
+        "status": "publish"
+      },
+      "parent_sku": "MST-HIGHL"
     },
     {
       "sku": "MST-HLYAS-MEDIUM",
@@ -2408,12 +2419,21 @@
       "erp_img_sizes": [
         73835
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        73835
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4440,
+        "status": "publish"
+      },
+      "parent_sku": "MST-HLYAS"
     },
     {
       "sku": "MST-EVRST-MEDIUM",
@@ -2435,12 +2455,21 @@
       "erp_img_sizes": [
         118617
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        118617
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4442,
+        "status": "publish"
+      },
+      "parent_sku": "MST-EVRST"
     },
     {
       "sku": "MST-DBERG-MEDIUM",
@@ -2462,12 +2491,21 @@
       "erp_img_sizes": [
         125232
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        125232
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4444,
+        "status": "publish"
+      },
+      "parent_sku": "MST-DBERG"
     },
     {
       "sku": "MST-ANDES-MEDIUM",
@@ -2489,12 +2527,21 @@
       "erp_img_sizes": [
         66832
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        66832
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4446,
+        "status": "publish"
+      },
+      "parent_sku": "MST-ANDES"
     },
     {
       "sku": "TSL-HIGHL-LARGE",
@@ -2517,12 +2564,22 @@
         209253,
         123265
       ],
-      "wc_img_sizes": [],
+      "wc_img_sizes": [
+        209253
+      ],
       "gallery_diff": true,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description",
+        "gallery_images"
+      ],
+      "woo": {
+        "id": 4448,
+        "status": "publish"
+      },
+      "parent_sku": "TSL-HIGHL"
     },
     {
       "sku": "TSL-HLYAS-LARGE",
@@ -2545,12 +2602,22 @@
         163292,
         55670
       ],
-      "wc_img_sizes": [],
+      "wc_img_sizes": [
+        163292
+      ],
       "gallery_diff": true,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description",
+        "gallery_images"
+      ],
+      "woo": {
+        "id": 4450,
+        "status": "publish"
+      },
+      "parent_sku": "TSL-HLYAS"
     },
     {
       "sku": "TSL-EVRST-LARGE",
@@ -2573,12 +2640,22 @@
         231409,
         125073
       ],
-      "wc_img_sizes": [],
+      "wc_img_sizes": [
+        231409
+      ],
       "gallery_diff": true,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description",
+        "gallery_images"
+      ],
+      "woo": {
+        "id": 4452,
+        "status": "publish"
+      },
+      "parent_sku": "TSL-EVRST"
     },
     {
       "sku": "TSL-DBERG-LARGE",
@@ -2600,12 +2677,21 @@
       "erp_img_sizes": [
         237626
       ],
-      "wc_img_sizes": [],
-      "gallery_diff": true,
+      "wc_img_sizes": [
+        237626
+      ],
+      "gallery_diff": false,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description"
+      ],
+      "woo": {
+        "id": 4454,
+        "status": "publish"
+      },
+      "parent_sku": "TSL-DBERG"
     },
     {
       "sku": "TSL-ANDES-LARGE",
@@ -2628,14 +2714,42 @@
         205367,
         86485
       ],
-      "wc_img_sizes": [],
+      "wc_img_sizes": [
+        205367
+      ],
       "gallery_diff": true,
       "description_diff": true,
       "has_variants": 1,
-      "action": "Create",
-      "fields_to_update": "ALL"
+      "action": "Update",
+      "fields_to_update": [
+        "description",
+        "gallery_images"
+      ],
+      "woo": {
+        "id": 4456,
+        "status": "publish"
+      },
+      "parent_sku": "TSL-ANDES"
     }
   ],
-  "variant_to_update": [],
-  "variant_synced": []
+  "variant_to_delete": [],
+  "variant_parents_to_delete": [],
+  "variant_synced": [],
+  "meta": {
+    "generated_at": "2025-08-11T14:16:31.965051+00:00",
+    "dry_run": true,
+    "counts": {
+      "to_create": 0,
+      "to_update": 0,
+      "to_delete": 0,
+      "variant_to_create": 0,
+      "variant_to_update": 34,
+      "variant_to_delete": 0,
+      "variant_parents": 22,
+      "variant_parents_to_delete": 0,
+      "already_synced": 13,
+      "variant_synced": 0,
+      "errors": 0
+    }
+  }
 }
