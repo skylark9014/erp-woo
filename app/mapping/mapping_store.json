@@ -90,6 +90,14 @@
     },
     {
       "erp_item_code": "SVR-HIGHL",
+      "sku": "SVR-HIGHL",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-HIGHL",
       "sku": "SVR-HIGHL-MEDIUM",
       "woo_product_id": null,
       "woo_status": null,
@@ -99,6 +107,14 @@
     {
       "erp_item_code": "SVR-HIGHL",
       "sku": "SVR-HIGHL-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-DOLOM",
+      "sku": "SVR-DOLOM",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -122,6 +138,14 @@
     },
     {
       "erp_item_code": "SVR-SIERA",
+      "sku": "SVR-SIERA",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-SIERA",
       "sku": "SVR-SIERA-MEDIUM",
       "woo_product_id": null,
       "woo_status": null,
@@ -131,6 +155,14 @@
     {
       "erp_item_code": "SVR-SIERA",
       "sku": "SVR-SIERA-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-MCOOK",
+      "sku": "SVR-MCOOK",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -154,6 +186,14 @@
     },
     {
       "erp_item_code": "SVR-MTCAM",
+      "sku": "SVR-MTCAM",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-MTCAM",
       "sku": "SVR-MTCAM-MEDIUM",
       "woo_product_id": null,
       "woo_status": null,
@@ -163,6 +203,14 @@
     {
       "erp_item_code": "SVR-MTCAM",
       "sku": "SVR-MTCAM-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-HLYAS",
+      "sku": "SVR-HLYAS",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -186,6 +234,14 @@
     },
     {
       "erp_item_code": "SVR-EVRST",
+      "sku": "SVR-EVRST",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-EVRST",
       "sku": "SVR-EVRST-MEDIUM",
       "woo_product_id": null,
       "woo_status": null,
@@ -195,6 +251,14 @@
     {
       "erp_item_code": "SVR-EVRST",
       "sku": "SVR-EVRST-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-DBERG",
+      "sku": "SVR-DBERG",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -218,6 +282,14 @@
     },
     {
       "erp_item_code": "SVR-CASDE",
+      "sku": "SVR-CASDE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-CASDE",
       "sku": "SVR-CASDE-MEDIUM",
       "woo_product_id": null,
       "woo_status": null,
@@ -227,6 +299,14 @@
     {
       "erp_item_code": "SVR-CASDE",
       "sku": "SVR-CASDE-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-ATLAS",
+      "sku": "SVR-ATLAS",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -250,6 +330,14 @@
     },
     {
       "erp_item_code": "SVR-ANDES",
+      "sku": "SVR-ANDES",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-ANDES",
       "sku": "SVR-ANDES-MEDIUM",
       "woo_product_id": null,
       "woo_status": null,
@@ -259,6 +347,14 @@
     {
       "erp_item_code": "SVR-ANDES",
       "sku": "SVR-ANDES-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "stone veneer"
+    },
+    {
+      "erp_item_code": "SVR-ALSKA",
+      "sku": "SVR-ALSKA",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -282,7 +378,23 @@
     },
     {
       "erp_item_code": "MST-HIGHL",
+      "sku": "MST-HIGHL",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "micro stone"
+    },
+    {
+      "erp_item_code": "MST-HIGHL",
       "sku": "MST-HIGHL-MEDIUM",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "micro stone"
+    },
+    {
+      "erp_item_code": "MST-HLYAS",
+      "sku": "MST-HLYAS",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -298,7 +410,23 @@
     },
     {
       "erp_item_code": "MST-EVRST",
+      "sku": "MST-EVRST",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "micro stone"
+    },
+    {
+      "erp_item_code": "MST-EVRST",
       "sku": "MST-EVRST-MEDIUM",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "micro stone"
+    },
+    {
+      "erp_item_code": "MST-DBERG",
+      "sku": "MST-DBERG",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -314,6 +442,14 @@
     },
     {
       "erp_item_code": "MST-ANDES",
+      "sku": "MST-ANDES",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "micro stone"
+    },
+    {
+      "erp_item_code": "MST-ANDES",
       "sku": "MST-ANDES-MEDIUM",
       "woo_product_id": null,
       "woo_status": null,
@@ -322,7 +458,23 @@
     },
     {
       "erp_item_code": "TSL-HIGHL",
+      "sku": "TSL-HIGHL",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "translucent stone"
+    },
+    {
+      "erp_item_code": "TSL-HIGHL",
       "sku": "TSL-HIGHL-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "translucent stone"
+    },
+    {
+      "erp_item_code": "TSL-HLYAS",
+      "sku": "TSL-HLYAS",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -338,6 +490,14 @@
     },
     {
       "erp_item_code": "TSL-EVRST",
+      "sku": "TSL-EVRST",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "translucent stone"
+    },
+    {
+      "erp_item_code": "TSL-EVRST",
       "sku": "TSL-EVRST-LARGE",
       "woo_product_id": null,
       "woo_status": null,
@@ -346,7 +506,23 @@
     },
     {
       "erp_item_code": "TSL-DBERG",
+      "sku": "TSL-DBERG",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "translucent stone"
+    },
+    {
+      "erp_item_code": "TSL-DBERG",
       "sku": "TSL-DBERG-LARGE",
+      "woo_product_id": null,
+      "woo_status": null,
+      "brand": "Techniclad",
+      "categories": "translucent stone"
+    },
+    {
+      "erp_item_code": "TSL-ANDES",
+      "sku": "TSL-ANDES",
       "woo_product_id": null,
       "woo_status": null,
       "brand": "Techniclad",
@@ -377,5 +553,5 @@
       "categories": "adhesives and sealants"
     }
   ],
-  "last_synced": "2025-08-10T16:27:14Z"
+  "last_synced": "2025-08-11T07:59:41Z"
 }

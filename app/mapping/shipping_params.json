@@ -1,0 +1,504 @@
+{
+  "generated_at": "2025-08-11T07:59:21.151531+00:00",
+  "defaults": {
+    "weight_kg": 0,
+    "length_cm": 0,
+    "width_cm": 0,
+    "height_cm": 0,
+    "shipping_class": ""
+  },
+  "simples": {
+    "PST-TALPS": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-RCYMT": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-NEVDA": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-MTFJI": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-HLYAS": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-EVRST": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-DBERG": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-CERES": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-ATLAS": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-ANDES": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "PST-HIGHL": {
+      "weight_kg": 3.1,
+      "length_cm": 62,
+      "width_cm": 16,
+      "height_cm": 4.5,
+      "shipping_class": ""
+    },
+    "SLR_1S01": {
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
+      "shipping_class": ""
+    },
+    "GLU_35S": {
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
+      "shipping_class": ""
+    }
+  },
+  "variables": {
+    "SVR-HIGHL": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-HIGHL-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-HIGHL-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-DOLOM": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-DOLOM-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-DOLOM-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-SIERA": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-SIERA-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-SIERA-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-MCOOK": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-MCOOK-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-MCOOK-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-MTCAM": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-MTCAM-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-MTCAM-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-HLYAS": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-HLYAS-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-HLYAS-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-EVRST": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-EVRST-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-EVRST-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-DBERG": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-DBERG-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-DBERG-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-CASDE": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-CASDE-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-CASDE-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-ATLAS": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-ATLAS-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-ATLAS-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-ANDES": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-ANDES-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-ANDES-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "SVR-ALSKA": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "SVR-ALSKA-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        },
+        "SVR-ALSKA-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "MST-HIGHL": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "MST-HIGHL-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "MST-HLYAS": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "MST-HLYAS-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "MST-EVRST": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "MST-EVRST-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "MST-DBERG": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "MST-DBERG-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "MST-ANDES": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "MST-ANDES-MEDIUM": {
+          "weight_kg": 1.15,
+          "length_cm": 122,
+          "width_cm": 61,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "TSL-HIGHL": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "TSL-HIGHL-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "TSL-HLYAS": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "TSL-HLYAS-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "TSL-EVRST": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "TSL-EVRST-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "TSL-DBERG": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "TSL-DBERG-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    },
+    "TSL-ANDES": {
+      "parent": {
+        "shipping_class": ""
+      },
+      "variations": {
+        "TSL-ANDES-LARGE": {
+          "weight_kg": 4.5,
+          "length_cm": 244,
+          "width_cm": 122,
+          "height_cm": 0.3,
+          "shipping_class": ""
+        }
+      }
+    }
+  },
+  "meta": {
+    "units": {
+      "weight": "kg",
+      "dimensions": "cm"
+    },
+    "notes": "Edit values per SKU. Leave 0/blank to skip. 'shipping_class' accepts Woo class slug or name."
+  }
+}

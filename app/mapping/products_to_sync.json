@@ -12,7 +12,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4390,
+      "woo_status": "publish"
     },
     "PST-RCYMT": {
       "template": "PST-RCYMT",
@@ -22,7 +24,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4391,
+      "woo_status": "publish"
     },
     "PST-NEVDA": {
       "template": "PST-NEVDA",
@@ -32,7 +36,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4392,
+      "woo_status": "publish"
     },
     "PST-MTFJI": {
       "template": "PST-MTFJI",
@@ -42,7 +48,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4393,
+      "woo_status": "publish"
     },
     "PST-HLYAS": {
       "template": "PST-HLYAS",
@@ -52,7 +60,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4394,
+      "woo_status": "publish"
     },
     "PST-EVRST": {
       "template": "PST-EVRST",
@@ -62,7 +72,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4395,
+      "woo_status": "publish"
     },
     "PST-DBERG": {
       "template": "PST-DBERG",
@@ -72,7 +84,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4396,
+      "woo_status": "publish"
     },
     "PST-CERES": {
       "template": "PST-CERES",
@@ -82,7 +96,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4397,
+      "woo_status": "publish"
     },
     "PST-ATLAS": {
       "template": "PST-ATLAS",
@@ -92,7 +108,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4398,
+      "woo_status": "publish"
     },
     "PST-ANDES": {
       "template": "PST-ANDES",
@@ -102,7 +120,9 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4399,
+      "woo_status": "publish"
     },
     "PST-HIGHL": {
       "template": "PST-HIGHL",
@@ -112,7 +132,24 @@
       "brand": "Techniclad",
       "categories": [
         "peel and stick"
-      ]
+      ],
+      "woo_product_id": 4400,
+      "woo_status": "publish"
+    },
+    "SVR-HIGHL": {
+      "template": "SVR-HIGHL",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4401,
+      "woo_status": "publish"
     },
     "SVR-HIGHL-MEDIUM": {
       "template": "SVR-HIGHL",
@@ -123,7 +160,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4402,
+      "woo_status": "publish"
     },
     "SVR-HIGHL-LARGE": {
       "template": "SVR-HIGHL",
@@ -134,7 +173,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4403,
+      "woo_status": "publish"
+    },
+    "SVR-DOLOM": {
+      "template": "SVR-DOLOM",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4404,
+      "woo_status": "publish"
     },
     "SVR-DOLOM-MEDIUM": {
       "template": "SVR-DOLOM",
@@ -145,7 +201,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4405,
+      "woo_status": "publish"
     },
     "SVR-DOLOM-LARGE": {
       "template": "SVR-DOLOM",
@@ -156,7 +214,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4406,
+      "woo_status": "publish"
+    },
+    "SVR-SIERA": {
+      "template": "SVR-SIERA",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4407,
+      "woo_status": "publish"
     },
     "SVR-SIERA-MEDIUM": {
       "template": "SVR-SIERA",
@@ -167,7 +242,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4408,
+      "woo_status": "publish"
     },
     "SVR-SIERA-LARGE": {
       "template": "SVR-SIERA",
@@ -178,7 +255,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4409,
+      "woo_status": "publish"
+    },
+    "SVR-MCOOK": {
+      "template": "SVR-MCOOK",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4410,
+      "woo_status": "publish"
     },
     "SVR-MCOOK-MEDIUM": {
       "template": "SVR-MCOOK",
@@ -189,7 +283,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4411,
+      "woo_status": "publish"
     },
     "SVR-MCOOK-LARGE": {
       "template": "SVR-MCOOK",
@@ -200,7 +296,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4412,
+      "woo_status": "publish"
+    },
+    "SVR-MTCAM": {
+      "template": "SVR-MTCAM",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4413,
+      "woo_status": "publish"
     },
     "SVR-MTCAM-MEDIUM": {
       "template": "SVR-MTCAM",
@@ -211,7 +324,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4414,
+      "woo_status": "publish"
     },
     "SVR-MTCAM-LARGE": {
       "template": "SVR-MTCAM",
@@ -222,7 +337,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4415,
+      "woo_status": "publish"
+    },
+    "SVR-HLYAS": {
+      "template": "SVR-HLYAS",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4416,
+      "woo_status": "publish"
     },
     "SVR-HLYAS-MEDIUM": {
       "template": "SVR-HLYAS",
@@ -233,7 +365,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4417,
+      "woo_status": "publish"
     },
     "SVR-HLYAS-LARGE": {
       "template": "SVR-HLYAS",
@@ -244,7 +378,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4418,
+      "woo_status": "publish"
+    },
+    "SVR-EVRST": {
+      "template": "SVR-EVRST",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4419,
+      "woo_status": "publish"
     },
     "SVR-EVRST-MEDIUM": {
       "template": "SVR-EVRST",
@@ -255,7 +406,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4420,
+      "woo_status": "publish"
     },
     "SVR-EVRST-LARGE": {
       "template": "SVR-EVRST",
@@ -266,7 +419,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4421,
+      "woo_status": "publish"
+    },
+    "SVR-DBERG": {
+      "template": "SVR-DBERG",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4422,
+      "woo_status": "publish"
     },
     "SVR-DBERG-MEDIUM": {
       "template": "SVR-DBERG",
@@ -277,7 +447,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4423,
+      "woo_status": "publish"
     },
     "SVR-DBERG-LARGE": {
       "template": "SVR-DBERG",
@@ -288,7 +460,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4424,
+      "woo_status": "publish"
+    },
+    "SVR-CASDE": {
+      "template": "SVR-CASDE",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4425,
+      "woo_status": "publish"
     },
     "SVR-CASDE-MEDIUM": {
       "template": "SVR-CASDE",
@@ -299,7 +488,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4426,
+      "woo_status": "publish"
     },
     "SVR-CASDE-LARGE": {
       "template": "SVR-CASDE",
@@ -310,7 +501,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4427,
+      "woo_status": "publish"
+    },
+    "SVR-ATLAS": {
+      "template": "SVR-ATLAS",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4428,
+      "woo_status": "publish"
     },
     "SVR-ATLAS-MEDIUM": {
       "template": "SVR-ATLAS",
@@ -321,7 +529,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4429,
+      "woo_status": "publish"
     },
     "SVR-ATLAS-LARGE": {
       "template": "SVR-ATLAS",
@@ -332,7 +542,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4430,
+      "woo_status": "publish"
+    },
+    "SVR-ANDES": {
+      "template": "SVR-ANDES",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4431,
+      "woo_status": "publish"
     },
     "SVR-ANDES-MEDIUM": {
       "template": "SVR-ANDES",
@@ -343,7 +570,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4432,
+      "woo_status": "publish"
     },
     "SVR-ANDES-LARGE": {
       "template": "SVR-ANDES",
@@ -354,7 +583,24 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4433,
+      "woo_status": "publish"
+    },
+    "SVR-ALSKA": {
+      "template": "SVR-ALSKA",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm",
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "stone veneer"
+      ],
+      "woo_product_id": 4434,
+      "woo_status": "publish"
     },
     "SVR-ALSKA-MEDIUM": {
       "template": "SVR-ALSKA",
@@ -365,7 +611,9 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4435,
+      "woo_status": "publish"
     },
     "SVR-ALSKA-LARGE": {
       "template": "SVR-ALSKA",
@@ -376,7 +624,23 @@
       "brand": "Techniclad",
       "categories": [
         "stone veneer"
-      ]
+      ],
+      "woo_product_id": 4436,
+      "woo_status": "publish"
+    },
+    "MST-HIGHL": {
+      "template": "MST-HIGHL",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ],
+      "woo_product_id": 4437,
+      "woo_status": "publish"
     },
     "MST-HIGHL-MEDIUM": {
       "template": "MST-HIGHL",
@@ -387,7 +651,23 @@
       "brand": "Techniclad",
       "categories": [
         "micro stone"
-      ]
+      ],
+      "woo_product_id": 4438,
+      "woo_status": "publish"
+    },
+    "MST-HLYAS": {
+      "template": "MST-HLYAS",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ],
+      "woo_product_id": 4439,
+      "woo_status": "publish"
     },
     "MST-HLYAS-MEDIUM": {
       "template": "MST-HLYAS",
@@ -398,7 +678,23 @@
       "brand": "Techniclad",
       "categories": [
         "micro stone"
-      ]
+      ],
+      "woo_product_id": 4440,
+      "woo_status": "publish"
+    },
+    "MST-EVRST": {
+      "template": "MST-EVRST",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ],
+      "woo_product_id": 4441,
+      "woo_status": "publish"
     },
     "MST-EVRST-MEDIUM": {
       "template": "MST-EVRST",
@@ -409,7 +705,23 @@
       "brand": "Techniclad",
       "categories": [
         "micro stone"
-      ]
+      ],
+      "woo_product_id": 4442,
+      "woo_status": "publish"
+    },
+    "MST-DBERG": {
+      "template": "MST-DBERG",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ],
+      "woo_product_id": 4443,
+      "woo_status": "publish"
     },
     "MST-DBERG-MEDIUM": {
       "template": "MST-DBERG",
@@ -420,7 +732,23 @@
       "brand": "Techniclad",
       "categories": [
         "micro stone"
-      ]
+      ],
+      "woo_product_id": 4444,
+      "woo_status": "publish"
+    },
+    "MST-ANDES": {
+      "template": "MST-ANDES",
+      "attributes": {
+        "Sheet Size": [
+          "1220mm x 610mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "micro stone"
+      ],
+      "woo_product_id": 4445,
+      "woo_status": "publish"
     },
     "MST-ANDES-MEDIUM": {
       "template": "MST-ANDES",
@@ -431,7 +759,23 @@
       "brand": "Techniclad",
       "categories": [
         "micro stone"
-      ]
+      ],
+      "woo_product_id": 4446,
+      "woo_status": "publish"
+    },
+    "TSL-HIGHL": {
+      "template": "TSL-HIGHL",
+      "attributes": {
+        "Sheet Size": [
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ],
+      "woo_product_id": 4447,
+      "woo_status": "publish"
     },
     "TSL-HIGHL-LARGE": {
       "template": "TSL-HIGHL",
@@ -442,7 +786,23 @@
       "brand": "Techniclad",
       "categories": [
         "translucent stone"
-      ]
+      ],
+      "woo_product_id": 4448,
+      "woo_status": "publish"
+    },
+    "TSL-HLYAS": {
+      "template": "TSL-HLYAS",
+      "attributes": {
+        "Sheet Size": [
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ],
+      "woo_product_id": 4449,
+      "woo_status": "publish"
     },
     "TSL-HLYAS-LARGE": {
       "template": "TSL-HLYAS",
@@ -453,7 +813,23 @@
       "brand": "Techniclad",
       "categories": [
         "translucent stone"
-      ]
+      ],
+      "woo_product_id": 4450,
+      "woo_status": "publish"
+    },
+    "TSL-EVRST": {
+      "template": "TSL-EVRST",
+      "attributes": {
+        "Sheet Size": [
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ],
+      "woo_product_id": 4451,
+      "woo_status": "publish"
     },
     "TSL-EVRST-LARGE": {
       "template": "TSL-EVRST",
@@ -464,7 +840,23 @@
       "brand": "Techniclad",
       "categories": [
         "translucent stone"
-      ]
+      ],
+      "woo_product_id": 4452,
+      "woo_status": "publish"
+    },
+    "TSL-DBERG": {
+      "template": "TSL-DBERG",
+      "attributes": {
+        "Sheet Size": [
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ],
+      "woo_product_id": 4453,
+      "woo_status": "publish"
     },
     "TSL-DBERG-LARGE": {
       "template": "TSL-DBERG",
@@ -475,7 +867,23 @@
       "brand": "Techniclad",
       "categories": [
         "translucent stone"
-      ]
+      ],
+      "woo_product_id": 4454,
+      "woo_status": "publish"
+    },
+    "TSL-ANDES": {
+      "template": "TSL-ANDES",
+      "attributes": {
+        "Sheet Size": [
+          "2440mm x 1220mm"
+        ]
+      },
+      "brand": "Techniclad",
+      "categories": [
+        "translucent stone"
+      ],
+      "woo_product_id": 4455,
+      "woo_status": "publish"
     },
     "TSL-ANDES-LARGE": {
       "template": "TSL-ANDES",
@@ -486,7 +894,9 @@
       "brand": "Techniclad",
       "categories": [
         "translucent stone"
-      ]
+      ],
+      "woo_product_id": 4456,
+      "woo_status": "publish"
     },
     "SLR_1S01": {
       "template": "SLR_1S01",
@@ -494,7 +904,9 @@
       "brand": "Tile and Floor Care",
       "categories": [
         "adhesives and sealants"
-      ]
+      ],
+      "woo_product_id": 4457,
+      "woo_status": "publish"
     },
     "GLU_35S": {
       "template": "GLU_35S",
@@ -502,7 +914,9 @@
       "brand": "Soudal",
       "categories": [
         "adhesives and sealants"
-      ]
+      ],
+      "woo_product_id": 4458,
+      "woo_status": "publish"
     }
   },
   "to_create": [],
@@ -527,8 +941,8 @@
         45247
       ],
       "wc_img_sizes": [
-        0,
-        0
+        86855,
+        45247
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -559,8 +973,8 @@
         88702
       ],
       "wc_img_sizes": [
-        0,
-        0
+        208921,
+        88702
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -591,8 +1005,8 @@
         53555
       ],
       "wc_img_sizes": [
-        0,
-        0
+        111873,
+        53555
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -623,8 +1037,8 @@
         51388
       ],
       "wc_img_sizes": [
-        0,
-        0
+        97067,
+        51388
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -655,8 +1069,8 @@
         37077
       ],
       "wc_img_sizes": [
-        0,
-        0
+        103836,
+        37077
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -687,8 +1101,8 @@
         75182
       ],
       "wc_img_sizes": [
-        0,
-        0
+        169907,
+        75182
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -719,8 +1133,8 @@
         43658
       ],
       "wc_img_sizes": [
-        0,
-        0
+        91642,
+        43658
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -750,10 +1164,7 @@
         185293,
         79014
       ],
-      "wc_img_sizes": [
-        0,
-        0
-      ],
+      "wc_img_sizes": [],
       "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
@@ -783,8 +1194,8 @@
         62674
       ],
       "wc_img_sizes": [
-        0,
-        0
+        124905,
+        62674
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -815,8 +1226,8 @@
         42793
       ],
       "wc_img_sizes": [
-        0,
-        0
+        111327,
+        42793
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -847,8 +1258,8 @@
         42223
       ],
       "wc_img_sizes": [
-        0,
-        0
+        117476,
+        42223
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -874,7 +1285,7 @@
         205765
       ],
       "wc_img_sizes": [
-        0
+        205765
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -900,7 +1311,7 @@
         94328
       ],
       "wc_img_sizes": [
-        0
+        94328
       ],
       "gallery_diff": true,
       "description_diff": false,
@@ -1323,8 +1734,8 @@
         77282
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1350,8 +1761,8 @@
         77282
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1377,8 +1788,8 @@
         92252
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1404,8 +1815,8 @@
         92252
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1431,8 +1842,8 @@
         79281
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1458,8 +1869,8 @@
         79281
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1485,8 +1896,8 @@
         103204
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1512,8 +1923,8 @@
         103204
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1539,8 +1950,8 @@
         134676
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1566,8 +1977,8 @@
         134676
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1593,8 +2004,8 @@
         73835
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1620,8 +2031,8 @@
         73835
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1647,8 +2058,8 @@
         118617
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1674,8 +2085,8 @@
         118617
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1701,8 +2112,8 @@
         125232
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1728,8 +2139,8 @@
         125232
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1755,8 +2166,8 @@
         68210
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1782,8 +2193,8 @@
         68210
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1809,8 +2220,8 @@
         76753
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1836,8 +2247,8 @@
         76753
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1863,8 +2274,8 @@
         66832
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1890,8 +2301,8 @@
         66832
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1917,8 +2328,8 @@
         157097
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1944,8 +2355,8 @@
         157097
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1971,8 +2382,8 @@
         77282
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -1998,8 +2409,8 @@
         73835
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2025,8 +2436,8 @@
         118617
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2052,8 +2463,8 @@
         125232
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2079,8 +2490,8 @@
         66832
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2107,8 +2518,8 @@
         123265
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2135,8 +2546,8 @@
         55670
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2163,8 +2574,8 @@
         125073
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2190,8 +2601,8 @@
         237626
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
@@ -2218,8 +2629,8 @@
         86485
       ],
       "wc_img_sizes": [],
-      "gallery_diff": false,
-      "description_diff": false,
+      "gallery_diff": true,
+      "description_diff": true,
       "has_variants": 1,
       "action": "Create",
       "fields_to_update": "ALL"
