@@ -1,31 +1,33 @@
-// src/app/api/health/route.ts
-import { NextResponse } from 'next/server';
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-function basicAuthHeader() {
-    const user = process.env.INTEGRATION_ADMIN_USER || '';
-    const pass = process.env.INTEGRATION_ADMIN_PASS || '';
-    if (!user || !pass) return undefined;
-    const token = Buffer.from(`${user}:${pass}`).toString('base64');
-    return `Basic ${token}`;
-}
+import { NextResponse } from "next/server";
 
 export async function GET() {
-    const base = process.env.INTEGRATION_BASE_URL || 'http://integration:8000';
-    const url = `${base}/api/health`; // <-- FastAPI health endpoint
+    const base = process.env.INTEGRATION_BASE_URL;
+    const user = process.env.INTEGRATION_ADMIN_USER || "";
+    const pass = process.env.INTEGRATION_ADMIN_PASS || "";
 
-    const headers: Record<string, string> = { Accept: 'application/json' };
-    const auth = basicAuthHeader();
-    if (auth) headers.Authorization = auth; // harmless if FastAPI /api/health is public
+    if (!base) {
+        return NextResponse.json({ ok: false, error: "INTEGRATION_BASE_URL not set" }, { status: 500 });
+    }
+
+    const headers: Record<string, string> = {};
+    if (user || pass) {
+        const token = Buffer.from(`${user}:${pass}`).toString("base64");
+        headers["Authorization"] = `Basic ${token}`;
+    }
 
     try {
-        const res = await fetch(url, { headers, cache: 'no-store' });
-        const json = await res.json().catch(() => ({}));
-        return NextResponse.json(json, { status: res.status });
-    } catch {
-        // Integration not reachable from the UI container
-        return NextResponse.json(
-            { ok: false, integration: { ok: false }, error: 'integration_unreachable' },
-            { status: 502 }
-        );
+        const r = await fetch(`${base}/api/health`, { headers, cache: "no-store" });
+        const text = await r.text();
+        try {
+            const json = JSON.parse(text);
+            return NextResponse.json(json, { status: r.status });
+        } catch {
+            return NextResponse.json({ ok: false, error: `Non-JSON from integration: HTTP ${r.status}` }, { status: 502 });
+        }
+    } catch (e: any) {
+        return NextResponse.json({ ok: false, error: e?.message || "Fetch failed" }, { status: 502 });
     }
 }

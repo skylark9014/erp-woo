@@ -1,15 +1,8 @@
-// next.config.ts
-import type { NextConfig } from 'next';
-
-const basePath = (process.env.NEXT_PUBLIC_ADMIN_BASE_PATH || '').replace(/\/$/, '');
-
-const config: NextConfig = {
-  // Serve the whole app (and static files) under /admin
-  basePath: basePath || undefined,
-  assetPrefix: basePath || undefined,
-
-  // Don’t run image optimizer for the logo
-  images: { unoptimized: true },
+// next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Hard-set to "/admin" (recommended). If you really want env control, read it here.
+  basePath: '/admin',
+  images: { unoptimized: true }, // we already use <Image ... unoptimized />
 };
-
-export default config;
+export default nextConfig;

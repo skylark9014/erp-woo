@@ -12,62 +12,38 @@ type Gate = 'checking' | 'ready' | 'down';
 function formatCount(n: number | undefined) {
   return (n ?? 0).toLocaleString();
 }
-
 function flattenUpdates(r: SyncReport): PreviewItem[] {
   const simpleUpdates = r.to_update ?? [];
   const variantUpdates = r.variant_to_update ?? [];
   return [...variantUpdates, ...simpleUpdates];
 }
-
 function describeHealthProblems(h: HealthResponse | null): string[] {
   if (!h) return ['Backend not reachable.'];
   const msgs: string[] = [];
 
-  // Integration proxy itself
   if (h.integration && h.integration.ok === false) {
     msgs.push('Integration API is unreachable — check the "erp-woo-integration" container and network.');
   }
-
-  // ERPNext
   if (h.erpnext && h.erpnext.ok === false) {
     const s = h.erpnext.status;
-    if (s === undefined) {
-      msgs.push('Connection to ERPNext server cannot be established.');
-    } else if (s === 401) {
-      msgs.push('ERPNext authentication failed — check API key/secret.');
-    } else if (s === 403) {
-      msgs.push('ERPNext responded 403 (forbidden) — check CORS or firewall.');
-    } else if (s === 404) {
-      msgs.push('ERPNext ping endpoint not found (404) — verify ERP_URL is correct (e.g., https://your.erp.site).');
-    } else if (s === 502 || s === 504) {
-      msgs.push('ERPNext gateway error — reverse proxy/tunnel may be offline.');
-    } else {
-      msgs.push(`ERPNext returned HTTP ${s} — verify ERP_URL and credentials.`);
-    }
+    if (s === undefined) msgs.push('Connection to ERPNext server cannot be established.');
+    else if (s === 401) msgs.push('ERPNext authentication failed — check API key/secret.');
+    else if (s === 403) msgs.push('ERPNext responded 403 (forbidden) — check CORS or firewall.');
+    else if (s === 404) msgs.push('ERPNext ping endpoint not found (404) — verify ERP_URL is correct.');
+    else if (s === 502 || s === 504) msgs.push('ERPNext gateway error — reverse proxy/tunnel may be offline.');
+    else msgs.push(`ERPNext returned HTTP ${s} — verify ERP_URL and credentials.`);
   }
-
-  // WordPress / WooCommerce
   const wp = h.woocommerce;
   if (wp && wp.ok === false) {
     const code = wp.rest_status ?? wp.status;
-    if (code === undefined) {
-      msgs.push('Connection to WordPress server cannot be established.');
-    } else if (code === 401) {
-      msgs.push('WordPress authentication failed — check WP_USERNAME and WP_APP_PASSWORD.');
-    } else if (code === 403) {
-      msgs.push('WordPress responded 403 (forbidden) — check basic auth, security plugins, or firewall.');
-    } else if (code === 404) {
-      msgs.push('WordPress REST endpoint not found (404) — check WP_API_URL and permalinks. If permalinks are off, use the fallback: /index.php?rest_route=/.');
-    } else if (code === 502 || code === 504) {
-      msgs.push('WordPress gateway error — your tunnel or reverse proxy appears offline.');
-    } else {
-      msgs.push(`WordPress returned HTTP ${code} — verify WP_API_URL and tunnel.`);
-    }
+    if (code === undefined) msgs.push('Connection to WordPress server cannot be established.');
+    else if (code === 401) msgs.push('WordPress authentication failed — check WP_USERNAME and WP_APP_PASSWORD.');
+    else if (code === 403) msgs.push('WordPress responded 403 — check basic auth/security plugins/firewall.');
+    else if (code === 404) msgs.push('WordPress REST 404 — check WP_API_URL and permalinks.');
+    else if (code === 502 || code === 504) msgs.push('WordPress gateway error — tunnel or proxy offline.');
+    else msgs.push(`WordPress returned HTTP ${code} — verify WP_API_URL and tunnel.`);
   }
-
-  if (!msgs.length && h.ok === false) {
-    msgs.push('Connectivity/authentication check failed — inspect logs for details.');
-  }
+  if (!msgs.length && h.ok === false) msgs.push('Connectivity/authentication check failed — inspect logs for details.');
   return msgs;
 }
 
@@ -82,23 +58,33 @@ export default function DashboardPage() {
 
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
-  // 1) One-shot health check (no spinner yet — we don’t want it before we know state)
+  // Health check always runs on page mount
   useEffect(() => {
+    let cancel = false;
     (async () => {
       try {
         const h = await runHealth();
+        if (cancel) return;
         setHealth(h);
-        setGate(h.ok ? 'ready' : 'down');
+        setGate(h?.ok === true ? 'ready' : 'down');
       } catch {
-        setHealth(null);
+        if (cancel) return;
+        setHealth({ ok: false } as any);
         setGate('down');
       }
     })();
+    return () => { cancel = true; };
   }, []);
 
-  // 2) If healthy, automatically run preview with proper busy overlay
+  // Auto preview ONLY on first visit this session
   useEffect(() => {
     if (gate !== 'ready') return;
+    if (typeof window === 'undefined') return;
+
+    const KEY = 'tl_autopreview_done';
+    const done = window.sessionStorage.getItem(KEY);
+    if (done) return; // skip auto preview when returning
+
     (async () => {
       try {
         setError(null);
@@ -106,6 +92,7 @@ export default function DashboardPage() {
         setLoadingMsg('Running preview (dry-run)…');
         const res = await runPreview();
         setData(res as PreviewResponse);
+        window.sessionStorage.setItem(KEY, '1');
       } catch (e: any) {
         setError(e?.message || 'Failed to load preview.');
       } finally {
@@ -116,19 +103,16 @@ export default function DashboardPage() {
   }, [gate]);
 
   const report = data?.sync_report;
-
-  const counts = useMemo(() => {
-    return {
-      toCreate: report?.to_create?.length ?? 0,
-      toUpdate: report?.to_update?.length ?? 0,
-      synced: report?.already_synced?.length ?? 0,
-      vToCreate: report?.variant_to_create?.length ?? 0,
-      vToUpdate: report?.variant_to_update?.length ?? 0,
-      vSynced: report?.variant_synced?.length ?? 0,
-      parents: report?.variant_parents?.length ?? 0,
-      errors: report?.errors?.length ?? 0,
-    };
-  }, [report]);
+  const counts = useMemo(() => ({
+    toCreate: report?.to_create?.length ?? 0,
+    toUpdate: report?.to_update?.length ?? 0,
+    synced: report?.already_synced?.length ?? 0,
+    vToCreate: report?.variant_to_create?.length ?? 0,
+    vToUpdate: report?.variant_to_update?.length ?? 0,
+    vSynced: report?.variant_synced?.length ?? 0,
+    parents: report?.variant_parents?.length ?? 0,
+    errors: report?.errors?.length ?? 0,
+  }), [report]);
 
   const updateRows = useMemo(() => (report ? flattenUpdates(report) : []), [report]);
 
@@ -153,9 +137,7 @@ export default function DashboardPage() {
         return;
       }
       setGate('ready');
-      setLoadingMsg('Running preview (dry-run)…');
-      const res = await runPreview();
-      setData(res as PreviewResponse);
+      // Do not auto preview here; user has a button for it
     } catch (e: any) {
       setGate('down');
       setError(e?.message || 'Health check failed.');
@@ -254,11 +236,9 @@ export default function DashboardPage() {
       {/* connectivity problems */}
       {gate === 'down' ? (
         <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
-          <div className="font-semibold mb-1">Connectivity issues detected:</div>
+          <div className="mb-1 font-semibold">Connectivity issues detected:</div>
           <ul className="list-disc pl-5 space-y-1">
-            {healthProblems.map((m, i) => (
-              <li key={i}>{m}</li>
-            ))}
+            {healthProblems.map((m, i) => <li key={i}>{m}</li>)}
           </ul>
           <div className="mt-3">
             <button
@@ -273,21 +253,19 @@ export default function DashboardPage() {
 
       {/* status / error */}
       {error ? (
-        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
-          {error}
-        </div>
+        <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">{error}</div>
       ) : null}
 
       {/* summary cards */}
       <section aria-labelledby="summary-heading">
         <h2 id="summary-heading" className="sr-only">Summary</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <SummaryCard label="Simples to Create" value={formatCount(counts.toCreate)} />
-          <SummaryCard label="Simples to Update" value={formatCount(counts.toUpdate)} />
-          <SummaryCard label="Variants to Create" value={formatCount(counts.vToCreate)} />
-          <SummaryCard label="Variants to Update" value={formatCount(counts.vToUpdate)} />
+          <SummaryCard label="Simple Products to Create" value={formatCount(counts.toCreate)} />
+          <SummaryCard label="Simple Products to Update" value={formatCount(counts.toUpdate)} />
+          <SummaryCard label="Variant Products to Create" value={formatCount(counts.vToCreate)} />
+          <SummaryCard label="Variant Products to Update" value={formatCount(counts.vToUpdate)} />
           <SummaryCard label="Already Synced" value={formatCount(totalSynced)} />
-          <SummaryCard label="Variant Parents" value={formatCount(counts.parents)} />
+          <SummaryCard label="Variant Product Parents" value={formatCount(counts.parents)} />
           <SummaryCard label="Errors" value={formatCount(counts.errors)} />
           <SummaryCard label="Price List" value={data?.price_list_used ?? '—'} />
         </div>
@@ -298,14 +276,13 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-gray-900">Items requiring updates</h3>
           <div className="flex items-center gap-2">
-            {/* Removed "Preview Selected" */}
             <button
               onClick={() => onPartialSync(false)}
               disabled={!selected.size || gate !== 'ready'}
               className="inline-flex items-center gap-1 rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 disabled:opacity-50"
               title="Run partial sync for selected SKUs"
             >
-              Run Partial Sync
+              Run Selective Sync
             </button>
           </div>
         </div>
@@ -322,9 +299,7 @@ export default function DashboardPage() {
                     checked={!!updateRows.length && selected.size === updateRows.length}
                     onChange={(e) => {
                       const checked = e.currentTarget.checked;
-                      setSelected(
-                        checked ? new Set(updateRows.map((r) => r.sku)) : new Set()
-                      );
+                      setSelected(checked ? new Set(updateRows.map((r) => r.sku)) : new Set());
                     }}
                   />
                 </Th>
@@ -338,40 +313,33 @@ export default function DashboardPage() {
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">
               {updateRows.map((row) => {
-                const isVariant = !!row.has_variants;
-                const fields =
-                  Array.isArray(row.fields_to_update)
-                    ? row.fields_to_update.join(', ')
-                    : row.fields_to_update ?? '';
+                const isVariant = !!(row as any).has_variants;
+                const fields = Array.isArray((row as any).fields_to_update)
+                  ? (row as any).fields_to_update.join(', ')
+                  : (row as any).fields_to_update ?? '';
                 return (
-                  <tr key={row.sku} className="hover:bg-gray-50">
+                  <tr key={(row as any).sku} className="hover:bg-gray-50">
                     <Td className="w-12">
                       <input
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300"
-                        checked={selected.has(row.sku)}
-                        onChange={(e) => toggleSKU(row.sku, e.currentTarget.checked)}
+                        checked={selected.has((row as any).sku)}
+                        onChange={(e) => toggleSKU((row as any).sku, e.currentTarget.checked)}
                       />
                     </Td>
-                    <Td className="font-mono text-xs text-gray-900">{row.sku}</Td>
-                    <Td className="text-sm text-gray-900">{row.name ?? '—'}</Td>
-                    <Td className="text-xs uppercase text-gray-500">
-                      {isVariant ? 'Variant' : 'Simple'}
-                    </Td>
+                    <Td className="font-mono text-xs text-gray-900">{(row as any).sku}</Td>
+                    <Td className="text-sm text-gray-900">{(row as any).name ?? '—'}</Td>
+                    <Td className="text-xs uppercase text-gray-500">{isVariant ? 'Variant' : 'Simple'}</Td>
                     <Td className="text-xs text-gray-700">{fields || '—'}</Td>
-                    <Td className="text-right tabular-nums text-sm text-gray-900">
-                      {row.regular_price ?? '—'}
-                    </Td>
-                    <Td className="text-right tabular-nums text-sm text-gray-700">
-                      {row.stock_quantity ?? '—'}
-                    </Td>
+                    <Td className="text-right tabular-nums text-sm text-gray-900">{(row as any).regular_price ?? '—'}</Td>
+                    <Td className="text-right tabular-nums text-sm text-gray-700">{(row as any).stock_quantity ?? '—'}</Td>
                   </tr>
                 );
               })}
               {!updateRows.length ? (
                 <tr>
                   <td colSpan={7} className="px-4 py-10 text-center text-sm text-gray-500">
-                    Nothing to update — try running a fresh preview.
+                    Nothing to update — click Preview to refresh.
                   </td>
                 </tr>
               ) : null}
@@ -380,7 +348,6 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* overlay */}
       <BusyOverlay
         show={loading}
         title="Please wait"
@@ -399,18 +366,13 @@ function SummaryCard({ label, value }: { label: string; value?: string | number 
     </div>
   );
 }
-
 function Th({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <th
-      scope="col"
-      className={`px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 ${className}`}
-    >
+    <th scope="col" className={`px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 ${className}`}>
       {children}
     </th>
   );
 }
-
 function Td({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return <td className={`px-4 py-3 align-middle ${className}`}>{children}</td>;
 }

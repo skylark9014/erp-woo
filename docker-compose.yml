@@ -47,7 +47,6 @@ services:
       - "3000:3000"
     environment:
       - NEXT_TELEMETRY_DISABLED=1
-      - NEXT_PUBLIC_ADMIN_BASE_PATH=/admin
       # UI → FastAPI internal URL on the Docker network
       - INTEGRATION_BASE_URL=http://integration:8000
       # Basic auth for the proxy calls (same as FastAPI admin creds)

@@ -154,7 +154,7 @@ def get_stock_adjustment():
 # Misc Admin — ✅ Shipping Parameters Edit Functions
 # ------------------------------------------------------------------------------
 
-@router.get("/config/shipping-params")
+@router.get("/config/shipping/params")
 async def get_shipping_params():
     """
     Return the current shipping_prams.json content + metadata.
@@ -199,7 +199,7 @@ def _atomic_write(path: Path, data: str):
     tmp.write_text(data, encoding="utf-8")
     os.replace(tmp, path)  # atomic on POSIX
 
-@router.put("/config/shipping-params")
+@router.put("/config/shipping/params")
 async def put_shipping_params(payload: ShippingParamsUpsert = Body(...)):
     """
     Save new shipping_prams.json. Validates JSON first, writes atomically,
