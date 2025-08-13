@@ -6,14 +6,36 @@ import {
     getShippingParams,
     saveShippingParams,
     syncShipping,
-    type ShippingParamsDoc,
-    type ShippingParamsFile,
-    type ShippingSpec,
+    type ShippingParamsDoc, // keep this one from lib/api
 } from '@/app/lib/api';
+
 
 /* =========================
    Types / helpers
    ========================= */
+
+// Local type definitions (don’t import these from lib/api)
+type ShippingSpec = {
+    weight_kg?: number;
+    length_cm?: number;
+    width_cm?: number;
+    height_cm?: number;
+    shipping_class?: string;
+};
+
+type ShippingParamsFile = {
+    generated_at?: string;
+    defaults?: ShippingSpec;
+    simples?: Record<string, ShippingSpec>;
+    variables?: Record<
+        string,
+        {
+            parent?: ShippingSpec;
+            variations?: Record<string, ShippingSpec>;
+        }
+    >;
+    meta?: any;
+};
 
 type VariablesEntryNorm = {
     parent: ShippingSpec;
@@ -52,28 +74,41 @@ function sortBySku<T extends [string, any]>(entries: T[]): T[] {
     return [...entries].sort((a, b) => a[0].localeCompare(b[0]));
 }
 
-/** Normalize any ShippingParamsFile into a version
- *  where defaults/simples/variables/meta are guaranteed. */
-function normalize(input?: ShippingParamsFile | null): NormalizedShippingParams {
-    const out: NormalizedShippingParams = {
-        generated_at: input?.generated_at,
-        defaults: { ...(input?.defaults || {}) },
-        simples: { ...(input?.simples || {}) },
-        variables: {},
-        meta: input?.meta ?? {},
-    };
+/** Safely pluck fields from any unknown shape, tolerating synonyms. */
+function pluckDefaults(input: any): ShippingSpec {
+    const def = input?.defaults ?? input?.default ?? {};
+    return { ...(def || {}) };
+}
 
-    const varsIn = input?.variables || {};
-    const varsOut: Record<string, VariablesEntryNorm> = {};
-    for (const [pk, val] of Object.entries(varsIn as Record<string, any>)) {
-        varsOut[pk] = {
+function pluckSimples(input: any): Record<string, ShippingSpec> {
+    // tolerate `simples`, `simple`, `simple_products`
+    const s = input?.simples ?? input?.simple ?? input?.simple_products ?? {};
+    return { ...(s || {}) };
+}
+
+function pluckVariables(input: any): Record<string, VariablesEntryNorm> {
+    // tolerate `variables`, `variable`, `variable_products`
+    const raw = input?.variables ?? input?.variable ?? input?.variable_products ?? {};
+    const out: Record<string, VariablesEntryNorm> = {};
+    for (const [pk, val] of Object.entries(raw as Record<string, any>)) {
+        out[pk] = {
             parent: { ...(val?.parent || {}) },
             variations: { ...(val?.variations || {}) },
         };
     }
-    out.variables = varsOut;
-
     return out;
+}
+
+/** Normalize any ShippingParamsFile into a guaranteed shape. */
+function normalize(input?: ShippingParamsFile | null): NormalizedShippingParams {
+    const src: any = input ?? {};
+    return {
+        generated_at: src.generated_at,
+        defaults: pluckDefaults(src),
+        simples: pluckSimples(src),
+        variables: pluckVariables(src),
+        meta: src.meta ?? {},
+    };
 }
 
 /* =========================
@@ -99,7 +134,27 @@ export default function ShippingPage() {
             setMsg(null);
             try {
                 const envelope: ShippingParamsDoc = await getShippingParams();
-                const parsed = envelope?.json ?? (envelope?.content ? JSON.parse(envelope.content) : {});
+
+                // Prefer parsing the raw file content if present (it’s the source of truth).
+                let parsed: any = {};
+                let parsedFromContent: any = null;
+                if (typeof envelope?.content === 'string' && envelope.content.trim()) {
+                    try {
+                        parsedFromContent = JSON.parse(envelope.content);
+                    } catch {
+                        // If content is somehow not valid JSON, we’ll fall back to json field below.
+                        parsedFromContent = null;
+                    }
+                }
+
+                if (parsedFromContent && typeof parsedFromContent === 'object') {
+                    parsed = parsedFromContent;
+                } else if (envelope?.json && typeof envelope.json === 'object') {
+                    parsed = envelope.json;
+                } else {
+                    parsed = {};
+                }
+
                 const normalized = normalize(parsed);
                 setDoc(normalized);
                 setRaw(JSON.stringify(normalized, null, 2));
@@ -113,12 +168,12 @@ export default function ShippingPage() {
 
     // ---------- derived lists ----------
     const simpleRows = useMemo(
-        () => sortBySku(doc ? Object.entries(doc.simples) : []),
+        () => sortBySku(doc ? Object.entries(doc.simples || {}) : []),
         [doc]
     );
 
     const variableParents = useMemo(
-        () => sortBySku(doc ? Object.entries(doc.variables) : []),
+        () => sortBySku(doc ? Object.entries(doc.variables || {}) : []),
         [doc]
     );
 
@@ -305,9 +360,20 @@ export default function ShippingPage() {
             const res = await saveShippingParams({ data: doc, pretty: true, sortKeys: true });
             if (res?.ok === false) throw new Error(res?.error || 'Backend reported failure saving the file.');
 
-            const next = res?.json ? normalize(res.json) : doc;
-            setDoc(next);
-            setRaw(JSON.stringify(next, null, 2));
+            // prefer the returned content/json if present; otherwise keep what we have
+            let nextDoc = doc;
+            try {
+                const parsed =
+                    (res?.content && JSON.parse(res.content)) ||
+                    (res?.json as any) ||
+                    {};
+                nextDoc = normalize(parsed);
+            } catch {
+                // ignore parsing errors, retain current doc
+            }
+
+            setDoc(nextDoc);
+            setRaw(JSON.stringify(nextDoc, null, 2));
             setMsg('Shipping parameters saved.');
         } catch (e: any) {
             setError(e?.message || 'Save failed.');
@@ -506,7 +572,7 @@ export default function ShippingPage() {
                     const variations = sortBySku(Object.entries(entry.variations || {}));
                     return (
                         <div key={parentSku} className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-                            {/* Darker header bar for contrast */}
+                            {/* Slightly darker header bar for contrast */}
                             <div className="flex items-center justify-between border-b border-gray-200 bg-gray-100 px-4 py-2">
                                 <div className="flex flex-wrap items-center gap-3">
                                     <span className="text-xs font-semibold uppercase text-gray-700">Parent</span>
