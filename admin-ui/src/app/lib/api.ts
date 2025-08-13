@@ -20,30 +20,7 @@ export type HealthResponse = {
     _httpStatus?: number;
 };
 
-/** Shipping JSON shapes coming from shipping_params.json */
-
-export type ShippingSpec = {
-    weight_kg?: number;
-    length_cm?: number;
-    width_cm?: number;
-    height_cm?: number;
-    shipping_class?: string;
-};
-
-export type ShippingVariablesEntry = {
-    parent?: ShippingSpec;
-    variations?: Record<string, ShippingSpec>;
-};
-
-export type ShippingParamsFile = {
-    generated_at?: string;
-    defaults?: ShippingSpec;
-    simples?: Record<string, ShippingSpec>;
-    variables?: Record<string, ShippingVariablesEntry>;
-    meta?: any;
-};
-
-/** Envelope used by GET/POST /api/integration/shipping/params */
+/** Shipping params doc (used by GET and POST) */
 export type ShippingParamsDoc = {
     ok: boolean;
     path?: string;
@@ -52,7 +29,29 @@ export type ShippingParamsDoc = {
     mtime?: number;        // unix seconds
     size?: number;         // bytes
     content?: string;      // raw file text
-    json?: ShippingParamsFile; // parsed object (preferred)
+    json?: any;            // parsed object
+    saved?: boolean;
+};
+
+/** Mapping store types */
+export type ProductMapRow = {
+    erp_item_code?: string;
+    sku?: string;
+    woo_product_id?: number;
+    woo_status?: string;
+    brand?: string;
+    categories?: string;
+};
+
+export type MappingStoreDoc = {
+    ok: boolean;
+    path?: string;
+    valid?: boolean;
+    error?: string | null;
+    mtime?: number;
+    size?: number;
+    content?: string;
+    json?: { products?: ProductMapRow[] } | any;
     saved?: boolean;
 };
 
@@ -131,5 +130,33 @@ export async function syncShipping(opts?: { dryRun?: boolean }): Promise<any> {
         cache: "no-store",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dry_run: !!opts?.dryRun }),
+    });
+}
+
+// ---------- Mapping store (GET/POST) ----------
+export async function getMappingStore(): Promise<MappingStoreDoc> {
+    return getJson<MappingStoreDoc>(withBase("/api/integration/mapping/store"), {
+        method: "GET",
+        cache: "no-store",
+    });
+}
+
+export async function saveMappingStore(payload: {
+    content?: string;
+    data?: any;
+    pretty?: boolean;
+    sortKeys?: boolean;
+}): Promise<MappingStoreDoc> {
+    const body = {
+        content: payload.content ?? null,
+        data: payload.data ?? null,
+        pretty: payload.pretty ?? true,
+        sort_keys: payload.sortKeys ?? true,
+    };
+    return getJson<MappingStoreDoc>(withBase("/api/integration/mapping/store"), {
+        method: "POST",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
     });
 }
