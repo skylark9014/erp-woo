@@ -325,10 +325,10 @@ async def _prepare_context(*, dry_run: bool, skus: Optional[List[str]] = None) -
 
 async def sync_products_full(dry_run: bool = False, purge_bin: bool = True) -> Dict[str, Any]:
     if dry_run:
-        sync_type ="Preview"
+        sync_type = "Preview"
     else:
-        sync_type ="Full"
-    
+        sync_type = "Full"
+
     logger.info(f"🔁 [SYNC] Starting {sync_type} ERPNext → Woo sync (dry_run=%s)", dry_run)
 
     if not dry_run and purge_bin:
@@ -345,30 +345,42 @@ async def sync_products_full(dry_run: bool = False, purge_bin: bool = True) -> D
         attribute_map=ctx["attribute_map"],
         stock_map=ctx["stock_map"],
         attribute_order=ctx["attribute_order_for_preview"],
-        dry_run=dry_run
+        dry_run=dry_run,
+        # Be explicit: on the main pass we *do not* preserve parent attrs/images
+        # (we want the new intersections/fallbacks to apply during a real full sync).
+        preserve_parent_attrs_on_update=False,
     )
 
     # Save Sync Preview (products_to_sync.json)
     try:
         if dry_run:
-            # Admin UI needs this file to drive partial/full actions
-            save_preview_to_file(sync_report)
+            # Admin UI needs this for selection
+            save_preview_to_file(sync_report, source="full", dry_run=True, skus=None)
         else:
-            # After real updates, re-diff against fresh Woo state so preview reflects reality
-            wc_products_fresh = await get_wc_products()
-            recheck = await sync_all_templates_and_variants(
-                variant_matrix=ctx["variant_matrix"],
-                wc_products=wc_products_fresh,
-                wc_cat_map=ctx["wc_cat_map"],
-                price_map=ctx["price_map"],
-                attribute_map=ctx["attribute_map"],
-                stock_map=ctx["stock_map"],
-                attribute_order=ctx["attribute_order_for_preview"],
-                dry_run=True,   # preview-only pass
-            )
-            save_preview_to_file(recheck)
+            # Post-sync refresh in the background so the response isn’t blocked
+            async def _refresh():
+                try:
+                    ctx2 = await _prepare_context(dry_run=True, skus=None)
+                    snap = await sync_all_templates_and_variants(
+                        variant_matrix=ctx2["variant_matrix"],
+                        wc_products=ctx2["wc_products"],
+                        wc_cat_map=ctx2["wc_cat_map"],
+                        price_map=ctx2["price_map"],
+                        attribute_map=ctx2["attribute_map"],
+                        stock_map=ctx2["stock_map"],
+                        attribute_order=ctx2["attribute_order_for_preview"],
+                        dry_run=True,
+                        # For the *preview* pass, preserve parent attrs/images to avoid
+                        # accidental shrinking in the snapshot.
+                        preserve_parent_attrs_on_update=True,
+                    )
+                    save_preview_to_file(snap, source="post-full", dry_run=True, skus=None)
+                except Exception as ie:
+                    logger.warning(f"[FULL] post-sync preview refresh failed: {ie}")
+            # Fire and forget background refresh
+            asyncio.create_task(_refresh())
     except Exception as e:
-        logger.error(f"Failed to save Partial Sync reference file: {e}")
+        logger.error(f"Failed to write products_to_sync.json: {e}")
 
     logger.info(f"✅ [SYNC] {sync_type} sync complete (dry_run=%s)", dry_run)
     return {
@@ -392,11 +404,12 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
           simples:  to_create + to_update
           variants: variant_to_create + variant_to_update
       - Filter the ERP context to ONLY those SKUs.
-      - Preserve parent attributes/images when parent already exists.
+      - Preserve parent attributes/images when parent already exists (avoid shrinking).
     """
+    import os
     import json
 
-    logger.info(f"🔁 [SYNC] Starting a partial ERPNext → Woo sync (dry_run=%s)", dry_run)
+    logger.info("🔁 [SYNC] Starting PARTIAL ERPNext → Woo sync (dry_run=%s)", dry_run)
     PREVIEW_PATH = "/app/mapping/products_to_sync.json"
 
     def _is_variation(s: str) -> bool:
@@ -414,6 +427,7 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
             return set()
 
         targets = set()
+        # Only take actionable buckets for now
         for key in ("to_create", "to_update", "variant_to_create", "variant_to_update"):
             for row in (j.get(key) or []):
                 sku = (row or {}).get("sku")
@@ -425,7 +439,7 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
     preview_targets = _load_preview_targets()
     user_targets = set(skus_to_sync or [])
     if user_targets:
-        # intersect with preview if preview exists, else trust user
+        # If preview exists, intersect; if not, trust user list
         targets = (user_targets & (preview_targets or user_targets))
     else:
         targets = preview_targets
@@ -435,16 +449,37 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
         return {
             "brand_report": {"created": [], "updated": [], "deleted": [], "skipped": [], "total_erp_brands": 0, "total_wc_brands": 0, "dry_run": dry_run, "delete_missing": False},
             "attribute_report": {"count": 0, "attributes": [], "dry_run": dry_run},
-            "sync_report": {"created": [], "updated": [], "skipped": [], "errors": [], "mapping": {}, "to_create": [], "to_update": [], "to_delete": [], "already_synced": [], "variant_parents": [], "variant_to_create": [], "variant_to_update": [], "variant_to_delete": [], "variant_parents_to_delete": [], "variant_synced": [], "meta": {"generated_at": "", "dry_run": dry_run, "counts": {}}},
+            # Keep this shape IDENTICAL to sync_all_templates_and_variants
+            "sync_report": {
+                "created": [],
+                "updated": [],
+                "skipped": [],
+                "errors": [],
+                "mapping": {},
+                "to_create": [],
+                "to_update": [],
+                "already_synced": [],
+                "variant_parents": [],
+                "variant_to_create": [],
+                "variant_to_update": [],
+                "variant_synced": [],
+            },
             "attribute_order": [],
             "dry_run": dry_run,
         }
 
-    # 2) Prepare ERP/Woo context (we still let ERP load the full families it needs)
+    # Make runs stable/reproducible
+    targets = sorted(targets)
+    logger.info("[PARTIAL] %d target SKU(s): %s%s",
+                len(targets),
+                ", ".join(targets[:10]),
+                (" …" if len(targets) > 10 else ""))
+
+    # 2) Prepare ERP/Woo context (ERP loads enough to resolve families & attrs)
     ctx = await _prepare_context(dry_run=dry_run, skus=list(targets))
 
     # 3) Filter the variant_matrix down to ONLY the selected SKUs
-    filtered_matrix = {}
+    filtered_matrix: Dict[str, Dict[str, Any]] = {}
     parent_skus_needed = set()
     simple_skus = {s for s in targets if not _is_variation(s)}
     variation_skus = {s for s in targets if _is_variation(s)}
@@ -495,7 +530,28 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
         preserve_parent_attrs_on_update=True,   # avoid shrinking options/images in partial
     )
 
-    logger.info(f"🔁 [SYNC] Completed a partial ERPNext → Woo sync (dry_run=%s)", dry_run)
+    # 6) After a REAL partial sync, refresh the preview snapshot in the background
+    if not dry_run:
+        async def _refresh():
+            try:
+                ctx2 = await _prepare_context(dry_run=True, skus=None)
+                snap = await sync_all_templates_and_variants(
+                    variant_matrix=ctx2["variant_matrix"],
+                    wc_products=ctx2["wc_products"],
+                    wc_cat_map=ctx2["wc_cat_map"],
+                    price_map=ctx2["price_map"],
+                    attribute_map=ctx2["attribute_map"],
+                    stock_map=ctx2["stock_map"],
+                    attribute_order=ctx2["attribute_order_for_preview"],
+                    dry_run=True,
+                    preserve_parent_attrs_on_update=True,
+                )
+                save_preview_to_file(snap, source="post-partial", dry_run=True, skus=None)
+            except Exception as ie:
+                logger.warning("[PARTIAL] post-sync preview refresh failed: %s", ie)
+        asyncio.create_task(_refresh())
+
+    logger.info("✅ [SYNC] Completed PARTIAL ERPNext → Woo sync (dry_run=%s)", dry_run)
     return {
         "brand_report": ctx["brand_report"],
         "attribute_report": ctx["attribute_report"],

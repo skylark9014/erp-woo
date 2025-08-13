@@ -3,16 +3,21 @@
 # FastAPI routes for ERPNext ↔ WooCommerce sync, utilities, and legacy compatibility.
 #
 # ✅ Canonical public API lives under /api/*
-# ✅ NEW PIPELINE endpoints (product_sync.py) are the ones to keep long-term
-# 🧩 LEGACY PIPELINE endpoints (sync.py) are kept under /api/legacy/* for now
+# ✅ NEW PIPELINE endpoints (product_sync.py) are admin-only now (HTTP Basic)
+# 🧩 LEGACY PIPELINE endpoints (sync.py) kept under /api/legacy/* for comparison
 #
 # IMPORTANT: In main_app.py, include with NO extra prefix to avoid /api/api duplication:
 #   from app.routes import router as api_router
 #   app.include_router(api_router)   # <-- no prefix here
 #=======================================================================================
 
-from fastapi import APIRouter, Query, Request
+import httpx
+import secrets
+from fastapi import APIRouter, Query, Request, Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import JSONResponse
+
+from app.config import settings
 
 # NEW pipeline (keep)
 from app.sync.product_sync import (
@@ -39,30 +44,40 @@ from app.erpnext import erpnext_ping
 
 router = APIRouter(prefix="/api", tags=["Sync API"])
 
-# ------------------------------------------------------------------------------
-# NEW PIPELINE (product_sync.py) — ✅ KEEP THESE
-# ------------------------------------------------------------------------------
+# ---------------------------
+# HTTP Basic for NEW pipeline
+# ---------------------------
+security = HTTPBasic()
 
-@router.api_route("/sync/preview", methods=["GET", "POST"])
+def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
+    ok_user = secrets.compare_digest(credentials.username or "", settings.ADMIN_USER or "")
+    ok_pass = secrets.compare_digest(credentials.password or "", settings.ADMIN_PASS or "")
+    if not (ok_user and ok_pass):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+
+# ----------------------------------------------------------------------
+# NEW PIPELINE (product_sync.py) — ✅ KEEP (now requires HTTP Basic)
+# ----------------------------------------------------------------------
+
+@router.api_route("/sync/preview", methods=["GET", "POST"], dependencies=[Depends(verify_admin)])
 async def api_sync_preview():
     """
-    NEW PIPELINE (KEEP): Dry-run preview of ERPNext → Woo sync.
-    - Applies all new rules: categories, brand, price list, variants, gallery images, etc.
-    - Does NOT mutate Woo/ERP.
+    Dry-run preview of ERPNext → Woo sync (admin-only).
     """
     result = await sync_preview()
     return JSONResponse(content=result)
 
-@router.post("/sync/full")
+@router.post("/sync/full", dependencies=[Depends(verify_admin)])
 async def api_sync_full(request: Request):
     """
-    NEW PIPELINE (KEEP): Full ERPNext → Woo sync.
-    Body: { "dry_run": bool, "purge_bin": bool (optional, default True) }
-    - If dry_run is true: no mutations (preview path); else executes changes.
-    - Purges Woo bin ahead of run unless purge_bin=false.
+    Full ERPNext → Woo sync (admin-only).
+    Body: { "dry_run": bool, "purge_bin": bool (default True) }
     """
     payload = {}
-    # Be tolerant of GETs or empty bodies; only parse JSON if provided
     if request.headers.get("content-type", "").startswith("application/json"):
         payload = await request.json()
     dry_run = bool(payload.get("dry_run", False))
@@ -70,11 +85,11 @@ async def api_sync_full(request: Request):
     result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
     return JSONResponse(content=result)
 
-@router.post("/sync/partial")
+@router.post("/sync/partial", dependencies=[Depends(verify_admin)])
 async def api_sync_partial(request: Request):
     """
-    NEW PIPELINE (KEEP): Partial sync by SKUs.
-    Body: { "skus": [ "SKU1", "SKU2", ... ], "dry_run": bool }
+    Partial sync by SKUs (admin-only).
+    Body: { "skus": [ "SKU1", ... ], "dry_run": bool }
     """
     payload = {}
     if request.headers.get("content-type", "").startswith("application/json"):
@@ -84,10 +99,9 @@ async def api_sync_partial(request: Request):
     result = await sync_products_partial(skus_to_sync=skus, dry_run=dry_run)
     return JSONResponse(content=result)
 
-# ------------------------------------------------------------------------------
-# LEGACY PIPELINE (sync.py) — 🟠 DEPRECATE SOON
-#   Keep these for now so you can compare outputs. Recommend removing later.
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# LEGACY PIPELINE (sync.py) — 🟠 DEPRECATE SOON (left open for now)
+# ----------------------------------------------------------------------
 
 @router.post("/legacy/sync/run")
 async def legacy_run_sync():
@@ -104,9 +118,9 @@ async def legacy_run_category_sync():
     """LEGACY UTILITY (DEPRECATE): Sync ERPNext Item Groups to Woo categories."""
     return await legacy_sync_categories()
 
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
 # WooCommerce utilities — ✅ KEEP
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
 @router.post("/woocommerce/purge-bin")
 async def purge_woocommerce_bin():
@@ -128,11 +142,78 @@ async def list_woocommerce_bin():
     """Utility: List all WooCommerce products currently in the BIN (Trash)."""
     return await list_wc_bin_products()
 
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
 # ERPNext healthcheck — ✅ KEEP
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------
 
 @router.get("/erpnext/ping")
 async def ping_erpnext():
     """Healthcheck: ERPNext credentials + API reachability."""
     return await erpnext_ping()
+
+@router.get("/health")
+async def api_health():
+    """
+    Health check used by the Admin UI:
+    - ERPNext: GET {ERP_URL}/api/method/ping   (expects 200)
+    - WordPress: GET {WP_API_URL or WC_BASE_URL/wp-json}   (expects 200)
+    - Optionally pings Woo REST root to confirm reachability (auth may not be required)
+    """
+    erp_url = (getattr(settings, "ERP_URL", "") or "").strip()
+    wc_base = (getattr(settings, "WC_BASE_URL", "") or "").strip()
+    wp_api = (getattr(settings, "WP_API_URL", None) or (wc_base.rstrip("/") + "/wp-json") if wc_base else None)
+
+    result = {
+        "ok": True,
+        "integration": {"ok": True},
+        "erpnext": {},
+        "woocommerce": {},
+    }
+
+    async with httpx.AsyncClient(timeout=10.0, verify=False) as client:
+        # ---- ERPNext ping ----
+        if not erp_url:
+            result["erpnext"] = {"ok": False, "error": "ERP_URL not set"}
+            result["ok"] = False
+        else:
+            erp_ping_url = erp_url.rstrip("/") + "/api/method/ping"
+            try:
+                r = await client.get(erp_ping_url)
+                erp_ok = (r.status_code == 200)
+                result["erpnext"] = {
+                    "ok": erp_ok,
+                    "status": r.status_code,
+                    "url": erp_ping_url,
+                }
+                result["ok"] = result["ok"] and erp_ok
+            except Exception as e:
+                result["erpnext"] = {"ok": False, "error": str(e), "url": erp_ping_url}
+                result["ok"] = False
+
+        # ---- WordPress / Woo reachability ----
+        if not wp_api:
+            result["woocommerce"] = {"ok": False, "error": "WP_API_URL and WC_BASE_URL not set"}
+            result["ok"] = False
+        else:
+            try:
+                r = await client.get(wp_api.rstrip("/"))
+                wp_ok = (r.status_code == 200)
+                result["woocommerce"] = {
+                    "ok": wp_ok,
+                    "status": r.status_code,
+                    "url": wp_api.rstrip("/"),
+                }
+                # Optional: ping Woo REST root (no auth required to just confirm route)
+                if wc_base:
+                    try:
+                        r2 = await client.get(wc_base.rstrip("/") + "/wp-json/wc/v3")
+                        result["woocommerce"]["rest_status"] = r2.status_code
+                    except Exception as ee:
+                        result["woocommerce"]["rest_status"] = None
+                        result["woocommerce"]["rest_error"] = str(ee)
+                result["ok"] = result["ok"] and wp_ok
+            except Exception as e:
+                result["woocommerce"] = {"ok": False, "error": str(e), "url": wp_api}
+                result["ok"] = False
+
+    return JSONResponse(content=result)

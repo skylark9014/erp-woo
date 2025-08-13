@@ -1,19 +1,18 @@
 #=================================================================
 # app/main_app.py
-# FastAPI application entry-point (production ready).
+# FastAPI application entry-point (no static serving).
 #=================================================================
 
 import logging
 import secrets
 
 from fastapi import FastAPI, Depends, Request, HTTPException, status
-from fastapi.responses import JSONResponse, FileResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-from app.routes import router as api_router          # NEW + legacy endpoints under /api/*
-from app.admin_routes import router as admin_router  # Admin UI endpoints under /admin/api/*
+from app.routes import router as api_router          # Public API under /api/*
+from app.admin_routes import router as admin_router  # Admin API under /admin/api/*
 from app.config import settings
 
 ADMIN_USER = settings.ADMIN_USER
@@ -26,11 +25,6 @@ app = FastAPI(
     debug=True,
 )
 
-@app.get("/admin", include_in_schema=False)
-async def serve_admin_panel():
-    # Adjust path if needed
-    return FileResponse("app/static/admin_panel.html", media_type="text/html")
-
 # --- Logging setup (console, INFO level) ---
 logging.basicConfig(
     level=logging.INFO,
@@ -39,9 +33,6 @@ logging.basicConfig(
 logger = logging.getLogger("uvicorn.error")
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
-
-# --- Static Files (for Admin UI) ---
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 # --- CORS ---
 origins = settings.CORS_ORIGINS
@@ -52,6 +43,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# NOTE: If CORS_ORIGINS is ["*"] AND allow_credentials=True, browsers will block.
+# Use a concrete origin (e.g., https://records.techniclad.co.za) in production.
 
 # --- Simple HTTP Basic Auth for /admin/api/* ---
 security = HTTPBasic()
@@ -66,18 +59,17 @@ def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"},
         )
 
-# Only secure /admin/api/* routes (not the public /api/*)
-from fastapi.routing import APIRoute
-def secure_router(router):
-    for route in router.routes:
-        if isinstance(route, APIRoute):
-            route.dependant.dependencies.append(Depends(verify_admin))
-    return router
-
 # --- Include routers ---
-# IMPORTANT: Do NOT add another prefix here, api_router already has prefix="/api" inside routes.py
-app.include_router(api_router)                     # -> /api/*
-app.include_router(secure_router(admin_router))    # -> /admin/api/* (protected)
+# Public API (stays at /api/*)
+app.include_router(api_router)
+
+# Admin API (mounted under /admin/api/* and protected)
+# admin_router already has prefix="/api" inside it, so final path is /admin/api/*
+app.include_router(
+    admin_router,
+    prefix="/admin",
+    dependencies=[Depends(verify_admin)],
+)
 
 # --- Root endpoint ---
 @app.get("/")

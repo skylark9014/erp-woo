@@ -2736,7 +2736,7 @@
   "variant_parents_to_delete": [],
   "variant_synced": [],
   "meta": {
-    "generated_at": "2025-08-11T14:16:31.965051+00:00",
+    "generated_at": "2025-08-12T20:49:54.760492+00:00",
     "dry_run": true,
     "counts": {
       "to_create": 0,
@@ -2751,5 +2751,12 @@
       "variant_synced": 0,
       "errors": 0
     }
+  },
+  "_meta": {
+    "generated_at": "2025-08-12T20:49:54.762303+00:00",
+    "source": "full",
+    "dry_run": true,
+    "skus": [],
+    "schema": 2
   }
 }

@@ -13,6 +13,8 @@ import logging
 import json
 import os
 
+from datetime import datetime, timezone
+from typing import Optional, List
 from pathlib import Path
 from decimal import Decimal, ROUND_HALF_UP
 from urllib.parse import urlparse, quote
@@ -51,6 +53,8 @@ def _mapping_dir() -> Path:
     fallback = Path(__file__).resolve().parent / "mapping"
     fallback.mkdir(parents=True, exist_ok=True)
     return fallback
+
+_PREVIEW_PATH = os.path.join(_mapping_dir(), "products_to_sync.json")
 
 # --- Category & Name Utilities ---
 
@@ -617,19 +621,32 @@ async def get_variant_gallery_images(variant, template, get_erp_images):
 
 # --- Partial sync - recording sync_products_preview output for partial sync in JSON file ---
 
-def save_preview_to_file(preview: dict, filename: str = "products_to_sync.json"):
-    """
-    Save sync preview output to app/mapping/products_to_sync.json for partial sync.
-    Uses atomic write (temp file + replace), utf-8 encoding, and ensures the mapping directory exists.
-    """
-    os.makedirs(_mapping_dir(), exist_ok=True)
-    target_path = os.path.join(_mapping_dir(), filename)
-    tmp_file = target_path + ".tmp"
+def _atomic_write_json(path: str, obj: dict) -> None:
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
 
-    logger.info(f"Saving partial sync reference file '{target_path}'")
-    with open(tmp_file, "w", encoding="utf-8") as f:
-        json.dump(preview, f, indent=2, ensure_ascii=False)
-    os.replace(tmp_file, target_path)
+def save_preview_to_file(
+    sync_report: dict,
+    *,
+    path: str = _PREVIEW_PATH,
+    source: str = "full",
+    dry_run: bool = True,
+    skus: Optional[List[str]] = None
+) -> None:
+    """Persist the preview EXACTLY as returned by sync_all_templates_and_variants, with a small _meta header."""
+    from copy import deepcopy
+    payload = deepcopy(sync_report)
+    meta = payload.setdefault("_meta", {})
+    meta.update({
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "source": source,                # "full" | "partial" | "manual"
+        "dry_run": bool(dry_run),
+        "skus": sorted(list(skus)) if skus else [],
+        "schema": 2
+    })
+    _atomic_write_json(path, payload)
 
 def load_preview_from_file(filename: str = "products_to_sync.json"):
     # Always load from app/mapping/
