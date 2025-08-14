@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-08-14T09:01:20.541075+00:00",
+  "generated_at": "2025-08-14T21:45:46.209355+00:00",
   "defaults": {
     "weight_kg": 0,
     "length_cm": 0,
@@ -499,6 +499,6 @@
       "weight": "kg",
       "dimensions": "cm"
     },
-    "notes": "Edit values per SKU. Leave 0/blank to skip. 'shipping_class' accepts Woo class slug or name."
+    "notes": "Edit per SKU. 0/blank skips a field. shipping_class accepts Woo class slug or name."
   }
 }

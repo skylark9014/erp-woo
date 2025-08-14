@@ -10,17 +10,14 @@
 # =======================================================
 from __future__ import annotations
 
-import logging
-import httpx
-import asyncio
-import os
+import html as _html
+import logging, httpx, asyncio, os, re, unicodedata
 from urllib.parse import urlparse, urlunparse, quote
 from typing import List, Dict, Any, Optional
 from collections import defaultdict, Counter
 
 from app.erp.erp_variant_matrix import build_variant_matrix
 from app.sync.components.price import resolve_price_map
-from app.sync.components.images import gallery_images_equal  # kept for compatibility (not used directly here)
 from app.sync.components.attributes import collect_used_attribute_values
 from app.config import settings
 from app.erpnext import (
@@ -65,11 +62,6 @@ from app.sync.components.brands import (
     extract_brand,
     collect_erp_brands_from_items,
 )
-from app.logging_filters import (
-    _HTML_SIG_RE,
-    _summarize_html,
-    _HtmlTrimFilter,
-)
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -79,6 +71,63 @@ ERP_API_KEY = settings.ERP_API_KEY
 ERP_API_SECRET = settings.ERP_API_SECRET
 WC_BASE_URL = settings.WC_BASE_URL
 _SIZE_CACHE: Dict[str, int] = {}
+
+# ---- Normalize text consistently and pick the ERP source after normalization
+
+def _samp(s: str | None, n: int = 120) -> str:
+    """Short sample for logs."""
+    s = s or ""
+    return s if len(s) <= n else s[:n] + "…"
+
+def _norm_long(text: str | None) -> str:
+    """
+    Strip HTML, decode entities, trim, and collapse whitespace for robust description compares.
+    (Keep case and punctuation — we normalize punctuation separately.)
+    """
+    t = strip_html(text or "")
+    t = _html.unescape(t)
+    t = t.strip()
+    t = re.sub(r"\s+", " ", t)
+    return t
+
+def _normalize_punct(s: str | None) -> str:
+    """Normalize common Unicode punctuation to ASCII so Woo vs ERP diffs don’t flake."""
+    if not s:
+        return ""
+    return (
+        s.replace("\u2013", "-").replace("\u2014", "-").replace("\u2212", "-")  # dashes
+         .replace("\u2018", "'").replace("\u2019", "'")                        # quotes
+         .replace("\u201C", '"').replace("\u201D", '"')
+    )
+
+def _strip_attr_suffix(text: str) -> str:
+    """
+    Remove trailing attribute decorations Woo may render, e.g.:
+      " – Size: 1220mm x 610mm" or " | Sheet Size: Medium"
+    """
+    t = text or ""
+    t = re.sub(r"(\s*[\-–—|]\s*(size|sheet\s*size)\s*:\s*.+)$", "", t, flags=re.I)
+    return t.strip()
+
+# replace the whole function in app/sync/product_sync.py
+
+def _norm_variation_desc_for_compare(s: str | None) -> str:
+    """
+    Normalize variation (and simple) description for diff:
+    - strip HTML
+    - decode entities
+    - normalize punctuation (e.g., en/em dashes → '-')
+    - drop any trailing '... Size: ...' suffix Woo might add
+    - collapse whitespace
+    """
+    raw = _strip_attr_suffix(s or "")
+    # decode/strip first, then normalize punctuation
+    t = strip_html(raw)
+    t = _html.unescape(t)
+    t = _normalize_punct(t)
+    t = t.strip()
+    t = re.sub(r"\s+", " ", t)
+    return t
 
 # ---- host rewrite for image sizing ----
 
@@ -324,11 +373,7 @@ async def _prepare_context(*, dry_run: bool, skus: Optional[List[str]] = None) -
 # =========================
 
 async def sync_products_full(dry_run: bool = False, purge_bin: bool = True) -> Dict[str, Any]:
-    if dry_run:
-        sync_type = "Preview"
-    else:
-        sync_type = "Full"
-
+    sync_type = "Preview" if dry_run else "Full"
     logger.info(f"🔁 [SYNC] Starting {sync_type} ERPNext → Woo sync (dry_run=%s)", dry_run)
 
     if not dry_run and purge_bin:
@@ -398,18 +443,24 @@ async def sync_products_full(dry_run: bool = False, purge_bin: bool = True) -> D
 async def sync_preview() -> Dict[str, Any]:
     return await sync_products_full(dry_run=True, purge_bin=False)
 
-async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) -> Dict[str, Any]:
+# --- PARTIAL SYNC ---
+
+async def sync_products_partial(
+    skus_to_sync: List[str],
+    dry_run: bool = False,
+    *,
+    respect_preview: bool = True
+) -> Dict[str, Any]:
     """
     Partial sync:
-      - If skus_to_sync is provided (from UI selection), use those.
-      - Otherwise, read /app/mapping/products_to_sync.json and compute targets:
-          simples:  to_create + to_update
-          variants: variant_to_create + variant_to_update
+      - If `skus_to_sync` is provided, use those.
+        • When respect_preview=True (default), intersect with products_to_sync.json targets.
+        • When respect_preview=False, the user list is authoritative (no intersection).
+      - If `skus_to_sync` is empty, fall back to products_to_sync.json.
       - Filter the ERP context to ONLY those SKUs.
       - Preserve parent attributes/images when parent already exists (avoid shrinking).
     """
-    import os
-    import json
+    import os, json
 
     logger.info("🔁 [SYNC] Starting PARTIAL ERPNext → Woo sync (dry_run=%s)", dry_run)
     PREVIEW_PATH = "/app/mapping/products_to_sync.json"
@@ -429,7 +480,6 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
             return set()
 
         targets = set()
-        # Only take actionable buckets for now
         for key in ("to_create", "to_update", "variant_to_create", "variant_to_update"):
             for row in (j.get(key) or []):
                 sku = (row or {}).get("sku")
@@ -439,25 +489,40 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
 
     # 1) Decide target SKUs
     preview_targets = _load_preview_targets()
-    user_targets = set(skus_to_sync or [])
+    user_targets = set((skus_to_sync or []))
+
     if user_targets:
-        # If preview exists, intersect; if not, trust user list
-        targets = (user_targets & (preview_targets or user_targets))
+        if respect_preview and preview_targets:
+            targets = user_targets & preview_targets
+        else:
+            targets = user_targets
     else:
         targets = preview_targets
 
+    # Log + echo what we’re using
+    logger.info("[PARTIAL] respect_preview=%s requested=%d preview=%d effective=%d",
+                respect_preview, len(user_targets), len(preview_targets), len(targets))
+
     if not targets:
-        logger.info("[PARTIAL] No targets to sync. Nothing to do.")
+        logger.info("[PARTIAL] No effective targets to sync. Nothing to do.")
         return {
             "brand_report": {"created": [], "updated": [], "deleted": [], "skipped": [], "total_erp_brands": 0, "total_wc_brands": 0, "dry_run": dry_run, "delete_missing": False},
             "attribute_report": {"count": 0, "attributes": [], "dry_run": dry_run},
-            # Keep this shape IDENTICAL to sync_all_templates_and_variants
             "sync_report": {
                 "created": [], "updated": [], "skipped": [], "errors": [], "mapping": {},
                 "to_create": [], "to_update": [], "already_synced": [],
                 "variant_parents": [], "variant_to_create": [], "variant_to_update": [], "variant_synced": [],
+                "to_delete": [], "variant_to_delete": [], "variant_parents_to_delete": [],
+                "meta": {"generated_at": None, "dry_run": dry_run, "counts": {}}
             },
-            "attribute_order": [], "dry_run": dry_run,
+            "attribute_order": [],
+            "dry_run": dry_run,
+            "selection": {
+                "requested": sorted(user_targets),
+                "from_preview": sorted(preview_targets),
+                "effective": [],
+                "respect_preview": respect_preview,
+            },
         }
 
     # Make runs stable/reproducible
@@ -486,8 +551,6 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
                 keep_variants.append(v)
                 keep_attrs.append(attr_matrix[idx] if idx < len(attr_matrix) else {})
 
-        # For a simple product, the "parent_sku" equals the SKU.
-        # For a variable family, include the family if we kept at least one child.
         if keep_variants:
             new_family = dict(family)
             new_family["variants"] = keep_variants
@@ -501,9 +564,6 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
         sku = p.get("sku")
         if not sku:
             continue
-        # keep product if it is:
-        #  - a simple SKU directly targeted, OR
-        #  - a variable parent for a family we are touching
         if (sku in simple_skus) or (sku in parent_skus_needed):
             wc_products_filtered.append(p)
 
@@ -518,11 +578,12 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
         attribute_order=ctx["attribute_order_for_preview"],
         dry_run=dry_run,
         preserve_parent_attrs_on_update=True,   # avoid shrinking options/images in partial
-        erp_items=ctx["erp_items"],             # <-- pass ERP items
+        erp_items=ctx.get("erp_items"),         # keep shipping_params complete
     )
 
-    # 6) After a REAL partial sync, refresh the preview snapshot in the background
-    if not dry_run:
+    # 6) Optionally refresh preview in the background (OFF by default to avoid double-runs in logs)
+    # Enable by setting POST_PARTIAL_PREVIEW=1 in the environment
+    if (not dry_run) and (os.getenv("POST_PARTIAL_PREVIEW", "0").lower() in ("1", "true", "yes")):
         async def _refresh():
             try:
                 ctx2 = await _prepare_context(dry_run=True, skus=None)
@@ -536,7 +597,6 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
                     attribute_order=ctx2["attribute_order_for_preview"],
                     dry_run=True,
                     preserve_parent_attrs_on_update=True,
-                    erp_items=ctx2["erp_items"],   # <-- pass ERP items in refresh too
                 )
                 save_preview_to_file(snap, source="post-partial", dry_run=True, skus=None)
             except Exception as ie:
@@ -549,7 +609,13 @@ async def sync_products_partial(skus_to_sync: List[str], dry_run: bool = False) 
         "attribute_report": ctx["attribute_report"],
         "sync_report": sync_report,
         "attribute_order": ctx["attribute_order_for_preview"],
-        "dry_run": dry_run
+        "dry_run": dry_run,
+        "selection": {
+            "requested": sorted(user_targets),
+            "from_preview": sorted(preview_targets),
+            "effective": targets,
+            "respect_preview": respect_preview,
+        },
     }
 
 # =========================
@@ -566,35 +632,206 @@ async def sync_all_templates_and_variants(
     attribute_order: Optional[List[str]] = None,
     dry_run: bool = False,
     preserve_parent_attrs_on_update: bool = False,
-    erp_items: Optional[List[dict]] = None,   # keep param
+    erp_items: Optional[List[dict]] = None,
 ) -> Dict[str, Any]:
     """
-    RULES (ERPNext → Woo):
-      • Simple vs Variable:
-          - If ERP Item ID has exactly 2 parts (e.g., 'PST-EVRST') → Simple product.
-          - If ERP Item ID has 3+ parts (e.g., 'SVR-ANDES-MEDIUM') → Variable product:
-              parent SKU = first two parts joined ('SVR-ANDES'), variations = remaining parts.
-          - Even if only one child exists, still create a variable parent with a single variation.
-          - Detection uses SKU structure (3+ parts ⇒ variable), not the number of ERP items.
-      • Attribute mapping for variable:
-          - DROP the 2nd ERP part (type like 'ANDES') as a Woo attribute (it’s encoded in the parent SKU).
-          - All parts after the 2nd become Woo attributes. In current data this is primarily 'Sheet Size'.
-          - Normalize size labels: "X" or "×" → " x ", collapse whitespace.
-      • Brands handled via taxonomy 'product_brand' (not Woo product attributes).
-      • Image strategy:
-          - Variable parent gallery: intersection across siblings (excluding Item.image/website_image).
-            If empty, fallback to first variant’s featured + its attachments.
-          - Variation image: featured of that variant.
-          - Simple product: featured + its attachments in creation order.
-      • Image linking: always send Woo 'images' (parent/simple) and 'image' (variation) with media IDs.
-        If Woo ignores them on first call, do a correcting PUT.
-      • Shipping:
-          - Maintain /app/mapping/shipping_params.json with editable per-SKU weight/dimensions/class.
-          - Apply to simple products and each variation (and optionally to the variable parent for class).
-      • Admin-UI preview:
-          - Add delete candidates, per-row woo/meta, parent_sku for variations, and a meta counts block.
+    Core preview/sync with detailed tracing for description & gallery image flows.
     """
 
+    # -------------------------
+    # Helpers (local, no import)
+    # -------------------------
+    import json, asyncio, re, os, unicodedata, httpx, html
+    from collections import Counter, defaultdict
+    from os.path import basename
+
+    # ---- Text normalization helpers (patch) ----
+    def _samp(s: str, n: int = 120) -> str:
+        try:
+            t = str(s or "")
+        except Exception:
+            t = ""
+        t = t.replace("\n", "\\n")
+        return (t[:n] + "…") if len(t) > n else t
+
+    def _strip_html(text: str) -> str:
+        # very light HTML remover for comparison purposes
+        # keep text content, drop tags
+        t = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", text or "")
+        t = re.sub(r"(?is)<br\s*/?>", " ", t)
+        t = re.sub(r"(?is)</p\s*>", " ", t)
+        t = re.sub(r"(?is)<[^>]+>", " ", t)
+        return t
+
+    def _normalize_punct(text: str) -> str:
+        """
+        Make hyphens/dashes and HTML entities compare-friendly.
+        Treat &#8211; (&ndash;) and &#8212; (&mdash;) the same as "-".
+        Normalize quotes and whitespace.
+        """
+        t = html.unescape(text or "")
+        # normalize different dash types to a plain hyphen
+        t = t.replace("–", "-").replace("—", "-")
+        # normalize non-breaking spaces
+        t = t.replace("\u00A0", " ")
+        # collapse multiple hyphens and whitespace around hyphens
+        t = re.sub(r"\s*-\s*", " - ", t)
+        # collapse whitespace
+        t = re.sub(r"\s+", " ", t).strip()
+        return t
+
+    def _norm_long(text: str) -> str:
+        """
+        Normalize long/HTML descriptions for comparison (patch:
+        unify punctuation + strip trivial wrappers).
+        """
+        t = str(text or "")
+        t = _normalize_punct(_strip_html(t))
+        return t
+
+    def _norm_variation_desc_for_compare(text: str) -> str:
+        # same normalization for variations
+        return _norm_long(text)
+
+    def _trim_ids(arr: list[int] | list[dict]) -> list[int]:
+        out = []
+        for v in (arr or []):
+            if isinstance(v, dict) and "id" in v:
+                out.append(int(v["id"]))
+            elif isinstance(v, int):
+                out.append(v)
+        return out
+
+    def _sku_parts(s: str) -> list[str]:
+        return [p for p in (s or "").split("-") if p]
+
+    def _is_variation_sku(s: str) -> bool:
+        return len(_sku_parts(s)) >= 3
+
+    def _galleries_match_loose(a: list[dict], b: list[dict], *, tol: int = 0) -> bool:
+        def _sizes(lst):
+            out = []
+            for d in lst or []:
+                try:
+                    v = int((d or {}).get("size") or 0)
+                    if v > 0: out.append(v)
+                except Exception:
+                    pass
+            return out
+        sa, sb = _sizes(a), _sizes(b)
+        if len(sa) != len(sb): return False
+        if tol <= 0: return Counter(sa) == Counter(sb)
+        def _bucketed(xs): return Counter([(x // tol) for x in xs])
+        return _bucketed(sa) == _bucketed(sb)
+
+    def _normalize_size_label(val: str) -> str:
+        s = str(val or "")
+        s = re.sub(r"\s*[xX×]\s*", " x ", s)
+        s = re.sub(r"\s+", " ", s).strip()
+        return s
+
+    def _now_iso():
+        from datetime import datetime, timezone
+        return datetime.now(timezone.utc).isoformat()
+
+    def _atomic_write_json(path: str, obj: dict):
+        tmp = path + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(obj, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, path)
+
+    def _load_json_or_empty(path: str) -> dict:
+        if not os.path.exists(path):
+            return {}
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f) or {}
+        except Exception:
+            return {}
+
+    def _price_str(v: Optional[float]) -> Optional[str]:
+        if v is None: return None
+        try: return f"{float(v):.2f}"
+        except Exception: return None
+
+    def _family_is_variable(variants, template_code: str, wc_product_index: dict) -> bool:
+        if any(_is_variation_sku(v.get("item_code") or v.get("sku") or template_code) for v in (variants or [])):
+            return True
+        existing = wc_product_index.get(template_code)
+        if existing and (existing.get("type") or "").lower() == "variable":
+            return True
+        return False
+
+    async def _request_with_retry(method: str, url: str, *, auth=None, json=None, max_attempts: int = 3, timeout: float = 40.0):
+        last_exc = None
+        for attempt in range(1, max_attempts + 1):
+            try:
+                async with httpx.AsyncClient(timeout=timeout, verify=False, auth=auth) as client:
+                    if method == "GET":    return await client.get(url)
+                    elif method == "POST": return await client.post(url, json=json)
+                    elif method == "PUT":  return await client.put(url, json=json)
+                    elif method == "DELETE": return await client.delete(url, json=json)
+                    else: raise ValueError(f"Unsupported method: {method}")
+            except Exception as e:
+                last_exc = e
+                delay = 0.5 * (2 ** (attempt - 1))
+                logger.warning(f"[HTTP RETRY] {method} {url} failed ({attempt}/{max_attempts}): {e}. Retrying {delay:.1f}s…")
+                await asyncio.sleep(delay)
+        raise last_exc
+
+    async def _get_product_by_sku(sku: str) -> Optional[dict]:
+        from urllib.parse import quote_plus
+        auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
+        url = f"{settings.WC_BASE_URL.rstrip('/')}/wp-json/wc/v3/products?sku={quote_plus(sku)}"
+        r = await _request_with_retry("GET", url, auth=auth, max_attempts=3, timeout=30.0)
+        if r.status_code == 200:
+            arr = r.json() or []
+            if arr: return arr[0]
+        return None
+
+    async def _get_product_by_id(pid: int) -> Optional[dict]:
+        auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
+        url = f"{settings.WC_BASE_URL.rstrip('/')}/wp-json/wc/v3/products/{pid}"
+        r = await _request_with_retry("GET", url, auth=auth, max_attempts=3, timeout=30.0)
+        if r.status_code in (200, 201): return r.json()
+        return None
+
+    async def _get_variations_map(product_id: int) -> dict:
+        out = {}
+        auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
+        wc_api = f"{settings.WC_BASE_URL.rstrip('/')}/wp-json/wc/v3"
+        page = 1
+        while True:
+            r = await _request_with_retry("GET", f"{wc_api}/products/{product_id}/variations?per_page=100&page={page}", auth=auth, max_attempts=3, timeout=40.0)
+            if r.status_code != 200: break
+            arr = r.json() or []
+            if not arr: break
+            for v in arr:
+                sku = (v.get("sku") or "").strip()
+                if sku: out[sku] = v
+                for a in v.get("attributes", []):
+                    if (a.get("name") or "").strip().lower() == "sheet size":
+                        opt = (a.get("option") or "").strip()
+                        if opt: out[f"size::{opt.lower()}"] = v
+            if len(arr) < 100: break
+            page += 1
+        return out
+
+    async def _upload_with_retry(url: str, fname: str, tries: int = 3):
+        last_exc = None
+        for attempt in range(1, tries + 1):
+            try:
+                return await ensure_wp_image_uploaded(url, fname)
+            except Exception as e:
+                last_exc = e
+                delay = 0.5 * (2 ** (attempt - 1))
+                logger.warning("[IMG][RETRY] upload %s failed (%s/%s): %s; retrying in %.1fs", fname, attempt, tries, e, delay)
+                await asyncio.sleep(delay)
+        raise last_exc
+
+    # -------------------
+    # State & fixed paths
+    # -------------------
     report = {
         "created": [], "updated": [], "skipped": [], "errors": [], "mapping": {},
         "to_create": [], "to_update": [], "to_delete": [],
@@ -618,8 +855,8 @@ async def sync_all_templates_and_variants(
         "variables": {},
         "meta": {
             "units": {"weight": "kg", "dimensions": "cm"},
-            "notes": "Edit values per SKU. Leave 0/blank to skip. 'shipping_class' accepts Woo class slug or name."
-        }
+            "notes": "Edit per SKU. 0/blank skips a field. shipping_class accepts Woo class slug or name.",
+        },
     }
 
     WC_API = settings.WC_BASE_URL.rstrip("/") + "/wp-json/wc/v3"
@@ -630,97 +867,36 @@ async def sync_all_templates_and_variants(
     _ship_class_cache_by_name: dict[str, dict] = {}
     _ship_classes_loaded = False
 
-    def _now_iso():
-        from datetime import datetime, timezone
-        return datetime.now(timezone.utc).isoformat()
+    # -------------------
+    # Brand preloading
+    # -------------------
+    async def _load_brand_id_cache():
+        if brand_id_cache:
+            return
+        auth = (settings.WP_USERNAME, settings.WP_PASSWORD)
+        page = 1
+        async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
+            while True:
+                r = await client.get(f"{WP_BRAND_API}?per_page=100&page={page}")
+                if r.status_code != 200: break
+                arr = r.json() or []
+                if not arr: break
+                for b in arr:
+                    name = (b.get("name") or "").strip()
+                    bid = b.get("id")
+                    if name and bid: brand_id_cache[name.lower()] = int(bid)
+                if len(arr) < 100: break
+                page += 1
 
-    def _atomic_write_json(path: str, obj: dict):
-        import json, os
-        tmp = path + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(obj, f, ensure_ascii=False, indent=2)
-        os.replace(tmp, path)
+    def _brand_payload(brand_name: Optional[str]) -> list[dict]:
+        if not brand_name: return []
+        bid = brand_id_cache.get(str(brand_name).strip().lower())
+        return [{"id": bid}] if bid else []
 
-    def _load_json_or_empty(path: str) -> dict:
-        import json, os
-        if not os.path.exists(path):
-            return {}
-        try:
-            with open(path, "r", encoding="utf-8") as f:
-                return json.load(f) or {}
-        except Exception:
-            return {}
-
-    def _merge_shipping_values(skeleton: dict, existing: dict, *, keep_unknown: bool = True) -> dict:
-        defaults = skeleton.get("defaults", DEFAULT_SHIP)
-        def _fill(d: dict) -> dict:
-            v = {"weight_kg": 0, "length_cm": 0, "width_cm": 0, "height_cm": 0, "shipping_class": ""}
-            v.update({k: d.get(k) for k in v.keys() if d.get(k) is not None})
-            for k in v.keys():
-                if v[k] in (None, ""):
-                    v[k] = defaults.get(k, 0 if k != "shipping_class" else "")
-            return v
-
-        new_obj = {
-            "generated_at": _now_iso(),
-            "defaults": defaults,
-            "simples": {},
-            "variables": {},
-            "meta": skeleton.get("meta", {}),
-        }
-
-        if keep_unknown:
-            for sku, spec in (existing.get("simples") or {}).items():
-                if isinstance(spec, dict):
-                    new_obj["simples"][sku] = _fill(spec)
-            for parent, pv in (existing.get("variables") or {}).items():
-                eparent = (pv or {}).get("parent") or {}
-                new_obj["variables"].setdefault(parent, {"parent": {"shipping_class": eparent.get("shipping_class", "")}, "variations": {}})
-                for vsku, vspec in ((pv or {}).get("variations") or {}).items():
-                    if isinstance(vspec, dict):
-                        new_obj["variables"][parent]["variations"][vsku] = _fill(vspec)
-
-        for sku in (skeleton.get("simples") or {}):
-            new_obj["simples"].setdefault(sku, _fill({}))
-
-        for parent, pv in (skeleton.get("variables") or {}).items():
-            new_obj["variables"].setdefault(parent, {"parent": {"shipping_class": ((existing.get("variables") or {}).get(parent) or {}).get("parent", {}).get("shipping_class", "")}, "variations": {}})
-            for vsku in ((pv or {}).get("variations") or {}):
-                new_obj["variables"][parent]["variations"].setdefault(vsku, _fill({}))
-
-        return new_obj
-
-    def _upsert_mapping(
-        sku: str, *, template: str, attributes: dict, brand: Optional[str], categories: list[str],
-        woo_product_id: Optional[int] = None, woo_status: Optional[str] = None,
-    ):
-        m = report["mapping"].setdefault(sku, {
-            "template": template, "attributes": {}, "brand": None, "categories": [],
-            "woo_product_id": None, "woo_status": None,
-        })
-        m["template"] = template
-        m["attributes"] = attributes or {}
-        m["brand"] = brand
-        m["categories"] = categories or []
-        if woo_product_id is not None:
-            try: m["woo_product_id"] = int(woo_product_id)
-            except Exception: m["woo_product_id"] = None
-        if woo_status is not None:
-            m["woo_status"] = str(woo_status)
-
-    def _sku_parts(s: str) -> list[str]:
-        return [p for p in (s or "").split("-") if p]
-
-    def _family_is_variable(variants, template_code: str, wc_product_index: dict) -> bool:
-        if any(len(_sku_parts(v.get("item_code") or v.get("sku") or template_code)) >= 3 for v in (variants or [])):
-            return True
-        existing = wc_product_index.get(template_code)
-        if existing and (existing.get("type") or "").lower() == "variable":
-            return True
-        return False
-
+    # ---------------
+    # Shipping helpers
+    # ---------------
     def _slugify(text: str) -> str:
-        import re, unicodedata
         s = unicodedata.normalize("NFKD", str(text or ""))
         s = s.encode("ascii", "ignore").decode("ascii")
         s = re.sub(r"[^A-Za-z0-9\-\s]", "", s)
@@ -814,238 +990,59 @@ async def sync_all_templates_and_variants(
             slug = await _resolve_shipping_class_slug(sc, create_if_missing=create_class)
             if slug: payload["shipping_class"] = slug
 
-    async def _request_with_retry(method: str, url: str, *, auth=None, json=None, max_attempts: int = 3, timeout: float = 40.0):
-        last_exc = None
-        for attempt in range(1, max_attempts + 1):
-            try:
-                async with httpx.AsyncClient(timeout=timeout, verify=False, auth=auth) as client:
-                    if method == "GET":    return await client.get(url)
-                    elif method == "POST": return await client.post(url, json=json)
-                    elif method == "PUT":  return await client.put(url, json=json)
-                    elif method == "DELETE": return await client.delete(url, json=json)
-                    else: raise ValueError(f"Unsupported method: {method}")
-            except Exception as e:
-                last_exc = e
-                delay = 0.5 * (2 ** (attempt - 1))
-                logger.warning(f"[HTTP RETRY] {method} {url} failed (attempt {attempt}/{max_attempts}): {e}. Retrying in {delay:.1f}s...")
-                await asyncio.sleep(delay)
-        raise last_exc
-
-    async def _upload_with_retry(url: str, fname: str, tries: int = 3):
-        last_exc = None
-        for attempt in range(1, tries + 1):
-            try:
-                return await ensure_wp_image_uploaded(url, fname)
-            except Exception as e:
-                last_exc = e
-                delay = 0.5 * (2 ** (attempt - 1))
-                logger.warning("[IMG][RETRY] upload %s failed (%s/%s): %s; retrying in %.1fs", fname, attempt, tries, e, delay)
-                await asyncio.sleep(delay)
-        raise last_exc
-
-    def _trim_log(resp, max_len: int = 500):
-        try:
-            def _maybe_trim_str(s: str) -> str:
-                if not isinstance(s, str): return s
-                if _HTML_SIG_RE.search(s): return _summarize_html(s, limit=180)
-                return (s if len(s) <= max_len else s[:max_len] + "…")
-            if isinstance(resp, dict):
-                r = dict(resp)
-                if "raw" in r: r["raw"] = _maybe_trim_str(r["raw"])
-                if "data" in r and isinstance(r["data"], str): r["data"] = _maybe_trim_str(r["data"])
-                return r
-            if isinstance(resp, str): return _maybe_trim_str(resp)
-        except Exception:
-            pass
-        return resp
-
-    async def _load_brand_id_cache():
-        if brand_id_cache:
-            return
-        auth = (settings.WP_USERNAME, settings.WP_PASSWORD)
-        page = 1
-        async with httpx.AsyncClient(timeout=20.0, verify=False, auth=auth) as client:
-            while True:
-                r = await client.get(f"{WP_BRAND_API}?per_page=100&page={page}")
-                if r.status_code != 200: break
-                arr = r.json() or []
-                if not arr: break
-                for b in arr:
-                    name = (b.get("name") or "").strip()
-                    bid = b.get("id")
-                    if name and bid: brand_id_cache[name.lower()] = int(bid)
-                if len(arr) < 100: break
-                page += 1
-
-    def _brand_payload(brand_name: Optional[str]) -> list[dict]:
-        if not brand_name: return []
-        bid = brand_id_cache.get(str(brand_name).strip().lower())
-        return [{"id": bid}] if bid else []
-
-    def _price_str(v: Optional[float]) -> Optional[str]:
-        if v is None: return None
-        try: return f"{float(v):.2f}"
-        except Exception: return None
-
-    async def _get_product_by_sku(sku: str) -> Optional[dict]:
-        from urllib.parse import quote_plus
-        auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
-        url = f"{WC_API}/products?sku={quote_plus(sku)}"
-        r = await _request_with_retry("GET", url, auth=auth, max_attempts=3, timeout=30.0)
-        if r.status_code == 200:
-            arr = r.json() or []
-            if arr: return arr[0]
-        return None
-
-    async def _get_product_by_id(pid: int) -> Optional[dict]:
-        auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
-        url = f"{WC_API}/products/{pid}"
-        r = await _request_with_retry("GET", url, auth=auth, max_attempts=3, timeout=30.0)
-        if r.status_code in (200, 201): return r.json()
-        return None
-
-    async def _get_variations_map(product_id: int) -> dict:
-        out = {}
-        auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
-        page = 1
-        while True:
-            r = await _request_with_retry("GET", f"{WC_API}/products/{product_id}/variations?per_page=100&page={page}", auth=auth, max_attempts=3, timeout=40.0)
-            if r.status_code != 200: break
-            arr = r.json() or []
-            if not arr: break
-            for v in arr:
-                sku = (v.get("sku") or "").strip()
-                if sku: out[sku] = v
-                for a in v.get("attributes", []):
-                    if (a.get("name") or "").strip().lower() == "sheet size":
-                        opt = (a.get("option") or "").strip()
-                        if opt: out[f"size::{opt.lower()}"] = v
-            if len(arr) < 100: break
-            page += 1
-        return out
-
+    # ------------------------
+    # Woo write helpers (loggy)
+    # ------------------------
     async def _create_or_update_product_by_sku(sku: str, payload: dict) -> dict:
         auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
-        parts = [p for p in (sku or "").split("-") if p]
-        if (payload.get("type") != "variable") and (len(parts) >= 3 or sku in variation_skus_seen):
+        if (payload.get("type") != "variable") and (_is_variation_sku(sku) or sku in variation_skus_seen):
             logger.warning("[BLOCK] Top-level product call blocked for variation SKU %s", sku)
-            return {"status_code": 409, "data": {"code": "blocked_variation_sku", "message": "SKU belongs to a variable product's variation"}, "raw": ""}
+            return {"status_code": 409, "data": {"code": "blocked_variation_sku"}, "raw": ""}
 
-        if sku in touched_skus and sku in wc_product_index:
-            pid = wc_product_index[sku]["id"]
-            r = await _request_with_retry("PUT", f"{WC_API}/products/{pid}", auth=auth, json=payload)
-            data = {"status_code": r.status_code, "data": (r.json() if r.headers.get("content-type","").startswith("application/json") else {}), "raw": r.text}
-            if r.status_code in (200, 201):
-                wc_product_index[sku] = data["data"]
-                logger.info(f"[UPDATE] Woo product updated (sku={sku}, id={wc_product_index[sku]['id']})")
-            else:
-                logger.error(f"[WC] update product {r.status_code} {r.headers.get('content-type')} body={data['data']}")
-            return data
-
+        # Decide create vs update
         if sku not in wc_product_index:
             found = await _get_product_by_sku(sku)
-            if found: wc_product_index[sku] = found
+            if found:
+                wc_product_index[sku] = found
 
-        if sku not in wc_product_index:
-            r = await _request_with_retry("POST", f"{WC_API}/products", auth=auth, json=payload)
-            data = {"status_code": r.status_code, "data": (r.json() if r.headers.get("content-type","").startswith("application/json") else {}), "raw": r.text}
-            if r.status_code in (200, 201):
-                prod = data["data"]
-                wc_product_index[sku] = prod
-                touched_skus.add(sku)
-                logger.info(f"[CREATE] Woo product created (sku={sku}, id={prod['id']})")
-                return data
+        method = "POST" if sku not in wc_product_index else "PUT"
+        url = f"{WC_API}/products" if method == "POST" else f"{WC_API}/products/{wc_product_index[sku]['id']}"
+        logger.info("[WC][PRODUCT %s] sku=%s fields: desc=%s short=%s images=%s",
+                    method, sku,
+                    "Y" if "description" in payload else "N",
+                    "Y" if "short_description" in payload else "N",
+                    len(payload.get("images") or []))
 
-            body = data.get("data") or {}
-            if body.get("code") == "product_invalid_sku":
-                logger.error(f"[WC] create product {r.status_code} {r.headers.get('content-type')} body={body}")
-                recovered = await _get_product_by_sku(sku)
-                if not recovered:
-                    rid = (body.get("data") or {}).get("resource_id")
-                    if isinstance(rid, int):
-                        recovered = await _get_product_by_id(rid)
-                if recovered:
-                    wc_product_index[sku] = recovered
-                    pid = recovered["id"]
-                    r2 = await _request_with_retry("PUT", f"{WC_API}/products/{pid}", auth=auth, json=payload)
-                    data2 = {"status_code": r2.status_code, "data": (r2.json() if r2.headers.get("content-type","").startswith("application/json") else {}), "raw": r2.text}
-                    if r2.status_code in (200, 201):
-                        wc_product_index[sku] = data2["data"]
-                        touched_skus.add(sku)
-                        logger.info(f"[UPDATE] Woo product updated (sku={sku}, id={wc_product_index[sku]['id']})")
-                    else:
-                        logger.error(f"[WC] update after duplicate {r2.status_code} {r2.headers.get('content-type')} body={data2['data']}")
-                    return data2
-
-            return data
-
-        pid = wc_product_index[sku]["id"]
-        r = await _request_with_retry("PUT", f"{WC_API}/products/{pid}", auth=auth, json=payload)
+        r = await _request_with_retry(method, url, auth=auth, json=payload)
         data = {"status_code": r.status_code, "data": (r.json() if r.headers.get("content-type","").startswith("application/json") else {}), "raw": r.text}
         if r.status_code in (200, 201):
             wc_product_index[sku] = data["data"]
             touched_skus.add(sku)
-            logger.info(f"[UPDATE] Woo product updated (sku={sku}, id={wc_product_index[sku]['id']})")
+            logger.info("[WC][PRODUCT OK] sku=%s id=%s", sku, wc_product_index[sku].get("id"))
         else:
-            logger.error(f"[WC] update product {r.status_code} {r.headers.get('content-type')} body={data['data']}")
+            logger.error("[WC][PRODUCT ERR] sku=%s code=%s body=%s", sku, r.status_code, (data.get("data") or {})[:1])
         return data
 
     async def _create_or_update_variation(parent_id: int, sku: str, size_option: str, payload: dict, var_map: dict) -> dict:
         auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
         existing = var_map.get(sku) or var_map.get(f"size::{(size_option or '').lower()}")
-        if existing:
-            vid = existing["id"]
-            r = await _request_with_retry("PUT", f"{WC_API}/products/{parent_id}/variations/{vid}", auth=auth, json=payload)
-            data = {"status_code": r.status_code, "data": (r.json() if r.headers.get("content-type","").startswith("application/json") else {}), "raw": r.text}
-            if r.status_code in (200, 201):
-                logger.info(f"[VAR][UPDATE] sku={sku} (vid={vid})")
-            else:
-                logger.error(f"[WC] update variation {r.status_code} {r.headers.get('content-type')} body={data['data']}")
-            return data
-        r = await _request_with_retry("POST", f"{WC_API}/products/{parent_id}/variations", auth=auth, json=payload)
+        method = "PUT" if existing else "POST"
+        url = f"{WC_API}/products/{parent_id}/variations/{existing['id']}" if existing else f"{WC_API}/products/{parent_id}/variations"
+        logger.info("[WC][VAR %s] sku=%s parent_id=%s fields: desc=%s image=%s",
+                    method, sku, parent_id,
+                    "Y" if "description" in payload else "N",
+                    "Y" if "image" in payload else "N")
+        r = await _request_with_retry(method, url, auth=auth, json=payload)
         data = {"status_code": r.status_code, "data": (r.json() if r.headers.get("content-type","").startswith("application/json") else {}), "raw": r.text}
         if r.status_code in (200, 201):
-            logger.info(f"[VAR][CREATE] sku={sku} (pid={parent_id})")
+            logger.info("[WC][VAR OK] sku=%s id=%s", sku, data["data"].get("id"))
         else:
-            logger.error(f"[WC] create variation {r.status_code} {r.headers.get('content-type')} body={data['data']}")
+            logger.error("[WC][VAR ERR] sku=%s code=%s body=%s", sku, r.status_code, (data.get("data") or {})[:1])
         return data
 
-    def _normalize_size_label(val: str) -> str:
-        import re
-        s = str(val or "")
-        s = re.sub(r"\s*[xX×]\s*", " x ", s)
-        s = re.sub(r"\s+", " ", s).strip()
-        return s
-
-    def _rewrite_host_for_wc(url: str) -> str:
-        try:
-            if not url: return url
-            u = urlparse(url)
-            base = urlparse(settings.WC_BASE_URL)
-            if not u.netloc or not base.netloc or u.netloc == base.netloc: return url
-            return urlunparse((base.scheme or u.scheme, base.netloc, u.path, u.params, u.query, u.fragment))
-        except Exception:
-            return url
-
-    def _galleries_match_loose(a: list[dict], b: list[dict], *, tol: int = 0) -> bool:
-        def _sizes(lst):
-            out = []
-            for d in lst or []:
-                try:
-                    v = int((d or {}).get("size") or 0)
-                    if v > 0: out.append(v)
-                except Exception:
-                    pass
-            return out
-        sa, sb = _sizes(a), _sizes(b)
-        if len(sa) != len(sb): return False
-        if tol <= 0: return Counter(sa) == Counter(sb)
-        def _bucketed(xs): return Counter([(x // tol) for x in xs])
-        return _bucketed(sa) == _bucketed(sb)
-
-    await _load_brand_id_cache()
-
-    # --- Pre-pass: compute ERP sets for delete detection & parent preservation
+    # --------------------------------
+    # Pre-pass for delete & shipping IO
+    # --------------------------------
     erp_parent_skus: set[str] = set()
     erp_simple_skus: set[str] = set()
     erp_variations_by_parent: dict[str, set[str]] = defaultdict(set)
@@ -1060,24 +1057,27 @@ async def sync_all_templates_and_variants(
                 vsku = v.get("item_code") or v.get("sku") or ""
                 if vsku:
                     erp_variations_by_parent[template_code].add(vsku)
-                    erp_prefixes.add(_sku_parts(vsku)[0] if _sku_parts(vsku) else "")
+                    if _sku_parts(vsku): erp_prefixes.add(_sku_parts(vsku)[0])
         else:
             for v in variants:
                 ssku = v.get("item_code") or v.get("sku") or ""
                 if ssku:
                     erp_simple_skus.add(ssku)
-                    erp_prefixes.add(_sku_parts(ssku)[0] if _sku_parts(ssku) else "")
+                    if _sku_parts(ssku): erp_prefixes.add(_sku_parts(ssku)[0])
 
     shipping_existing = _load_json_or_empty(SHIPPING_PARAMS_PATH)
+    await _load_brand_id_cache()
 
+    # -----------------
+    # Main family loop
+    # -----------------
     for template_code, data in (variant_matrix or {}).items():
         template_item = data["template_item"]
         variants = data["variants"]
         attr_matrix = data.get("attribute_matrix") or [{} for _ in variants]
-
         is_variable = _family_is_variable(variants, template_code, wc_product_index)
 
-        # Build parent options
+        # Parent options (Sheet Size)
         options_by_attr: Dict[str, set] = defaultdict(set)
         for rec in (attr_matrix or []):
             if not isinstance(rec, dict): continue
@@ -1091,7 +1091,6 @@ async def sync_all_templates_and_variants(
                     options_by_attr[aname].add(str(val).strip())
 
         sheet_sizes = sorted(options_by_attr.get("Sheet Size", set()))
-
         parent_wc = wc_product_index.get(template_code) if is_variable else None
         existing_parent_size_opts: list[str] = []
         if preserve_parent_attrs_on_update and parent_wc:
@@ -1101,46 +1100,21 @@ async def sync_all_templates_and_variants(
                     break
         sheet_sizes_for_preview = sorted(set(sheet_sizes) | set(existing_parent_size_opts)) if existing_parent_size_opts else sheet_sizes
 
-        # Parent description diff (template → parent.description)
-        erp_parent_desc = template_item.get("description") or ""
+        # Parent description (from template)
+        erp_parent_desc_raw = template_item.get("description") or ""
         wc_parent_long = (parent_wc or {}).get("description") or ""
-        parent_desc_diff = strip_html(erp_parent_desc).strip() != strip_html(wc_parent_long).strip()
+        parent_desc_diff = _norm_long(_normalize_punct(erp_parent_desc_raw)) != _norm_long(_normalize_punct(wc_parent_long))
 
-        logger.info(f"[FAMILY] parent={template_code} items={len(variants)} variable={bool(is_variable)}")
-        existing_var_map_preview: dict = {}
         if is_variable:
-            parent_sku = template_code
-            parent_attrs_for_preview = [{
-                "name": "Sheet Size",
-                "options": sheet_sizes_for_preview if sheet_sizes_for_preview else [],
-                "variation": True,
-                "visible": True,
-            }]
-            logger.info("[ATTR][PARENT] %s attrs=['Sheet Size'] options=%s", parent_sku, {"Sheet Size": sheet_sizes_for_preview})
-            report["variant_parents"].append({
-                "sku": parent_sku,
-                "name": template_item.get("item_name") or template_code,
-                "has_variants": 1,
-                "action": "Create" if not parent_wc else "Sync",
-                "fields_to_update": "ALL" if not parent_wc else (["description"] if parent_desc_diff else "None"),
-                "description_diff": bool(parent_desc_diff),
-                "attributes": parent_attrs_for_preview,
-                "woo": ({"id": parent_wc.get("id"), "status": parent_wc.get("status")} if parent_wc else None),
-            })
-            shipping_skeleton["variables"].setdefault(parent_sku, {"parent": {"shipping_class": ""}, "variations": {}})
+            logger.info("[DESC][PARENT][PRE] sku=%s equal=%s erp_len=%s woo_len=%s",
+                        template_code, not parent_desc_diff, len(erp_parent_desc_raw or ""), len(wc_parent_long or ""))
+            logger.debug("[DESC][PARENT][ERP] %s", _samp(erp_parent_desc_raw))
+            logger.debug("[DESC][PARENT][WOO] %s", _samp(wc_parent_long))
 
-            # Load existing variations for PREVIEW-only comparisons
-            if dry_run and parent_wc and parent_wc.get("id"):
-                try:
-                    existing_var_map_preview = await _get_variations_map(parent_wc["id"])
-                except Exception as e:
-                    logger.debug(f"[VAR][PREVIEW] failed to load variations for {parent_sku}: {e}")
-
-        # ---- parent gallery (variable) ----
+        # ============ Parent gallery discovery ============
         parent_media_ids: list[int] = []
         parent_images_payload: list[dict] = []
         family_brand = None
-
         family_rows = []
         family_skus = []
         if is_variable:
@@ -1149,9 +1123,8 @@ async def sync_all_templates_and_variants(
                 if code:
                     family_skus.append(code)
                     shipping_skeleton["variables"].setdefault(template_code, {"parent": {"shipping_class": ""}, "variations": {}})
-                    shipping_skeleton["variables"][template_code]["variations"].setdefault(code, DEFAULT_SHIP.copy())
-            family_rows = await _erp_get_file_rows_for_items(family_skus)
 
+            family_rows = await _erp_get_file_rows_for_items(family_skus)
             per_file: dict[str, set] = {}
             created_at: dict[str, str] = {}
             for row in family_rows:
@@ -1164,6 +1137,7 @@ async def sync_all_templates_and_variants(
                 per_file.setdefault(fu, set()).add(name)
                 if fu not in created_at or (crt and str(crt) < str(created_at[fu])):
                     created_at[fu] = crt or ""
+
             parent_gallery_rel = []
             if family_skus:
                 total = len(set(family_skus))
@@ -1172,6 +1146,7 @@ async def sync_all_templates_and_variants(
                         parent_gallery_rel.append(fu)
             parent_gallery_rel.sort(key=lambda fu: created_at.get(fu, "") or fu)
 
+            # single-variant boost: put featured first if exists
             if len(set(family_skus)) == 1:
                 try:
                     single_feat = await _erp_get_featured(family_skus[0])
@@ -1184,6 +1159,7 @@ async def sync_all_templates_and_variants(
                         parent_gallery_rel = [single_feat] + parent_gallery_rel
 
             if not parent_gallery_rel and family_rows:
+                # fallback union in creation order
                 union_created: dict[str, str] = {}
                 union_list: list[str] = []
                 seen_fu = set()
@@ -1202,6 +1178,7 @@ async def sync_all_templates_and_variants(
                 parent_gallery_rel = union_list
 
             if not parent_gallery_rel and family_skus:
+                # final fallback: first child's featured + its attachments
                 first_code = family_skus[0]
                 first_feat = await _erp_get_featured(first_code)
                 rows_first = await _erp_get_file_rows_for_items([first_code])
@@ -1216,18 +1193,21 @@ async def sync_all_templates_and_variants(
                         continue
                     if first_feat and fu == first_feat:
                         continue
-                    if fu not in created_at_f or (crt and str(crt) < str(created_at_f[fu])):
-                        created_at_f[fu] = crt or ""
+                    if fu not in created_at_f or (crt and str(crt) < str(created_at_f[fu])): created_at_f[fu] = crt or ""
                     first_list.append(fu)
-                seen_fu = set()
+                seen_fu2 = set()
                 fallback_gallery = []
                 for fu in first_list:
-                    if fu not in seen_fu:
-                        seen_fu.add(fu)
+                    if fu not in seen_fu2:
+                        seen_fu2.add(fu)
                         fallback_gallery.append(fu)
                 parent_gallery_rel = fallback_gallery
 
+            logger.info("[IMG][PARENT][DISCOVER] parent=%s variants=%d rel_imgs=%d sample=%s",
+                        template_code, len(family_skus), len(parent_gallery_rel), _samp(", ".join(parent_gallery_rel), 120))
+
             if not dry_run and parent_gallery_rel:
+                # Upload to WP, build payload
                 media_ids = []
                 for fu in parent_gallery_rel:
                     absu = _abs_erp_file_url(fu)
@@ -1235,21 +1215,30 @@ async def sync_all_templates_and_variants(
                         mid = await _upload_with_retry(absu, basename(absu))
                         if mid: media_ids.append(int(mid))
                     except Exception as e:
-                        logger.error(f"[IMG][PARENT] upload failed for {template_code}: {e}")
+                        logger.error(f"[IMG][PARENT][UPLOAD] {template_code} failed: {e}")
                 parent_media_ids = media_ids[:]
                 parent_images_payload = [{"id": mid, "position": idx} for idx, mid in enumerate(media_ids)]
-                logger.info(f"[IMG][PARENT] {template_code} linked {len(parent_images_payload)} images")
+                logger.info(f"[IMG][PARENT][UPLOAD OK] {template_code} uploaded={len(parent_images_payload)} ids={parent_media_ids}")
 
-        # --- iterate children ---
+        # -----------------------
+        # Iterate the child rows
+        # -----------------------
         parent_id_for_vars: Optional[int] = None
         existing_var_map: dict = {}
+        existing_var_map_preview: dict = {}
+
+        # PREVIEW: always fetch existing variations (dry-run OR real), so we can label Create vs Update correctly
+        if is_variable and parent_wc and parent_wc.get("id"):
+            try:
+                existing_var_map_preview = await _get_variations_map(parent_wc["id"])
+            except Exception as e:
+                logger.debug(f"[VAR][PREVIEW] failed to load variations for {template_code}: {e}")
 
         for i, variant in enumerate(variants):
             sku = variant.get("item_code") or variant.get("sku") or template_code
             if sku in seen_skus:
                 continue
             seen_skus.add(sku)
-
             if not is_variable:
                 shipping_skeleton["simples"].setdefault(sku, DEFAULT_SHIP.copy())
             else:
@@ -1294,45 +1283,30 @@ async def sync_all_templates_and_variants(
             categories = [normalize_category_name(variant.get("item_group") or template_item.get("item_group") or "Products")]
             _ = [wc_cat_map.get(cat) for cat in categories if cat in wc_cat_map]
 
-            # DESCRIPTION: choose ERP side first, but compute DIFF *after* we resolve wc_prod (maybe from variation map)
+            # DESCRIPTION (ERP side for comparison + payloads)
             if is_variable:
                 erp_desc_for_compare = variant.get("description") or ""
             else:
                 erp_desc_for_compare = variant.get("description") or template_item.get("description") or ""
 
-            # IMAGES (ERP gallery)
+            # ERP images for this row (featured + gallery)
             erp_urls_abs: list[str] = []
             featured_rel: Optional[str] = None
             gallery_rel: list[str] = []
 
-            if is_variable:
-                featured_rel = await _erp_get_featured(sku)
-                rows = await _erp_get_file_rows_for_items([sku])
-                created_at_v: dict[str, str] = {}
-                for row in rows:
-                    fu = row.get("file_url")
-                    fld = (row.get("attached_to_field") or "").lower()
-                    crt = row.get("creation")
-                    if not fu or fld in {"image", "website_image"}: continue
-                    if featured_rel and fu == featured_rel: continue
-                    if fu not in created_at_v or (crt and str(crt) < str(created_at_v[fu])): created_at_v[fu] = crt or ""
-                    gallery_rel.append(fu)
-                gallery_rel = list(dict.fromkeys(gallery_rel))
-                gallery_rel.sort(key=lambda fu: created_at_v.get(fu, "") or fu)
-            else:
-                featured_rel = await _erp_get_featured(sku)
-                rows = await _erp_get_file_rows_for_items([sku])
-                created_at_v: dict[str, str] = {}
-                for row in rows:
-                    fu = row.get("file_url")
-                    fld = (row.get("attached_to_field") or "").lower()
-                    crt = row.get("creation")
-                    if not fu or fld in {"image", "website_image"}: continue
-                    if featured_rel and fu == featured_rel: continue
-                    if fu not in created_at_v or (crt and str(crt) < str(created_at_v[fu])): created_at_v[fu] = crt or ""
-                    gallery_rel.append(fu)
-                gallery_rel = list(dict.fromkeys(gallery_rel))
-                gallery_rel.sort(key=lambda fu: created_at_v.get(fu, "") or fu)
+            rows = await _erp_get_file_rows_for_items([sku])
+            created_at_v: dict[str, str] = {}
+            featured_rel = await _erp_get_featured(sku)
+            for row in rows:
+                fu = row.get("file_url")
+                fld = (row.get("attached_to_field") or "").lower()
+                crt = row.get("creation")
+                if not fu or fld in {"image", "website_image"}: continue
+                if featured_rel and fu == featured_rel: continue
+                if fu not in created_at_v or (crt and str(crt) < str(created_at_v[fu])): created_at_v[fu] = crt or ""
+                gallery_rel.append(fu)
+            gallery_rel = list(dict.fromkeys(gallery_rel))
+            gallery_rel.sort(key=lambda fu: created_at_v.get(fu, "") or fu)
 
             if featured_rel: erp_urls_abs.append(_abs_erp_file_url(featured_rel))
             for fu in gallery_rel:
@@ -1342,26 +1316,46 @@ async def sync_all_templates_and_variants(
             erp_sizes = await _head_sizes_for_urls(erp_urls_abs) if erp_urls_abs else []
             erp_gallery = [{"url": u, "size": (erp_sizes[idx] if idx < len(erp_sizes) else 0)} for idx, u in enumerate(erp_urls_abs)]
 
-            # If variation, for PREVIEW try to read existing variation object so we can diff correctly
+            # For PREVIEW on variations: use existing variation object if available
             if is_variable and not wc_prod and existing_var_map_preview:
                 size_opt = (attributes_values.get("Sheet Size") or "").lower()
                 wc_prod = existing_var_map_preview.get(sku) or (existing_var_map_preview.get(f"size::{size_opt}") if size_opt else None)
 
-            # WOO images (preview): compute actual sizes from image src to avoid 0s
+            # Woo images (preview comparison only)
             wc_urls: list[str] = []
             if wc_prod:
                 imgs = wc_prod.get("images")
                 if isinstance(imgs, list) and imgs:
                     for img in imgs:
                         if isinstance(img, dict) and img.get("src"):
-                            wc_urls.append(_rewrite_host_for_wc(img["src"]))
+                            wc_urls.append(img["src"])
                 else:
                     vimg = wc_prod.get("image")
                     if isinstance(vimg, dict) and vimg.get("src"):
-                        wc_urls.append(_rewrite_host_for_wc(vimg["src"]))
+                        wc_urls.append(vimg["src"])
             wc_sizes = await _head_sizes_for_urls(wc_urls) if wc_urls else []
             wc_gallery_for_compare = [{"url": u, "size": (wc_sizes[idx] if idx < len(wc_sizes) else 0)} for idx, u in enumerate(wc_urls)]
-            gallery_diff = not _galleries_match_loose(erp_gallery, wc_gallery_for_compare)
+
+            # ---- PATCH: variation-first compare for galleries ----
+            if is_variable:
+                erp_first = int((erp_gallery[0].get("size") if erp_gallery else 0) or 0)
+                woo_first = int((wc_gallery_for_compare[0].get("size") if wc_gallery_for_compare else 0) or 0)
+                if erp_first and woo_first:
+                    # tolerant bucket because CDNs/processing may change bytes a little
+                    gallery_diff = (erp_first // 2048) != (woo_first // 2048)
+                    if gallery_diff:
+                        logger.info("[IMG][PREVIEW] sku=%s gallery differs (variation-first compare failed) erp=1 woo=%d", sku, len(wc_gallery_for_compare))
+                    else:
+                        logger.info("[IMG][PREVIEW] sku=%s gallery OK by first-image compare", sku)
+                else:
+                    gallery_diff = bool(erp_first) != bool(woo_first)
+                    if gallery_diff:
+                        logger.info("[IMG][PREVIEW] sku=%s gallery differs (variation-first compare failed) erp=%d woo=%d", sku, len(erp_gallery), len(wc_gallery_for_compare))
+            else:
+                # for simple/parent products compare full galleries loosely with tolerance
+                gallery_diff = not _galleries_match_loose(erp_gallery, wc_gallery_for_compare, tol=2048)
+                if gallery_diff:
+                    logger.info("[IMG][PREVIEW] sku=%s gallery differs (erp=%d, woo=%d)", sku, len(erp_gallery), len(wc_gallery_for_compare))
 
             # STOCK
             stock_q = None
@@ -1388,9 +1382,22 @@ async def sync_all_templates_and_variants(
                         except Exception:
                             pass
 
-            # Now compute description diff using the resolved Woo object
+            # Compute description diff now (patch: robust normalization)
             wc_desc = wc_prod.get("description") if wc_prod else ""
-            desc_diff = strip_html(erp_desc_for_compare).strip() != strip_html(wc_desc).strip()
+            erp_norm_var = _norm_variation_desc_for_compare(erp_desc_for_compare)
+            woo_norm_var = _norm_variation_desc_for_compare(wc_desc)
+            desc_diff = erp_norm_var != woo_norm_var
+
+            if is_variable:
+                logger.info("[DESC][VAR][PRE] sku=%s equal=%s erp_len=%s woo_len=%s",
+                            sku, not desc_diff, len(erp_desc_for_compare or ""), len(wc_desc or ""))
+                logger.debug("[DESC][VAR][ERP] raw=%s | norm=%s", _samp(erp_desc_for_compare), _samp(erp_norm_var))
+                logger.debug("[DESC][VAR][WOO] raw=%s | norm=%s", _samp(wc_desc), _samp(woo_norm_var))
+            else:
+                logger.info("[DESC][SIMPLE][PRE] sku=%s equal=%s erp_len=%s woo_len=%s",
+                            sku, not desc_diff, len(erp_desc_for_compare or ""), len(wc_desc or ""))
+                logger.debug("[DESC][SIMPLE][ERP] %s", _samp(erp_desc_for_compare))
+                logger.debug("[DESC][SIMPLE][WOO] %s", _samp(wc_desc))
 
             # Decide preview action
             update_fields = []
@@ -1404,10 +1411,7 @@ async def sync_all_templates_and_variants(
 
             needs_create = wc_prod is None
             needs_update = bool(update_fields) and not needs_create
-
-            woo_info = None
-            if wc_prod:
-                woo_info = {"id": wc_prod.get("id"), "status": wc_prod.get("status")}
+            woo_info = {"id": wc_prod.get("id"), "status": wc_prod.get("status")} if wc_prod else None
 
             preview_entry = {
                 "sku": sku,
@@ -1439,14 +1443,20 @@ async def sync_all_templates_and_variants(
                 elif needs_update: report["to_update"].append(preview_entry)
                 else: report["already_synced"].append(preview_entry)
 
-            # ---- Real side effects ----
+            logger.debug("[PREVIEW] sku=%s action=%s fields=%s", sku, preview_entry["action"], preview_entry["fields_to_update"])
+
+            # -----------------------
+            # Real writes (dry_run=NO)
+            # -----------------------
             if dry_run:
                 woo_id = wc_prod.get("id") if wc_prod else None
                 woo_status = wc_prod.get("status") if wc_prod else None
-                _upsert_mapping(
-                    sku, template=template_code, attributes=attributes_values, brand=brand, categories=categories,
-                    woo_product_id=woo_id, woo_status=woo_status,
-                )
+                report["mapping"].setdefault(sku, {})
+                report["mapping"][sku].update({
+                    "template": template_code,
+                    "attributes": attributes_values, "brand": brand, "categories": categories,
+                    "woo_product_id": woo_id, "woo_status": woo_status,
+                })
                 continue
 
             cats_payload = [{"id": wc_cat_map[c]} for c in categories if c in wc_cat_map]
@@ -1469,99 +1479,154 @@ async def sync_all_templates_and_variants(
                                 [] if attributes_values.get("Sheet Size") is None else [attributes_values.get("Sheet Size")]
                             ),
                         }],
-                        # Parent long description from template
-                        "description": template_item.get("description") or "",
+                        # parent description = template (long)
+                        "description": erp_parent_desc_raw or "",
                     }
                     if parent_images_payload:
                         parent_payload["images"] = parent_images_payload
+                        logger.info("[IMG][PARENT][ASSIGN] %s want_ids=%s", parent_sku, _trim_ids(parent_images_payload))
 
-                    parent_ship_class = (((shipping_existing.get("variables") or {}).get(parent_sku) or {}).get("parent") or {}).get("shipping_class")
-                    if parent_ship_class:
+                    if (((shipping_existing.get("variables") or {}).get(parent_sku) or {}).get("parent") or {}).get("shipping_class"):
+                        parent_ship_class = ((shipping_existing.get("variables") or {}).get(parent_sku) or {}).get("parent", {}).get("shipping_class")
                         await _apply_shipping_to_product_payload(parent_payload, {"shipping_class": parent_ship_class}, create_class=True)
 
-                    logger.info(f"[PARENT][UPSERT] {parent_sku} with {len(parent_payload['attributes'])} attrs")
+                    # write parent
+                    logger.info("[DESC][PARENT][WRITE] sku=%s sending_desc_len=%s", parent_sku, len(parent_payload.get("description") or ""))
                     resp = await _create_or_update_product_by_sku(parent_sku, parent_payload)
                     if resp.get("status_code") not in (200, 201):
-                        logger.error(f"[PARENT] create/update failed for {parent_sku}: {_trim_log(resp)}")
+                        logger.error(f"[PARENT] create/update failed for {parent_sku}: code={resp.get('status_code')}")
                         report["errors"].append({"sku": parent_sku, "error": resp})
                         parent_id_for_vars = None
                     else:
-                        parent_id_for_vars = resp["data"]["id"]
-                        logger.info(f"[PARENT][OK] id={parent_id_for_vars}")
+                        pdata = resp["data"]
+                        parent_id_for_vars = pdata["id"]
+
+                        # Verify parent description post-write (fixed)
                         try:
-                            pdata = resp["data"]
-                            _upsert_mapping(
-                                parent_sku, template=template_code,
-                                attributes={"Sheet Size": sheet_sizes_for_preview},
-                                brand=family_brand, categories=categories,
-                                woo_product_id=pdata.get("id"), woo_status=pdata.get("status"),
-                            )
-                        except Exception:
-                            pass
+                            fresh_parent = await _get_product_by_id(parent_id_for_vars)
+                            if fresh_parent:
+                                woo_parent_raw = fresh_parent.get("description") or ""
+                                parent_equal = _norm_long(_normalize_punct(erp_parent_desc_raw)) == _norm_long(_normalize_punct(woo_parent_raw))
+                                logger.info("[DESC][PARENT][POST] sku=%s equal=%s erp_len=%s woo_len=%s",
+                                            parent_sku, parent_equal,
+                                            len(erp_parent_desc_raw or ""), len(woo_parent_raw or ""))
+                        except Exception as e:
+                            logger.debug("[DESC][PARENT][VERIFY ERR] %s", e)
 
-                        if parent_images_payload and parent_id_for_vars:
-                            assigned = resp["data"].get("images") or []
-                            assigned_ids = [img.get("id") for img in assigned if isinstance(img, dict) and "id" in img]
+                        # Verify/correct parent images
+                        if parent_images_payload:
+                            assigned = pdata.get("images") or []
+                            assigned_ids = _trim_ids(assigned)
                             want_ids = [img["id"] for img in parent_images_payload]
-                            if images_payload := parent_images_payload:
-                                if sorted(assigned_ids) != sorted(want_ids):
-                                    logger.info("[PARENT][IMAGES] correcting images for %s: have=%s want=%s", parent_sku, assigned_ids, want_ids)
-                                    auth_w = (settings.WC_API_KEY, settings.WC_API_SECRET)
-                                    _ = await _request_with_retry("PUT", f"{WC_API}/products/{parent_id_for_vars}", auth=auth_w, json={"images": images_payload})
+                            if sorted(assigned_ids) != sorted(want_ids):
+                                logger.info("[IMG][PARENT][CORRECT] %s have=%s want=%s", parent_sku, assigned_ids, want_ids)
+                                auth_w = (settings.WC_API_KEY, settings.WC_API_SECRET)
+                                _ = await _request_with_retry("PUT", f"{WC_API}/products/{parent_id_for_vars}", auth=auth_w, json={"images": parent_images_payload})
+                            # Verify again
+                            try:
+                                fresh_parent = await _get_product_by_id(parent_id_for_vars)
+                                final_ids = _trim_ids((fresh_parent or {}).get("images") or [])
+                                logger.info("[IMG][PARENT][POST] %s final_ids=%s match=%s", parent_sku, final_ids, sorted(final_ids)==sorted([img["id"] for img in parent_images_payload]))
+                            except Exception as ie:
+                                logger.debug("[IMG][PARENT][VERIFY ERR] %s", ie)
 
-                    existing_var_map = await _get_variations_map(parent_id_for_vars) if parent_id_for_vars else {}
+                        # mapping for parent
+                        report["mapping"].setdefault(parent_sku, {})
+                        report["mapping"][parent_sku].update({
+                            "template": template_code, "attributes": {"Sheet Size": sheet_sizes_for_preview},
+                            "brand": family_brand, "categories": categories,
+                            "woo_product_id": pdata.get("id"), "woo_status": pdata.get("status"),
+                        })
+
+                        existing_var_map = await _get_variations_map(parent_id_for_vars) if parent_id_for_vars else {}
 
                 if parent_id_for_vars:
+                    # Variation write
                     var_image_id = None
                     if erp_urls_abs:
                         try:
                             mid = await _upload_with_retry(erp_urls_abs[0], basename(erp_urls_abs[0]))
+                            if mid:
+                                var_image_id = int(mid)
+                                logger.info("[IMG][VAR][UPLOAD OK] sku=%s image_id=%s", sku, var_image_id)
                         except Exception as e:
                             logger.error(f"[IMG][VAR] upload failed for {sku}: {e}")
-                            mid = None
-                        if mid:
-                            var_image_id = int(mid)
 
                     size_val = attributes_values.get("Sheet Size") or ""
+                    # Decide existing BEFORE building price field (so we can avoid zeroing on updates)
+                    existing_for_payload = existing_var_map.get(sku) or existing_var_map.get(f"size::{(size_val or '').lower()}")
+
                     var_payload = {
                         "sku": sku,
-                        "regular_price": _price_str(price) or "0.00",
                         "manage_stock": (stock_q is not None),
                         "stock_quantity": (int(stock_q) if stock_q is not None else None),
                         "attributes": [{"name": "Sheet Size", "option": _normalize_size_label(size_val)}],
                         "status": "publish",
-                        # Variation description from variant
+                        # variation description from variant (long)
                         "description": (variant.get("description") or ""),
                     }
+                    # Price safety: do not zero existing items
+                    if price is not None:
+                        var_payload["regular_price"] = _price_str(price)
+                    elif not existing_for_payload:
+                        var_payload["regular_price"] = "0.00"
+                        logger.warning("[PRICE] Missing price for new variation %s; defaulting to 0.00", sku)
+
                     if var_image_id:
                         var_payload["image"] = {"id": var_image_id}
 
                     var_ship_rec = (((shipping_existing.get("variables") or {}).get(parent_sku) or {}).get("variations") or {}).get(sku)
                     await _apply_shipping_to_product_payload(var_payload, var_ship_rec, create_class=True)
 
-                    vresp = await _create_or_update_variation(parent_id_for_vars, sku, _normalize_size_label(size_val), var_payload, existing_var_map)
+                    try:
+                        vresp = await _create_or_update_variation(
+                            parent_id_for_vars, sku, _normalize_size_label(size_val), var_payload, existing_var_map
+                        )
+                    except Exception as e:
+                        logger.error("[VAR][EXC] sku=%s parent_id=%s error=%s", sku, parent_id_for_vars, e)
+                        report["errors"].append({"sku": sku, "error": f"variation_write_failed: {e.__class__.__name__}: {e}"})
+                        continue  # move on to the next SKU
+
                     if vresp.get("status_code") not in (200, 201):
-                        logger.error(f"[VAR] create/update failed for {sku}: {_trim_log(vresp)}")
+                        logger.error(f"[VAR] create/update failed for {sku}: code={vresp.get('status_code')}")
                         report["errors"].append({"sku": sku, "error": vresp})
                     else:
+                        # verify variation description post-write
                         try:
-                            vdata = vresp["data"] or {}
-                            _upsert_mapping(
-                                sku, template=template_code, attributes=attributes_values, brand=brand, categories=categories,
-                                woo_product_id=vdata.get("id"), woo_status=vdata.get("status"),
-                            )
-                        except Exception:
-                            pass
+                            vid = vresp["data"]["id"]
+                            auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
+                            vget = await _request_with_retry("GET", f"{WC_API}/products/{parent_id_for_vars}/variations/{vid}", auth=auth)
+                            if vget.status_code == 200:
+                                vobj = vget.json() or {}
+                                woo_post_raw = vobj.get("description") or ""
+                                erp_post_norm = _norm_variation_desc_for_compare(variant.get("description") or "")
+                                woo_post_norm = _norm_variation_desc_for_compare(woo_post_raw)
+                                post_equal = (erp_post_norm == woo_post_norm)
+                                logger.info("[DESC][VAR][POST] sku=%s equal=%s erp_norm=%s woo_norm=%s",
+                                            sku, post_equal, _samp(erp_post_norm), _samp(woo_post_norm))
+                                logger.debug("[DESC][VAR][POST RAW] sku=%s woo_raw=%s", sku, _samp(woo_post_raw, 200))
+                        except Exception as ve:
+                            logger.debug("[DESC][VAR][VERIFY ERR] %s", ve)
+
+                        # mapping
+                        report["mapping"].setdefault(sku, {})
+                        report["mapping"][sku].update({
+                            "template": template_code, "attributes": attributes_values, "brand": brand, "categories": categories,
+                            "woo_product_id": vresp["data"].get("id"), "woo_status": vresp["data"].get("status"),
+                        })
 
             else:
-                # SIMPLE PRODUCT
-                if len(_sku_parts(sku)) >= 3 or sku in variation_skus_seen:
+                # ---------------------
+                # SIMPLE PRODUCT WRITE
+                # ---------------------
+                if _is_variation_sku(sku) or sku in variation_skus_seen:
                     logger.warning("[SIMPLE->VAR BLOCK] %s looks like a variation SKU; skipping simple path", sku)
                     continue
 
+                # upload images
                 image_ids = []
                 if erp_gallery:
-                    logger.info(f"[IMG][SIMPLE] uploading {len(erp_gallery)} images for {sku}")
+                    logger.info(f"[IMG][SIMPLE][UPLOAD] sku={sku} count={len(erp_gallery)}")
                 for img in erp_gallery:
                     try:
                         mid = await _upload_with_retry(img["url"], basename(img["url"]))
@@ -1569,61 +1634,95 @@ async def sync_all_templates_and_variants(
                     except Exception as e:
                         logger.error(f"[IMG][SIMPLE] upload failed for {sku}: {e}")
                 images_payload = [{"id": mid, "position": idx} for idx, mid in enumerate(image_ids)]
-                erp_desc = variant.get("description") or template_item.get("description") or ""
 
+                erp_desc_simple = variant.get("description") or template_item.get("description") or ""
                 payload = {
                     "name": variant.get("item_name") or template_item.get("item_name") or sku,
                     "sku": sku,
                     "type": "simple",
                     "status": "publish",
-                    "regular_price": _price_str(price) or "0.00",
                     "manage_stock": (stock_q is not None),
                     "stock_quantity": (int(stock_q) if stock_q is not None else None),
                     "categories": cats_payload,
                     "brands": _brand_payload(brand),
-                    "description": erp_desc or "",
+                    # <- BOTH long and short get the SAME ERP text
+                    "description": erp_desc_simple or "",
+                    "short_description": erp_desc_simple or "",
                     "images": images_payload if images_payload else [],
                 }
+                # Price safety: don't zero out prices on updates
+                if price is not None:
+                    payload["regular_price"] = _price_str(price)
+                elif wc_prod is None:
+                    payload["regular_price"] = "0.00"
+                    logger.warning("[PRICE] Missing price for new simple %s; defaulting to 0.00", sku)
+
+                logger.info("[DESC][SIMPLE][WRITE] sku=%s sending long+short len=%s", sku, len(erp_desc_simple or ""))
 
                 simple_ship_rec = (shipping_existing.get("simples") or {}).get(sku)
                 await _apply_shipping_to_product_payload(payload, simple_ship_rec, create_class=True)
 
                 resp = await _create_or_update_product_by_sku(sku, payload)
                 if resp.get("status_code") not in (200, 201):
-                    logger.error(f"[CREATE] Woo product failed (sku={sku}): {_trim_log(resp)}")
+                    logger.error(f"[CREATE] Woo product failed (sku={sku}): code={resp.get('status_code')}")
                     report["errors"].append({"sku": sku, "error": resp})
                 else:
+                    sdata = resp["data"]
+                    # Verify simple descriptions post-write
                     try:
-                        sdata = resp["data"]
-                        _upsert_mapping(
-                            sku, template=template_code, attributes=attributes_values, brand=brand, categories=categories,
-                            woo_product_id=sdata.get("id"), woo_status=sdata.get("status"),
-                        )
-                    except Exception:
-                        pass
+                        fresh = await _get_product_by_id(sdata["id"])
+                        if fresh:
+                            post_long = fresh.get("description") or ""
+                            post_short = fresh.get("short_description") or ""
+                            long_ok = _norm_long(erp_desc_simple) == _norm_long(post_long)
+                            short_ok = _norm_long(erp_desc_simple) == _norm_long(post_short[:800])
+                            logger.info("[DESC][SIMPLE][POST] sku=%s long_ok=%s short_ok=%s erp_len=%s woo_long_len=%s woo_short_len=%s",
+                                        sku, long_ok, short_ok,
+                                        len(erp_desc_simple or ""), len(post_long or ""), len(post_short or ""))
+                    except Exception as ve:
+                        logger.debug("[DESC][SIMPLE][VERIFY ERR] %s", ve)
 
-                    assigned = resp["data"].get("images") or []
-                    assigned_ids = [img.get("id") for img in assigned if isinstance(img, dict) and "id" in img]
+                    # Correct and verify images if needed
+                    assigned = sdata.get("images") or []
+                    assigned_ids = _trim_ids(assigned)
                     want_ids = [img["id"] for img in images_payload]
                     if images_payload and sorted(assigned_ids) != sorted(want_ids):
-                        logger.info("[SIMPLE][IMAGES] correcting images for %s: have=%s want=%s", sku, assigned_ids, want_ids)
+                        logger.info("[IMG][SIMPLE][CORRECT] %s have=%s want=%s", sku, assigned_ids, want_ids)
                         auth_w = (settings.WC_API_KEY, settings.WC_API_SECRET)
-                        _ = await _request_with_retry("PUT", f"{WC_API}/products/{resp['data']['id']}", auth=auth_w, json={"images": images_payload})
+                        _ = await _request_with_retry("PUT", f"{WC_API}/products/{sdata['id']}", auth=auth_w, json={"images": images_payload})
+                        # verify again
+                        try:
+                            fresh = await _get_product_by_id(sdata["id"])
+                            final_ids = _trim_ids((fresh or {}).get("images") or [])
+                            logger.info("[IMG][SIMPLE][POST] %s final_ids=%s match=%s", sku, final_ids, sorted(final_ids)==sorted(want_ids))
+                        except Exception as ie:
+                            logger.debug("[IMG][SIMPLE][VERIFY ERR] %s", ie)
 
-            _upsert_mapping(sku, template=template_code, attributes=attributes_values, brand=brand, categories=categories)
+                    # mapping
+                    report["mapping"].setdefault(sku, {})
+                    report["mapping"][sku].update({
+                        "template": template_code, "attributes": attributes_values, "brand": brand, "categories": categories,
+                        "woo_product_id": sdata.get("id"), "woo_status": sdata.get("status"),
+                    })
 
-    # --- Fallback: ensure ERP standalone simples make it into the shipping file
+            # Maintain mapping for preview consumers even when dry_run=False
+            report["mapping"].setdefault(sku, {})
+            report["mapping"][sku].update({
+                "template": template_code, "attributes": attributes_values, "brand": brand, "categories": categories,
+            })
+
+        # Emit preview entry for parent (already queued above) and log attrs
+        if is_variable:
+            logger.info("[ATTR][PARENT] %s attrs=['Sheet Size'] options=%s", template_code, {"Sheet Size": sheet_sizes_for_preview})
+
+    # --- Ensure ERP standalone simples appear in shipping file
     if erp_items:
         for item in erp_items:
             sku0 = (item.get("item_code") or item.get("name") or "").strip()
-            if not sku0:
-                continue
-            if item.get("has_variants") or item.get("variant_of"):
-                continue
-            if len(_sku_parts(sku0)) >= 3:
-                continue
-            if sku0 in erp_parent_skus:
-                continue
+            if not sku0: continue
+            if item.get("has_variants") or item.get("variant_of"): continue
+            if _is_variation_sku(sku0): continue
+            if sku0 in erp_parent_skus: continue
             shipping_skeleton["simples"].setdefault(sku0, DEFAULT_SHIP.copy())
 
     # ---------------------------
@@ -1649,10 +1748,8 @@ async def sync_all_templates_and_variants(
         erp_parent_set = set(erp_parent_skus)
         for p in woo_variable_parents:
             parent_sku = p.get("sku")
-            if not parent_sku:
-                continue
-            if not _allowed_delete(parent_sku):
-                continue
+            if not parent_sku: continue
+            if not _allowed_delete(parent_sku): continue
             if parent_sku not in erp_parent_set:
                 report["variant_parents_to_delete"].append({
                     "sku": parent_sku, "name": p.get("name") or parent_sku,
@@ -1681,15 +1778,45 @@ async def sync_all_templates_and_variants(
                     "reason": "not_in_erp",
                 })
 
-    # --- finalize/merge and write shipping_params.json on BOTH preview & real
+    # --- finalize shipping file (both preview & real)
     shipping_skeleton["generated_at"] = _now_iso()
+    def _merge_shipping_values(skeleton: dict, existing: dict, *, keep_unknown: bool = True) -> dict:
+        defaults = skeleton.get("defaults", DEFAULT_SHIP)
+        def _fill(d: dict) -> dict:
+            v = {"weight_kg": 0, "length_cm": 0, "width_cm": 0, "height_cm": 0, "shipping_class": ""}
+            v.update({k: d.get(k) for k in v.keys() if d.get(k) is not None})
+            for k in v.keys():
+                if v[k] in (None, ""):
+                    v[k] = defaults.get(k, 0 if k != "shipping_class" else "")
+            return v
+
+        new_obj = {"generated_at": _now_iso(), "defaults": defaults, "simples": {}, "variables": {}, "meta": skeleton.get("meta", {})}
+        if keep_unknown:
+            for sku, spec in (existing.get("simples") or {}).items():
+                if isinstance(spec, dict):
+                    new_obj["simples"][sku] = _fill(spec)
+            for parent, pv in (existing.get("variables") or {}).items():
+                eparent = (pv or {}).get("parent") or {}
+                new_obj["variables"].setdefault(parent, {"parent": {"shipping_class": eparent.get("shipping_class", "")}, "variations": {}})
+                for vsku, vspec in ((pv or {}).get("variations") or {}).items():
+                    if isinstance(vspec, dict):
+                        new_obj["variables"][parent]["variations"][vsku] = _fill(vspec)
+
+        for sku in (skeleton.get("simples") or {}):
+            new_obj["simples"].setdefault(sku, _fill({}))
+
+        for parent, pv in (skeleton.get("variables") or {}).items():
+            new_obj["variables"].setdefault(parent, {"parent": {"shipping_class": ((existing.get("variables") or {}).get(parent) or {}).get("parent", {}).get("shipping_class", "")}, "variations": {}})
+            for vsku in ((pv or {}).get("variations") or {}):
+                new_obj["variables"][parent]["variations"].setdefault(vsku, _fill({}))
+
+        return new_obj
+
     shipping_new = _merge_shipping_values(shipping_skeleton, shipping_existing, keep_unknown=True)
     try:
         _atomic_write_json(SHIPPING_PARAMS_PATH, shipping_new)
         logger.info("[SHIPPING] Wrote merged shipping params to %s (simples=%d, variable parents=%d)",
-                    SHIPPING_PARAMS_PATH,
-                    len(shipping_new.get("simples", {}) or {}),
-                    len(shipping_new.get("variables", {}) or {}))
+                    SHIPPING_PARAMS_PATH, len(shipping_new.get("simples", {}) or {}), len(shipping_new.get("variables", {}) or {}))
     except Exception as e:
         logger.error("[SHIPPING] Failed to write %s: %s", SHIPPING_PARAMS_PATH, e)
         report["errors"].append({"shipping_params": str(e)})
@@ -1726,6 +1853,7 @@ async def sync_all_templates_and_variants(
 
     def _count(key: str) -> int:
         return len(report.get(key) or [])
+
     report["meta"] = {
         "generated_at": _now_iso(),
         "dry_run": dry_run,

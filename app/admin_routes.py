@@ -1,41 +1,76 @@
 #=======================================================================================
 # app/admin_routes.py
-# Admin endpoints. These are protected via Basic Auth in main_app.py.
+# Admin endpoints. These are protected via Basic Auth in main_app.py
 # and mounted under /admin, so final paths are /admin/api/*.
 #
 # NOTE:
-# - We intentionally DO NOT define /api/sync/* here to avoid collisions with public
-#   endpoints from app.routes (new pipeline).
-# - Admin UI should call the public /api/sync/* endpoints directly for sync actions.
-# - This module focuses on admin-only operations: mapping edit, preview file management.
+# - We intentionally do NOT define public /api/sync/* here (those live in app.routes).
+# - This module focuses on admin-only operations: health, mapping edit, preview-file ops,
+#   and optional admin-facing sync shims under /admin/api/sync/*.
 #=======================================================================================
 
 import logging
 import httpx
 import json, os, time
-
-from typing import Any
-from pydantic import BaseModel
 from pathlib import Path
-from fastapi import APIRouter, Body, HTTPException
+from typing import Any, Dict, List
+
+from pydantic import BaseModel
+from fastapi import APIRouter, Request, Body, HTTPException
 from fastapi.responses import JSONResponse
+
 from app.mapping_store import build_or_load_mapping, save_mapping_file
-from app.sync.sync import (
-    sync_products as legacy_sync_products,
-    sync_products_preview as legacy_sync_products_preview,
-    sync_products_partial as legacy_sync_products_partial,
+from app.sync.product_sync import (
+    sync_products_partial,
+    sync_products_full,
+    sync_preview,
 )
 from app.config import settings
 
 logger = logging.getLogger("uvicorn.error")
 
-# NOTE: this router already has prefix="/api". In main_app we mount it with prefix="/admin",
-# so final paths are /admin/api/*
+# This router already has prefix="/api". In main_app we mount it with prefix="/admin",
+# so final paths are /admin/api/*.
 router = APIRouter(prefix="/api", tags=["Admin API"])
 
-# ------------------------------------------------------------------------------
-# Health for Admin UI — ✅ NEW
-# ------------------------------------------------------------------------------
+# ---------------------------
+# Helpers
+# ---------------------------
+async def _safe_json(req: Request) -> Dict[str, Any]:
+    """Best-effort JSON parse: handles empty bodies and bad content-types."""
+    try:
+        return await req.json()
+    except Exception:
+        try:
+            raw = (await req.body()).decode("utf-8", "ignore")
+            return json.loads(raw) if raw.strip() else {}
+        except Exception:
+            return {}
+
+def _normalize_skus(payload: Dict[str, Any]) -> List[str]:
+    """Accepts { skus:[] } | { sku:"..." } | { selection:[]|csv } | csv string."""
+    raw = payload.get("skus", None)
+    if raw is None:
+        raw = payload.get("sku", None)
+    if raw is None:
+        raw = payload.get("selection", None)
+
+    if isinstance(raw, list):
+        return [str(s).strip() for s in raw if str(s).strip()]
+    if isinstance(raw, str):
+        # allow CSV or newline/semi-separated
+        return [s.strip() for s in raw.replace("\n", ",").replace(";", ",").split(",") if s.strip()]
+    return []
+
+def _get_bool(payload: Dict[str, Any], *keys: str, default: bool = False) -> bool:
+    for k in keys:
+        if k in payload:
+            return bool(payload.get(k))
+    return default
+
+# --------------------------------------------------------------------
+# Admin Health (for UI) — verifies ERPNext + WP/Woo reachability
+# --------------------------------------------------------------------
 
 @router.get("/integration/health")
 async def admin_integration_health():
@@ -56,7 +91,7 @@ async def admin_integration_health():
 
     timeout = httpx.Timeout(10.0, connect=10.0, read=10.0)
     async with httpx.AsyncClient(timeout=timeout, verify=False) as client:
-        # ERPNext ping endpoint (exists on ERPNext)
+        # ERPNext ping endpoint
         erp_resp = None
         try:
             if erp_url:
@@ -72,10 +107,9 @@ async def admin_integration_health():
                 wp_resp = await client.get(wp_url)
         except Exception as e:
             logger.debug("WordPress REST root failed: %s", e)
-        # 200 is typical; some setups may 401 with auth, both prove reachability
         checks["wordpress"] = await _ok(wp_resp, allow_status={200, 401})
 
-        # WooCommerce REST namespace (presence implies plugin active; 200/401/403/404 are acceptable)
+        # WooCommerce REST namespace (presence implies plugin active)
         wc_resp = None
         try:
             if wp_url:
@@ -87,9 +121,9 @@ async def admin_integration_health():
     ok = all(v.get("ok") for v in checks.values())
     return {"ok": ok, "checks": checks, "base": {"erp": erp_url, "wp": wp_url, "wc": wc_base}}
 
-# ------------------------------------------------------------------------------
-# Mapping file — ✅ KEEP
-# ------------------------------------------------------------------------------
+# --------------------------------------------------------------------
+# Mapping file — load/save
+# --------------------------------------------------------------------
 
 @router.get("/mapping")
 def get_mapping():
@@ -112,55 +146,61 @@ def post_mapping(payload: dict = Body(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save mapping: {str(e)}")
 
-# ------------------------------------------------------------------------------
-# LEGACY PIPELINE Admin shims — 🟠 DEPRECATE SOON
-# ------------------------------------------------------------------------------
+# --------------------------------------------------------------------
+# Admin-facing sync shims (optional; UI can also use public /api/sync/*)
+# Final paths: /admin/api/sync/*
+# --------------------------------------------------------------------
 
-@router.get("/legacy/sync/preview")
-async def admin_legacy_preview_sync():
-    """Admin → LEGACY PIPELINE: Preview (old)."""
-    try:
-        preview = await legacy_sync_products_preview()
-        return {"preview": preview}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Preview failed: {str(e)}")
+@router.get("/sync/preview")
+async def http_sync_preview():
+    result = await sync_preview()
+    return JSONResponse(result)
 
-@router.post("/legacy/sync/full")
-async def admin_legacy_full_sync():
-    """Admin → LEGACY PIPELINE: Full sync (old)."""
-    try:
-        result = await legacy_sync_products()
-        return {"ok": True, "result": result}
-    except Exception as e:
-        logger.exception("Error in legacy full-sync")
-        raise HTTPException(status_code=500, detail=f"Sync failed: {str(e)}")
+@router.post("/sync/full")
+async def http_sync_full(req: Request):
+    body = await _safe_json(req)
+    dry_run = _get_bool(body, "dry_run", "dryRun", default=False)
+    purge_bin = _get_bool(body, "purge_bin", "purgeBin", default=True)
+    result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
+    result.setdefault("request", {"dry_run": dry_run, "purge_bin": purge_bin})
+    return JSONResponse(result)
 
-@router.post("/legacy/sync/partial")
-async def admin_legacy_partial_sync():
-    """Admin → LEGACY PIPELINE: Partial sync (old). Signature may differ."""
-    result = await legacy_sync_products_partial()
-    return {"ok": True, "result": result}
+@router.post("/sync/partial")
+async def http_sync_partial(req: Request):
+    body = await _safe_json(req)
+    skus = _normalize_skus(body)
+    dry_run = _get_bool(body, "dry_run", "dryRun", default=False)
 
-# ------------------------------------------------------------------------------
-# Misc Admin — ✅ KEEP (if you still need it)
-# ------------------------------------------------------------------------------
+    result = await sync_products_partial(skus_to_sync=skus, dry_run=dry_run)
+    # Echo selection for debugging/visibility
+    result["selection"] = {"requested": skus, "count": len(skus), "dry_run": dry_run}
+    return JSONResponse(result)
+
+# --------------------------------------------------------------------
+# Misc Admin — placeholder
+# --------------------------------------------------------------------
 
 @router.get("/stock-adjustment")
 def get_stock_adjustment():
     """Admin: Placeholder stock-adjustment endpoint (no-op)."""
     return JSONResponse(content={}, status_code=200)
 
-# ------------------------------------------------------------------------------
-# Misc Admin — ✅ Shipping Parameters Edit Functions
-# ------------------------------------------------------------------------------
+# --------------------------------------------------------------------
+# Shipping Parameters editor endpoints
+# --------------------------------------------------------------------
+
+def _shipping_params_path() -> Path:
+    # Fallback to the known location if not configured in settings
+    p = getattr(settings, "SHIPPING_PARAMS_PATH", "/app/mapping/shipping_params.json")
+    return Path(p)
 
 @router.get("/config/shipping/params")
 async def get_shipping_params():
     """
-    Return the current shipping_prams.json content + metadata.
+    Return the current shipping_params.json content + metadata.
     Always returns text content; also includes parsed JSON when valid.
     """
-    p = Path(settings.SHIPPING_PARAMS_PATH)
+    p = _shipping_params_path()
     if not p.exists():
         p.parent.mkdir(parents=True, exist_ok=True)
         p.write_text("{}", encoding="utf-8")
@@ -202,10 +242,10 @@ def _atomic_write(path: Path, data: str):
 @router.put("/config/shipping/params")
 async def put_shipping_params(payload: ShippingParamsUpsert = Body(...)):
     """
-    Save new shipping_prams.json. Validates JSON first, writes atomically,
+    Save new shipping_params.json. Validates JSON first, writes atomically,
     and creates a timestamped .bak of the previous file if present.
     """
-    p = Path(settings.SHIPPING_PARAMS_PATH)
+    p = _shipping_params_path()
     p.parent.mkdir(parents=True, exist_ok=True)
 
     # Determine the object to store

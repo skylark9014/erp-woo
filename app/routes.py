@@ -3,7 +3,7 @@
 # FastAPI routes for ERPNext ↔ WooCommerce sync, utilities, and legacy compatibility.
 #
 # ✅ Canonical public API lives under /api/*
-# ✅ NEW PIPELINE endpoints (product_sync.py) are admin-only now (HTTP Basic)
+# ✅ NEW PIPELINE endpoints (product_sync.py) require HTTP Basic (admin)
 # 🧩 LEGACY PIPELINE endpoints (sync.py) kept under /api/legacy/* for comparison
 #
 # IMPORTANT: In main_app.py, include with NO extra prefix to avoid /api/api duplication:
@@ -11,8 +11,11 @@
 #   app.include_router(api_router)   # <-- no prefix here
 #=======================================================================================
 
+import json
 import httpx
 import secrets
+from typing import Any, Dict, List
+
 from fastapi import APIRouter, Query, Request, Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import JSONResponse
@@ -43,6 +46,7 @@ from app.woocommerce import (
 from app.erpnext import erpnext_ping
 
 router = APIRouter(prefix="/api", tags=["Sync API"])
+compat_router = APIRouter(tags=["Sync API (Compat)"])  # root-level aliases (/sync/*)
 
 # ---------------------------
 # HTTP Basic for NEW pipeline
@@ -58,6 +62,43 @@ def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
             detail="Unauthorized",
             headers={"WWW-Authenticate": "Basic"},
         )
+
+# ---------------------------
+# Helpers
+# ---------------------------
+async def _safe_json(req: Request) -> Dict[str, Any]:
+    """Best-effort JSON body parsing with fallbacks."""
+    try:
+        return await req.json()
+    except Exception:
+        try:
+            raw = (await req.body()).decode("utf-8", "ignore")
+            return json.loads(raw) if raw.strip() else {}
+        except Exception:
+            return {}
+
+def _normalize_skus(payload: Dict[str, Any]) -> List[str]:
+    """Accepts { skus:[] } | { sku:"..." } | { selection:[]|csv } | csv string."""
+    raw = payload.get("skus", None)
+    if raw is None:
+        raw = payload.get("sku", None)
+    if raw is None:
+        raw = payload.get("selection", None)
+
+    if isinstance(raw, list):
+        return [str(s).strip() for s in raw if str(s).strip()]
+    if isinstance(raw, str):
+        # allow CSV or whitespace-delimited
+        return [s.strip() for s in raw.replace("\n", ",").replace(";", ",").split(",") if s.strip()]
+
+    # Nothing usable
+    return []
+
+def _get_bool(payload: Dict[str, Any], *keys: str, default: bool = False) -> bool:
+    for k in keys:
+        if k in payload:
+            return bool(payload.get(k))
+    return default
 
 # ----------------------------------------------------------------------
 # NEW PIPELINE (product_sync.py) — ✅ KEEP (now requires HTTP Basic)
@@ -75,29 +116,51 @@ async def api_sync_preview():
 async def api_sync_full(request: Request):
     """
     Full ERPNext → Woo sync (admin-only).
-    Body: { "dry_run": bool, "purge_bin": bool (default True) }
+    Body: { "dry_run" | "dryRun": bool, "purge_bin" | "purgeBin": bool (default True) }
     """
-    payload = {}
-    if request.headers.get("content-type", "").startswith("application/json"):
-        payload = await request.json()
-    dry_run = bool(payload.get("dry_run", False))
-    purge_bin = bool(payload.get("purge_bin", True))
+    payload = await _safe_json(request)
+    dry_run = _get_bool(payload, "dry_run", "dryRun", default=False)
+    purge_bin = _get_bool(payload, "purge_bin", "purgeBin", default=True)
     result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
+    # echo minimal meta (non-breaking)
+    result.setdefault("request", {"dry_run": dry_run, "purge_bin": purge_bin})
     return JSONResponse(content=result)
 
 @router.post("/sync/partial", dependencies=[Depends(verify_admin)])
 async def api_sync_partial(request: Request):
     """
     Partial sync by SKUs (admin-only).
-    Body: { "skus": [ "SKU1", ... ], "dry_run": bool }
+    Body: { "skus": [ "SKU1", ... ] | "sku": "CSV or single", "dry_run" | "dryRun": bool }
     """
-    payload = {}
-    if request.headers.get("content-type", "").startswith("application/json"):
-        payload = await request.json()
-    skus = payload.get("skus", [])
-    dry_run = bool(payload.get("dry_run", False))
+    payload = await _safe_json(request)
+    skus = _normalize_skus(payload)
+    dry_run = _get_bool(payload, "dry_run", "dryRun", default=False)
+
     result = await sync_products_partial(skus_to_sync=skus, dry_run=dry_run)
+    # echo selection (non-breaking; useful for UI/diagnostics)
+    result["selection"] = {
+        "requested": skus,
+        "count": len(skus),
+        "dry_run": dry_run,
+    }
     return JSONResponse(content=result)
+
+# ----------------------------------------------------------------------
+# COMPATIBILITY ALIASES (root-level) — same handlers & auth
+# These let the UI call /sync/* instead of /api/sync/*
+# ----------------------------------------------------------------------
+
+@compat_router.api_route("/sync/preview", methods=["GET", "POST"], dependencies=[Depends(verify_admin)])
+async def compat_sync_preview():
+    return await api_sync_preview()
+
+@compat_router.post("/sync/full", dependencies=[Depends(verify_admin)])
+async def compat_sync_full(request: Request):
+    return await api_sync_full(request)
+
+@compat_router.post("/sync/partial", dependencies=[Depends(verify_admin)])
+async def compat_sync_partial(request: Request):
+    return await api_sync_partial(request)
 
 # ----------------------------------------------------------------------
 # LEGACY PIPELINE (sync.py) — 🟠 DEPRECATE SOON (left open for now)

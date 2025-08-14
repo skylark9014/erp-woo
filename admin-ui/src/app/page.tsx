@@ -91,6 +91,9 @@ export default function DashboardPage() {
     const done = window.sessionStorage.getItem(KEY);
     if (done) return; // skip auto preview when returning
 
+    // Prevent React StrictMode double-run in dev by setting the guard immediately
+    window.sessionStorage.setItem(KEY, '1');
+
     (async () => {
       try {
         setError(null);
@@ -98,8 +101,6 @@ export default function DashboardPage() {
         setLoadingMsg('Running preview (dry-run)…');
         const res = await runPreview();
         setData(res as PreviewResponse);
-        saveCachedPreview(res as PreviewResponse); // <-- persist
-        window.sessionStorage.setItem(KEY, '1');
       } catch (e: any) {
         setError(e?.message || 'Failed to load preview.');
       } finally {
@@ -199,12 +200,20 @@ export default function DashboardPage() {
       setError(null);
       setLoading(true);
       setLoadingMsg(dryRun ? 'Running PARTIAL preview…' : 'Executing PARTIAL sync…');
+
+      // run the partial
       const res = await runPartialSync({ skus, dryRun });
       setData(res as PreviewResponse);
+
       if (dryRun) {
-        saveCachedPreview(res as PreviewResponse); // <-- persist preview
+        // keep the preview from the partial dry-run
+        saveCachedPreview(res as PreviewResponse);
       } else {
-        clearCachedPreview(); // <-- invalidate cache after real sync
+        // after real partial completes (API now awaits), fetch a fresh preview snapshot
+        clearCachedPreview();
+        const post = await runPreview();
+        setData(post as PreviewResponse);
+        saveCachedPreview(post as PreviewResponse);
         setSelected(new Set());
       }
     } catch (e: any) {
@@ -214,6 +223,7 @@ export default function DashboardPage() {
       setLoadingMsg(undefined);
     }
   }
+
 
   const totalSynced = (counts.synced ?? 0) + (counts.vSynced ?? 0);
   const healthProblems = gate === 'down' ? describeHealthProblems(health) : [];
@@ -293,7 +303,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => onPartialSync(false)}
-              disabled={!selected.size || gate !== 'ready'}
+              disabled={loading || !selected.size || gate !== 'ready'}
               className="inline-flex items-center gap-1 rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 disabled:opacity-50"
               title="Run partial sync for selected SKUs"
             >

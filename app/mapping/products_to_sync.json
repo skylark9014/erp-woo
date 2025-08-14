@@ -1021,544 +1021,12 @@
       }
     }
   ],
-  "variant_parents": [
-    {
-      "sku": "SVR-HIGHL",
-      "name": "Stone Veneer - The Highlands",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": "None",
-      "description_diff": false,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4401,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-DOLOM",
-      "name": "Stone Veneer - The Dolomites",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": "None",
-      "description_diff": false,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4404,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-SIERA",
-      "name": "Stone Veneer - Sierra",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": "None",
-      "description_diff": false,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4407,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-MCOOK",
-      "name": "Stone Veneer - Mount Cook",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4410,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-MTCAM",
-      "name": "Stone Veneer - Mount Cameroon",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4413,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-HLYAS",
-      "name": "Stone Veneer - Himalayas",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4416,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-EVRST",
-      "name": "Stone Veneer - Everest",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4419,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-DBERG",
-      "name": "Stone Veneer - Drakensberg",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4422,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-CASDE",
-      "name": "Stone Veneer - Cascade",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4425,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-ATLAS",
-      "name": "Stone Veneer - Atlas",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4428,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-ANDES",
-      "name": "Stone Veneer - Andes",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4431,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "SVR-ALSKA",
-      "name": "Stone Veneer - Alaska",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm",
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4434,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "MST-HIGHL",
-      "name": "Micro Stone - The Highlands",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4437,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "MST-HLYAS",
-      "name": "Micro Stone - Himalayas",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4439,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "MST-EVRST",
-      "name": "Micro Stone - Everest",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4441,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "MST-DBERG",
-      "name": "Micro Stone - Drakensberg",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4443,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "MST-ANDES",
-      "name": "Micro Stone - Andes",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "1220mm x 610mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4445,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "TSL-HIGHL",
-      "name": "Translucent Stone - The Highlands",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4447,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "TSL-HLYAS",
-      "name": "Translucent Stone - Himalayas",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4449,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "TSL-EVRST",
-      "name": "Translucent Stone - Everest",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4451,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "TSL-DBERG",
-      "name": "Translucent Stone - Drakensberg",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4453,
-        "status": "publish"
-      }
-    },
-    {
-      "sku": "TSL-ANDES",
-      "name": "Translucent Stone - Andes",
-      "has_variants": 1,
-      "action": "Sync",
-      "fields_to_update": [
-        "description"
-      ],
-      "description_diff": true,
-      "attributes": [
-        {
-          "name": "Sheet Size",
-          "options": [
-            "2440mm x 1220mm"
-          ],
-          "variation": true,
-          "visible": true
-        }
-      ],
-      "woo": {
-        "id": 4455,
-        "status": "publish"
-      }
-    }
-  ],
+  "variant_parents": [],
   "variant_to_create": [],
-  "variant_to_update": [
+  "variant_to_update": [],
+  "variant_to_delete": [],
+  "variant_parents_to_delete": [],
+  "variant_synced": [
     {
       "sku": "SVR-HIGHL-MEDIUM",
       "name": "Stone Veneer - The Highlands",
@@ -1583,12 +1051,10 @@
         77282
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4402,
         "status": "publish"
@@ -1619,12 +1085,10 @@
         77282
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4403,
         "status": "publish"
@@ -1655,12 +1119,10 @@
         92252
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4405,
         "status": "publish"
@@ -1691,12 +1153,10 @@
         92252
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4406,
         "status": "publish"
@@ -1727,12 +1187,10 @@
         79281
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4408,
         "status": "publish"
@@ -1763,12 +1221,10 @@
         79281
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4409,
         "status": "publish"
@@ -1799,12 +1255,10 @@
         103204
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4411,
         "status": "publish"
@@ -1835,12 +1289,10 @@
         103204
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4412,
         "status": "publish"
@@ -1871,12 +1323,10 @@
         134676
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4414,
         "status": "publish"
@@ -1907,12 +1357,10 @@
         134676
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4415,
         "status": "publish"
@@ -1943,12 +1391,10 @@
         73835
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4417,
         "status": "publish"
@@ -1979,12 +1425,10 @@
         73835
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4418,
         "status": "publish"
@@ -2015,12 +1459,10 @@
         118617
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4420,
         "status": "publish"
@@ -2051,12 +1493,10 @@
         118617
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4421,
         "status": "publish"
@@ -2087,12 +1527,10 @@
         125232
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4423,
         "status": "publish"
@@ -2123,12 +1561,10 @@
         125232
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4424,
         "status": "publish"
@@ -2159,12 +1595,10 @@
         68210
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4426,
         "status": "publish"
@@ -2195,12 +1629,10 @@
         68210
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4427,
         "status": "publish"
@@ -2231,12 +1663,10 @@
         76753
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4429,
         "status": "publish"
@@ -2267,12 +1697,10 @@
         76753
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4430,
         "status": "publish"
@@ -2303,12 +1731,10 @@
         66832
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4432,
         "status": "publish"
@@ -2339,12 +1765,10 @@
         66832
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4433,
         "status": "publish"
@@ -2375,12 +1799,10 @@
         157097
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4435,
         "status": "publish"
@@ -2411,12 +1833,10 @@
         157097
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4436,
         "status": "publish"
@@ -2447,12 +1867,10 @@
         77282
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4438,
         "status": "publish"
@@ -2483,12 +1901,10 @@
         73835
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4440,
         "status": "publish"
@@ -2519,12 +1935,10 @@
         118617
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4442,
         "status": "publish"
@@ -2555,12 +1969,10 @@
         125232
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4444,
         "status": "publish"
@@ -2591,12 +2003,10 @@
         66832
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4446,
         "status": "publish"
@@ -2627,14 +2037,11 @@
       "wc_img_sizes": [
         209253
       ],
-      "gallery_diff": true,
-      "description_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description",
-        "gallery_images"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4448,
         "status": "publish"
@@ -2665,14 +2072,11 @@
       "wc_img_sizes": [
         163292
       ],
-      "gallery_diff": true,
-      "description_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description",
-        "gallery_images"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4450,
         "status": "publish"
@@ -2703,14 +2107,11 @@
       "wc_img_sizes": [
         231409
       ],
-      "gallery_diff": true,
-      "description_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description",
-        "gallery_images"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4452,
         "status": "publish"
@@ -2741,12 +2142,10 @@
         237626
       ],
       "gallery_diff": false,
-      "description_diff": true,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4454,
         "status": "publish"
@@ -2777,14 +2176,11 @@
       "wc_img_sizes": [
         205367
       ],
-      "gallery_diff": true,
-      "description_diff": true,
+      "gallery_diff": false,
+      "description_diff": false,
       "has_variants": 1,
-      "action": "Update",
-      "fields_to_update": [
-        "description",
-        "gallery_images"
-      ],
+      "action": "Synced",
+      "fields_to_update": [],
       "woo": {
         "id": 4456,
         "status": "publish"
@@ -2792,29 +2188,26 @@
       "parent_sku": "TSL-ANDES"
     }
   ],
-  "variant_to_delete": [],
-  "variant_parents_to_delete": [],
-  "variant_synced": [],
   "meta": {
-    "generated_at": "2025-08-14T09:01:20.542766+00:00",
+    "generated_at": "2025-08-14T21:45:46.210985+00:00",
     "dry_run": true,
     "counts": {
       "to_create": 0,
       "to_update": 0,
       "to_delete": 0,
       "variant_to_create": 0,
-      "variant_to_update": 34,
+      "variant_to_update": 0,
       "variant_to_delete": 0,
-      "variant_parents": 22,
+      "variant_parents": 0,
       "variant_parents_to_delete": 0,
       "already_synced": 13,
-      "variant_synced": 0,
+      "variant_synced": 34,
       "errors": 0
     }
   },
   "_meta": {
-    "generated_at": "2025-08-14T09:01:20.545677+00:00",
-    "source": "post-partial",
+    "generated_at": "2025-08-14T21:45:46.213440+00:00",
+    "source": "full",
     "dry_run": true,
     "skus": [],
     "schema": 2
