@@ -1028,6 +1028,7 @@
       "has_variants": 1,
       "action": "Sync",
       "fields_to_update": "None",
+      "description_diff": false,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1050,6 +1051,7 @@
       "has_variants": 1,
       "action": "Sync",
       "fields_to_update": "None",
+      "description_diff": false,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1072,6 +1074,7 @@
       "has_variants": 1,
       "action": "Sync",
       "fields_to_update": "None",
+      "description_diff": false,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1093,7 +1096,10 @@
       "name": "Stone Veneer - Mount Cook",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1115,7 +1121,10 @@
       "name": "Stone Veneer - Mount Cameroon",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1137,7 +1146,10 @@
       "name": "Stone Veneer - Himalayas",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1159,7 +1171,10 @@
       "name": "Stone Veneer - Everest",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1181,7 +1196,10 @@
       "name": "Stone Veneer - Drakensberg",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1203,7 +1221,10 @@
       "name": "Stone Veneer - Cascade",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1225,7 +1246,10 @@
       "name": "Stone Veneer - Atlas",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1247,7 +1271,10 @@
       "name": "Stone Veneer - Andes",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1269,7 +1296,10 @@
       "name": "Stone Veneer - Alaska",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1291,7 +1321,10 @@
       "name": "Micro Stone - The Highlands",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1312,7 +1345,10 @@
       "name": "Micro Stone - Himalayas",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1333,7 +1369,10 @@
       "name": "Micro Stone - Everest",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1354,7 +1393,10 @@
       "name": "Micro Stone - Drakensberg",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1375,7 +1417,10 @@
       "name": "Micro Stone - Andes",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1396,7 +1441,10 @@
       "name": "Translucent Stone - The Highlands",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1417,7 +1465,10 @@
       "name": "Translucent Stone - Himalayas",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1438,7 +1489,10 @@
       "name": "Translucent Stone - Everest",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1459,7 +1513,10 @@
       "name": "Translucent Stone - Drakensberg",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -1480,7 +1537,10 @@
       "name": "Translucent Stone - Andes",
       "has_variants": 1,
       "action": "Sync",
-      "fields_to_update": "None",
+      "fields_to_update": [
+        "description"
+      ],
+      "description_diff": true,
       "attributes": [
         {
           "name": "Sheet Size",
@@ -2736,7 +2796,7 @@
   "variant_parents_to_delete": [],
   "variant_synced": [],
   "meta": {
-    "generated_at": "2025-08-13T18:43:50.178037+00:00",
+    "generated_at": "2025-08-14T09:01:20.542766+00:00",
     "dry_run": true,
     "counts": {
       "to_create": 0,
@@ -2753,8 +2813,8 @@
     }
   },
   "_meta": {
-    "generated_at": "2025-08-13T18:43:50.179529+00:00",
-    "source": "full",
+    "generated_at": "2025-08-14T09:01:20.545677+00:00",
+    "source": "post-partial",
     "dry_run": true,
     "skus": [],
     "schema": 2

@@ -1,5 +1,8 @@
 // src/app/lib/api.ts
 import { withBase } from "@/app/lib/basePath";
+import type { PreviewResponse } from "../types/sync";
+
+const PREVIEW_KEY = "sync_preview_snapshot";
 
 /** Individual service health */
 export type HealthService = {
@@ -159,4 +162,31 @@ export async function saveMappingStore(payload: {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
     });
+}
+
+// -------------- hydrate the Synchronise page from the saved snapshot -------------
+
+export function loadCachedPreview(): PreviewResponse | null {
+    if (typeof window === "undefined") return null;
+    try {
+        const raw = localStorage.getItem(PREVIEW_KEY);
+        return raw ? (JSON.parse(raw) as PreviewResponse) : null;
+    } catch {
+        return null;
+    }
+}
+
+export function saveCachedPreview(p: PreviewResponse | null) {
+    if (typeof window === "undefined") return;
+    try {
+        if (p) localStorage.setItem(PREVIEW_KEY, JSON.stringify(p));
+        else localStorage.removeItem(PREVIEW_KEY);
+    } catch { }
+}
+
+export function clearCachedPreview() {
+    if (typeof window === "undefined") return;
+    try {
+        localStorage.removeItem(PREVIEW_KEY);
+    } catch { }
 }

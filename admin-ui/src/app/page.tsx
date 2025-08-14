@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import BusyOverlay from '@/app/components/BusyOverlay';
-import { runHealth, runPreview, runFullSync, runPartialSync } from '@/app/lib/api';
+import { runHealth, runPreview, runFullSync, runPartialSync, loadCachedPreview, saveCachedPreview, clearCachedPreview } from '@/app/lib/api';
 import type { HealthResponse } from '@/app/lib/api';
 import type { PreviewItem, PreviewResponse, SyncReport } from '@/app/types/sync';
 import { ArrowPathIcon, PlayIcon } from '@heroicons/react/24/outline';
@@ -58,6 +58,12 @@ export default function DashboardPage() {
 
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
+  // 0) On mount, hydrate from last cached preview so the page isn't empty when returning.
+  useEffect(() => {
+    const cached = loadCachedPreview();
+    if (cached) setData(cached);
+  }, []);
+
   // Health check always runs on page mount
   useEffect(() => {
     let cancel = false;
@@ -92,6 +98,7 @@ export default function DashboardPage() {
         setLoadingMsg('Running preview (dry-run)…');
         const res = await runPreview();
         setData(res as PreviewResponse);
+        saveCachedPreview(res as PreviewResponse); // <-- persist
         window.sessionStorage.setItem(KEY, '1');
       } catch (e: any) {
         setError(e?.message || 'Failed to load preview.');
@@ -154,6 +161,7 @@ export default function DashboardPage() {
       setLoadingMsg('Refreshing preview…');
       const res = await runPreview();
       setData(res as PreviewResponse);
+      saveCachedPreview(res as PreviewResponse); // <-- persist
       setSelected(new Set());
     } catch (e: any) {
       setError(e?.message || 'Preview failed.');
@@ -169,6 +177,8 @@ export default function DashboardPage() {
       setLoading(true);
       setLoadingMsg('Executing FULL sync…');
       const res = await runFullSync({ dryRun: false, purgeBin: true });
+      // The API may return a fresh post-sync preview; either way, cached preview is stale now.
+      clearCachedPreview(); // <-- invalidate cache after real sync
       setData(res as PreviewResponse);
       setSelected(new Set());
     } catch (e: any) {
@@ -191,7 +201,12 @@ export default function DashboardPage() {
       setLoadingMsg(dryRun ? 'Running PARTIAL preview…' : 'Executing PARTIAL sync…');
       const res = await runPartialSync({ skus, dryRun });
       setData(res as PreviewResponse);
-      if (!dryRun) setSelected(new Set());
+      if (dryRun) {
+        saveCachedPreview(res as PreviewResponse); // <-- persist preview
+      } else {
+        clearCachedPreview(); // <-- invalidate cache after real sync
+        setSelected(new Set());
+      }
     } catch (e: any) {
       setError(e?.message || 'Partial sync failed.');
     } finally {
