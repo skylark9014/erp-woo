@@ -29,10 +29,10 @@ export type ShippingParamsDoc = {
     path?: string;
     valid?: boolean;
     error?: string | null;
-    mtime?: number;        // unix seconds
-    size?: number;         // bytes
-    content?: string;      // raw file text
-    json?: any;            // parsed object
+    mtime?: number;
+    size?: number;
+    content?: string;
+    json?: any;
     saved?: boolean;
 };
 
@@ -77,32 +77,141 @@ async function getJson<T>(url: string, init?: RequestInit): Promise<T> {
 
 // ---------- Health ----------
 export async function runHealth(): Promise<HealthResponse> {
-    // Proxied by Next.js: /admin/api/health → integration /api/health
     return getJson<HealthResponse>(withBase("/api/health"), { cache: "no-store" });
 }
 
-// ---------- Preview / Sync ----------
+// ---------- Preview ----------
 export async function runPreview() {
-    // Proxied by Next.js: /admin/api/integration/preview → integration /api/sync/preview
     return getJson<any>(withBase("/api/integration/preview"), {
         method: "POST",
         cache: "no-store",
     });
 }
 
-export async function runFullSync(opts: { dryRun: boolean; purgeBin: boolean }) {
-    // Proxied by Next.js: /admin/api/integration/full → integration /api/sync/full
-    return getJson<any>(withBase("/api/integration/full"), {
+/* ------------------------------------------------------------------ */
+/* Async full sync (202 + polling) API                                */
+/* ------------------------------------------------------------------ */
+export type SyncJob = {
+    id: string;
+    status: 'queued' | 'running' | 'done' | 'error';
+    result?: any;
+    error?: string | any;
+    progress?: number;
+    message?: string;
+};
+
+export type StartFullSyncResponse =
+    | { kind: 'sync'; result: any }
+    | { kind: 'async'; job_id: string };
+
+function extractJobIdFromResponse(res: Response, text: string | null): string | null {
+    let jobId =
+        res.headers.get('x-job-id') ||
+        res.headers.get('x-jobid') ||
+        res.headers.get('job-id') ||
+        null;
+
+    if (!jobId) {
+        const loc = res.headers.get('location') || '';
+        if (loc) {
+            const parts = loc.split('/');
+            jobId = parts[parts.length - 1] || null;
+        }
+    }
+
+    if (!jobId && text) {
+        try {
+            const j = JSON.parse(text);
+            jobId = j?.job_id || j?.id || null;
+        } catch {
+            const m = text.match(/[A-Za-z0-9_-]{10,}/);
+            if (m) jobId = m[0];
+        }
+    }
+    return jobId;
+}
+
+export async function startFullSyncAsync(opts: { dryRun: boolean; purgeBin: boolean }): Promise<StartFullSyncResponse> {
+    const res = await fetch(withBase("/api/integration/full"), {
         method: "POST",
         cache: "no-store",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dryRun: opts.dryRun, purgeBin: opts.purgeBin }),
     });
+
+    // 202 — async job
+    if (res.status === 202) {
+        const text = await res.text();
+        const jobId = extractJobIdFromResponse(res, text);
+        if (!jobId) throw new Error("202 Accepted but no job id was provided.");
+        return { kind: 'async', job_id: jobId };
+    }
+
+    // synchronous path
+    const text = await res.text();
+    try {
+        const body = JSON.parse(text);
+        (body as any)._httpStatus = res.status;
+        if (!res.ok) {
+            const msg = (typeof body === "object" && body && body.detail) ? body.detail : JSON.stringify(body);
+            throw new Error(msg || `HTTP ${res.status}`);
+        }
+        return { kind: 'sync', result: body };
+    } catch {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return { kind: 'sync', result: { raw: text } };
+    }
 }
 
+export async function getFullSyncStatus(jobId: string): Promise<SyncJob> {
+    const res = await fetch(withBase(`/api/integration/status/${encodeURIComponent(jobId)}`), {
+        method: 'GET',
+        cache: 'no-store',
+    });
+    const text = await res.text();
+    if (!res.ok) {
+        throw new Error(`Status ${res.status}: ${text}`);
+    }
+    try {
+        const js = JSON.parse(text);
+        const status = (js?.status || '').toLowerCase();
+        return {
+            id: js?.id || jobId,
+            status: (['queued', 'running', 'done', 'error'].includes(status) ? status : 'running') as SyncJob['status'],
+            result: js?.result,
+            error: js?.error || js?.detail,
+            progress: typeof js?.progress === 'number' ? js.progress : undefined,
+            message: js?.message,
+        };
+    } catch {
+        throw new Error(`Bad status payload: ${text}`);
+    }
+}
+
+/**
+ * Backward-compatible helper:
+ * If some code still calls runFullSync(), handle 202 by polling until completion
+ * so those callers *block* until the job finishes.
+ */
+export async function runFullSync(opts: { dryRun: boolean; purgeBin: boolean }) {
+    const start = await startFullSyncAsync(opts);
+    if (start.kind === 'sync') return start.result;
+
+    let delay = 800;
+    while (true) {
+        const s = await getFullSyncStatus(start.job_id);
+        if (s.status === 'done') return s.result;
+        if (s.status === 'error') {
+            const message = (typeof s.error === 'string' ? s.error : JSON.stringify(s.error || {}));
+            throw new Error(message || 'Full sync failed');
+        }
+        await new Promise(r => setTimeout(r, delay));
+        delay = Math.min(delay + 400, 4000);
+    }
+}
+
+// ---------- Partial sync ----------
 export async function runPartialSync(arg: { skus: string[]; dryRun: boolean }) {
-    // IMPORTANT: go via UI route so it adds Basic Auth and reshapes body for the backend
-    // /admin/api/integration/partial → integration /api/sync/partial
     return getJson<any>(withBase("/api/integration/partial"), {
         method: "POST",
         cache: "no-store",
@@ -113,7 +222,6 @@ export async function runPartialSync(arg: { skus: string[]; dryRun: boolean }) {
 
 // ---------- Shipping params & sync ----------
 export async function getShippingParams(): Promise<ShippingParamsDoc> {
-    // Proxied by Next.js
     return getJson<ShippingParamsDoc>(withBase("/api/integration/shipping/params"), {
         method: "GET",
         cache: "no-store",
@@ -132,7 +240,6 @@ export async function saveShippingParams(payload: {
         pretty: payload.pretty ?? true,
         sort_keys: payload.sortKeys ?? true,
     };
-    // Proxied by Next.js
     return getJson<ShippingParamsDoc>(withBase("/api/integration/shipping/params"), {
         method: "POST",
         cache: "no-store",
@@ -142,7 +249,6 @@ export async function saveShippingParams(payload: {
 }
 
 export async function syncShipping(opts?: { dryRun?: boolean }): Promise<any> {
-    // Proxied by Next.js
     return getJson<any>(withBase("/api/integration/shipping/sync"), {
         method: "POST",
         cache: "no-store",
@@ -151,9 +257,8 @@ export async function syncShipping(opts?: { dryRun?: boolean }): Promise<any> {
     });
 }
 
-// ---------- Mapping store (GET/POST) ----------
+// ---------- Mapping store ----------
 export async function getMappingStore(): Promise<MappingStoreDoc> {
-    // Proxied by Next.js
     return getJson<MappingStoreDoc>(withBase("/api/integration/mapping/store"), {
         method: "GET",
         cache: "no-store",
@@ -172,7 +277,6 @@ export async function saveMappingStore(payload: {
         pretty: payload.pretty ?? true,
         sort_keys: payload.sortKeys ?? true,
     };
-    // Proxied by Next.js
     return getJson<MappingStoreDoc>(withBase("/api/integration/mapping/store"), {
         method: "POST",
         cache: "no-store",
@@ -181,7 +285,7 @@ export async function saveMappingStore(payload: {
     });
 }
 
-// -------------- hydrate the Synchronise page from the saved snapshot -------------
+// -------------- preview cache (unchanged) -------------
 export function loadCachedPreview(): PreviewResponse | null {
     if (typeof window === "undefined") return null;
     try {

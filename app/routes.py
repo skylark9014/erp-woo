@@ -14,6 +14,9 @@
 import json
 import httpx
 import secrets
+import asyncio
+import uuid
+import time
 from typing import Any, Dict, List
 
 from fastapi import APIRouter, Query, Request, Depends, HTTPException, status
@@ -100,8 +103,56 @@ def _get_bool(payload: Dict[str, Any], *keys: str, default: bool = False) -> boo
             return bool(payload.get(k))
     return default
 
+def _now_ts() -> int:
+    return int(time.time())
+
+# ---------------------------
+# Background job store (in-memory)
+# ---------------------------
+_JOBS: Dict[str, Dict[str, Any]] = {}
+_JOBS_LOCK = asyncio.Lock()
+_JOBS_TTL_SECONDS = 60 * 60  # keep finished jobs 1 hour
+
+async def _cleanup_jobs_now():
+    """Remove finished jobs older than TTL."""
+    cutoff = _now_ts() - _JOBS_TTL_SECONDS
+    async with _JOBS_LOCK:
+        to_del = [jid for jid, rec in _JOBS.items()
+                  if rec.get("finished") and rec.get("finished") < cutoff]
+        for jid in to_del:
+            _JOBS.pop(jid, None)
+
+async def _run_full_job(job_id: str, *, dry_run: bool, purge_bin: bool):
+    """Background runner for full sync."""
+    async with _JOBS_LOCK:
+        rec = _JOBS.get(job_id) or {}
+        rec.update({
+            "status": "running",
+            "started": rec.get("started") or _now_ts(),
+        })
+        _JOBS[job_id] = rec
+
+    try:
+        result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
+        async with _JOBS_LOCK:
+            _JOBS[job_id].update({
+                "status": "done",
+                "finished": _now_ts(),
+                "result": result,
+            })
+    except Exception as e:
+        async with _JOBS_LOCK:
+            _JOBS[job_id].update({
+                "status": "error",
+                "finished": _now_ts(),
+                "error": str(e),
+            })
+
+    # opportunistic cleanup
+    await _cleanup_jobs_now()
+
 # ----------------------------------------------------------------------
-# NEW PIPELINE (product_sync.py) — ✅ KEEP (now requires HTTP Basic)
+# NEW PIPELINE (product_sync.py) — ✅ KEEP (now supports async jobs)
 # ----------------------------------------------------------------------
 
 @router.api_route("/sync/preview", methods=["GET", "POST"], dependencies=[Depends(verify_admin)])
@@ -116,15 +167,58 @@ async def api_sync_preview():
 async def api_sync_full(request: Request):
     """
     Full ERPNext → Woo sync (admin-only).
-    Body: { "dry_run" | "dryRun": bool, "purge_bin" | "purgeBin": bool (default True) }
+
+    Body:
+      {
+        "dry_run" | "dryRun": bool,
+        "purge_bin" | "purgeBin": bool (default True),
+        "blocking": bool (default False)  # when true, run synchronously (legacy behavior)
+      }
+
+    Default is **non-blocking**: returns { job_id, status } immediately (202 Accepted),
+    use GET /api/sync/status/{job_id} to poll until "done" or "error".
     """
     payload = await _safe_json(request)
     dry_run = _get_bool(payload, "dry_run", "dryRun", default=False)
     purge_bin = _get_bool(payload, "purge_bin", "purgeBin", default=True)
-    result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
-    # echo minimal meta (non-breaking)
-    result.setdefault("request", {"dry_run": dry_run, "purge_bin": purge_bin})
-    return JSONResponse(content=result)
+    blocking = _get_bool(payload, "blocking", default=False)
+
+    if blocking:
+        # Legacy "wait-for-result" behavior
+        result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
+        result.setdefault("request", {"dry_run": dry_run, "purge_bin": purge_bin, "blocking": True})
+        return JSONResponse(content=result)
+
+    # Non-blocking background job
+    job_id = uuid.uuid4().hex
+    async with _JOBS_LOCK:
+        _JOBS[job_id] = {
+            "id": job_id,
+            "status": "queued",
+            "started": None,
+            "finished": None,
+            "request": {"dry_run": dry_run, "purge_bin": purge_bin},
+        }
+
+    # Fire and forget
+    asyncio.create_task(_run_full_job(job_id, dry_run=dry_run, purge_bin=purge_bin))
+
+    # 202 Accepted + Location to status endpoint
+    return JSONResponse(
+        status_code=202,
+        content={"job_id": job_id, "status": "queued"},
+        headers={"Location": f"/api/sync/status/{job_id}"},
+    )
+
+@router.get("/sync/status/{job_id}", dependencies=[Depends(verify_admin)])
+async def api_sync_status(job_id: str):
+    """Poll background full-sync job status."""
+    async with _JOBS_LOCK:
+        rec = _JOBS.get(job_id)
+    if not rec:
+        raise HTTPException(status_code=404, detail="job not found")
+    # return full record (contains result only when status == done)
+    return JSONResponse(content=rec)
 
 @router.post("/sync/partial", dependencies=[Depends(verify_admin)])
 async def api_sync_partial(request: Request):
@@ -157,6 +251,10 @@ async def compat_sync_preview():
 @compat_router.post("/sync/full", dependencies=[Depends(verify_admin)])
 async def compat_sync_full(request: Request):
     return await api_sync_full(request)
+
+@compat_router.get("/sync/status/{job_id}", dependencies=[Depends(verify_admin)])
+async def compat_sync_status(job_id: str):
+    return await api_sync_status(job_id)
 
 @compat_router.post("/sync/partial", dependencies=[Depends(verify_admin)])
 async def compat_sync_partial(request: Request):

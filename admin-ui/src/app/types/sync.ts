@@ -48,6 +48,7 @@ export type PreviewResponse = {
     dry_run: boolean;
     sync_report: SyncReport;
 };
+
 export type Counts = {
     toCreate: number;
     toUpdate: number;
@@ -58,6 +59,7 @@ export type Counts = {
     parents: number;
     errors: number;
 };
+
 export type PreviewSyncReport = {
     to_create: any[];
     to_update: any[];
@@ -76,3 +78,15 @@ export type HealthResponse = {
 };
 
 export type FullOrPartialResponse = PreviewResponse; // same envelope
+
+export type SyncJobStatus = "queued" | "running" | "done" | "error";
+export type SyncJob = {
+    id?: string;
+    job_id?: string;
+    status: SyncJobStatus;
+    started?: number | null;
+    finished?: number | null;
+    request?: { dry_run?: boolean; purge_bin?: boolean };
+    error?: string;
+    result?: any; // same envelope as PreviewResponse on success
+};
