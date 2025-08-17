@@ -7,8 +7,8 @@ import httpx
 from typing import List, Dict, Any, Optional
 from urllib.parse import urlparse, urljoin
 from app.config import settings
-from app.sync_utils import get_erp_image_list  # tolerant wrapper around ERP item image(s)
-from app.erpnext import get_erp_images         # fallback direct fetch
+from app.sync.sync_utils import get_erp_image_list  # tolerant wrapper around ERP item image(s)
+from app.erp.erpnext import get_erp_images         # fallback direct fetch
 
 ERP_BASE = settings.ERP_URL.rstrip("/")
 ERP_HOST = urlparse(ERP_BASE).netloc

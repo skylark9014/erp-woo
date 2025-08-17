@@ -15,7 +15,7 @@ from urllib.parse import quote
 import httpx
 
 from app.config import settings
-from app.field_mapping import get_erp_sync_fields
+from app.mapping.field_mapping import get_erp_sync_fields
 
 # --- Settings / globals ----------------------------------------------------
 

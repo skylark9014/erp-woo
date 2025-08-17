@@ -15,8 +15,8 @@ from app.routes import router as api_router          # Public API under /api/*
 from app.routes import compat_router as api_compat_router  # Root-level aliases (/sync/*)
 from app.admin_routes import router as admin_router  # Admin API under /admin/api/*
 from app.config import settings
-from app.shipping_api import router as shipping_router
-from app.mapping_api import router as mapping_router
+from app.shipping.shipping_api import router as shipping_router
+from app.mapping.mapping_api import router as mapping_router
 
 ADMIN_USER = settings.ADMIN_USER
 ADMIN_PASS = settings.ADMIN_PASS

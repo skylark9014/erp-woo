@@ -18,14 +18,14 @@ from typing import Optional, List
 from pathlib import Path
 from decimal import Decimal, ROUND_HALF_UP
 from urllib.parse import urlparse, quote
-from app.erpnext import get_erpnext_categories
-from app.woocommerce import (
+from app.erp.erpnext import get_erpnext_categories
+from app.woo.woocommerce import (
     get_wc_categories, 
     create_wc_category, 
     update_wc_product, 
     create_wc_product,
 )
-from app.field_mapping import (
+from app.mapping.field_mapping import (
     get_wc_sync_fields, 
     map_erp_to_wc_product,
 )
@@ -657,7 +657,7 @@ def load_preview_from_file(filename: str = "products_to_sync.json"):
 
 def diff_fields(wc, erp, include=None, ignore=None):
     import re
-    from app.field_mapping import get_wc_sync_fields
+    from app.mapping.field_mapping import get_wc_sync_fields
     from bs4 import BeautifulSoup
     import logging
     logger = logging.getLogger("uvicorn.error")
@@ -710,7 +710,7 @@ async def sync_products_filtered(erp_items, wc_products, dry_run=False):
     stats = {"updated": 0, "created": 0, "skipped": 0, "errors": []}
 
     # Re-fetch price and stock for accuracy
-    from app.erpnext import get_price_map, get_stock_map
+    from app.erp.erpnext import get_price_map, get_stock_map
     price_map = await get_price_map()
     stock_map = await get_stock_map()
 

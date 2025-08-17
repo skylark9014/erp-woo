@@ -102,7 +102,7 @@ async def bootstrap_wc_brands_if_possible(
 
     # Live mode: use Woo helper (lazy import to avoid cycles)
     try:
-        from app.woocommerce import ensure_wc_brand_attribute_and_terms
+        from app.woo.woocommerce import ensure_wc_brand_attribute_and_terms
     except Exception:
         ensure_wc_brand_attribute_and_terms = None
 

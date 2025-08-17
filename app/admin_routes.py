@@ -19,14 +19,14 @@ from pydantic import BaseModel
 from fastapi import APIRouter, Request, Body, HTTPException
 from fastapi.responses import JSONResponse
 
-from app.mapping_store import build_or_load_mapping, save_mapping_file
+from app.mapping.mapping_store import build_or_load_mapping, save_mapping_file
 from app.sync.product_sync import (
     sync_products_partial,
     sync_products_full,
     sync_preview,
 )
 from app.config import settings
-from app.woocommerce import purge_wc_bin_products  # optional purge support
+from app.woo.woocommerce import purge_wc_bin_products  # optional purge support
 
 logger = logging.getLogger("uvicorn.error")
 

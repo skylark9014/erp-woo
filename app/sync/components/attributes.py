@@ -38,7 +38,7 @@ async def bootstrap_wc_attributes_if_possible(
 
     # Live mode: use Woo helper (lazy import)
     try:
-        from app.woocommerce import ensure_wc_attributes_and_terms
+        from app.woo.woocommerce import ensure_wc_attributes_and_terms
     except Exception:
         ensure_wc_attributes_and_terms = None
 

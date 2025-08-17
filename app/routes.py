@@ -4,7 +4,6 @@
 #
 # ✅ Canonical public API lives under /api/*
 # ✅ NEW PIPELINE endpoints (product_sync.py) require HTTP Basic (admin)
-# 🧩 LEGACY PIPELINE endpoints (sync.py) kept under /api/legacy/* for comparison
 #
 # IMPORTANT: In main_app.py, include with NO extra prefix to avoid /api/api duplication:
 #   from app.routes import router as api_router
@@ -32,21 +31,14 @@ from app.sync.product_sync import (
     sync_preview,           # dry-run preview of new pipeline
 )
 
-# LEGACY pipeline (deprecate later)
-from app.sync.sync import (
-    sync_products,          # legacy "full" run
-    sync_products_preview,  # legacy preview
-    sync_categories as legacy_sync_categories,  # legacy category sync util
-)
-
 # Utilities
-from app.woocommerce import (
+from app.woo.woocommerce import (
     purge_wc_bin_products,
     purge_all_wc_products,
     purge_wc_product_variations,
     list_wc_bin_products,
 )
-from app.erpnext import erpnext_ping
+from app.erp.erpnext import erpnext_ping
 
 router = APIRouter(prefix="/api", tags=["Sync API"])
 compat_router = APIRouter(tags=["Sync API (Compat)"])  # root-level aliases (/sync/*)
@@ -259,25 +251,6 @@ async def compat_sync_status(job_id: str):
 @compat_router.post("/sync/partial", dependencies=[Depends(verify_admin)])
 async def compat_sync_partial(request: Request):
     return await api_sync_partial(request)
-
-# ----------------------------------------------------------------------
-# LEGACY PIPELINE (sync.py) — 🟠 DEPRECATE SOON (left open for now)
-# ----------------------------------------------------------------------
-
-@router.post("/legacy/sync/run")
-async def legacy_run_sync():
-    """LEGACY (DEPRECATE): One-way ERPNext → Woo (create/update) using old pipeline."""
-    return await sync_products()
-
-@router.get("/legacy/sync/preview")
-async def legacy_preview_sync():
-    """LEGACY (DEPRECATE): Preview sync using old pipeline."""
-    return await sync_products_preview()
-
-@router.post("/legacy/sync/categories")
-async def legacy_run_category_sync():
-    """LEGACY UTILITY (DEPRECATE): Sync ERPNext Item Groups to Woo categories."""
-    return await legacy_sync_categories()
 
 # ----------------------------------------------------------------------
 # WooCommerce utilities — ✅ KEEP

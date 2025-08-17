@@ -20,20 +20,20 @@ from app.erp.erp_variant_matrix import build_variant_matrix
 from app.sync.components.price import resolve_price_map
 from app.sync.components.attributes import collect_used_attribute_values
 from app.config import settings
-from app.erpnext import (
+from app.erp.erpnext import (
     get_erpnext_items,
     get_erpnext_categories,
     get_price_map,
     get_stock_map,
 )
-from app.woocommerce import (
+from app.woo.woocommerce import (
     get_wc_products,
     get_wc_categories,
     ensure_wc_attributes_and_terms,
     ensure_wp_image_uploaded,
     purge_wc_bin_products,
 )
-from app.sync_utils import (
+from app.sync.sync_utils import (
     build_wc_cat_map,
     normalize_category_name,
     sync_categories,

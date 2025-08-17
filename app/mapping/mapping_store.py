@@ -9,7 +9,7 @@ import logging
 
 from typing import List, Dict, Any
 from datetime import datetime, timezone
-from app.sync_utils import _mapping_dir
+from app.sync.sync_utils import _mapping_dir
 
 logger = logging.getLogger("uvicorn.error")
 
