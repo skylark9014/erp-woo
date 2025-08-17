@@ -310,3 +310,27 @@ export function clearCachedPreview() {
         localStorage.removeItem(PREVIEW_KEY);
     } catch { }
 }
+
+// ---- Delete preview/run ----
+// keep existing type
+export type DeleteRunResponse = {
+    ok: boolean;
+    results: Array<{ id: number; status_code: number; ok: boolean; error?: string }>;
+    force?: boolean;
+};
+
+export async function loadDeleteCandidates() {
+    return getJson<any>(withBase('/api/deletes/preview'), { cache: 'no-store' });
+}
+
+// canonical (singular) name
+export async function runDelete(payload: { ids: number[]; force?: boolean; purgeBin?: boolean }): Promise<DeleteRunResponse> {
+    return getJson<DeleteRunResponse>(withBase('/api/deletes/run'), {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+    });
+}
+
+// optional alias, if you still call runDeletes() elsewhere
+export const runDeletes = runDelete;

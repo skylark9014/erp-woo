@@ -250,7 +250,7 @@
       "categories": [
         "stone veneer"
       ],
-      "woo_product_id": 4414,
+      "woo_product_id": 4628,
       "woo_status": "publish"
     },
     "SVR-MTCAM-LARGE": {
@@ -263,7 +263,7 @@
       "categories": [
         "stone veneer"
       ],
-      "woo_product_id": 4415,
+      "woo_product_id": 4630,
       "woo_status": "publish"
     },
     "SVR-HLYAS-MEDIUM": {
@@ -1328,7 +1328,7 @@
       "action": "Synced",
       "fields_to_update": [],
       "woo": {
-        "id": 4414,
+        "id": 4628,
         "status": "publish"
       },
       "parent_sku": "SVR-MTCAM"
@@ -1362,7 +1362,7 @@
       "action": "Synced",
       "fields_to_update": [],
       "woo": {
-        "id": 4415,
+        "id": 4630,
         "status": "publish"
       },
       "parent_sku": "SVR-MTCAM"
@@ -2136,7 +2136,8 @@
         "Sheet Size": "LARGE"
       },
       "erp_img_sizes": [
-        237626
+        237626,
+        92216
       ],
       "wc_img_sizes": [
         237626
@@ -2189,7 +2190,7 @@
     }
   ],
   "meta": {
-    "generated_at": "2025-08-14T23:46:24.065860+00:00",
+    "generated_at": "2025-08-17T18:23:50.675879+00:00",
     "dry_run": true,
     "counts": {
       "to_create": 0,
@@ -2206,8 +2207,8 @@
     }
   },
   "_meta": {
-    "generated_at": "2025-08-14T23:46:24.075107+00:00",
-    "source": "post-full",
+    "generated_at": "2025-08-17T18:23:50.677408+00:00",
+    "source": "full",
     "dry_run": true,
     "skus": [],
     "schema": 2

@@ -1,5 +1,5 @@
 #========================================================
-# docker-compose.yml for ERPNext-Woocommerce Integration
+# docker-compose.yml for ERPNext–WooCommerce Integration
 #========================================================
 version: '3.8'
 
@@ -8,31 +8,22 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: erp-woo-integration
-
+    container_name: erp-woo-int
     working_dir: /code
     volumes:
       - ./:/code
 
     env_file:
-      - .env
+      - ./.env
 
-    # Dev entrypoint
     command: [ "uvicorn", "app.main_app:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug" ]
-
     ports:
       - "8000:8000"
 
     labels:
       - "traefik.enable=true"
-
-      # ⛔️ REMOVED: These were hijacking /admin/api/* to the integration container
-      # - "traefik.http.routers.integration-adminapi.rule=Host(`records.techniclad.co.za`) && PathPrefix(`/admin/api`)"
-      # - "traefik.http.routers.integration-adminapi.entrypoints=websecure"
-      # - "traefik.http.routers.integration-adminapi.tls.certresolver=main-resolver"
-      # - "traefik.http.routers.integration-adminapi.priority=100"
-
-      # Tell Traefik which internal port to hit (kept)
+      - "traefik.docker.network=frappe_default"
+      # internal port for Traefik
       - "traefik.http.services.integration.loadbalancer.server.port=8000"
 
     networks:
@@ -43,15 +34,21 @@ services:
     build:
       context: ./admin-ui
       target: dev
+    container_name: admin-ui
     ports:
       - "3000:3000"
+
+    # Load all secrets/config from the single root .env
+    env_file:
+      - ./.env
     environment:
       - NEXT_TELEMETRY_DISABLED=1
-      # UI → FastAPI internal URL on the Docker network
       - INTEGRATION_BASE_URL=http://integration:8000
-      # Basic auth for the proxy calls (same as FastAPI admin creds)
       - INTEGRATION_ADMIN_USER=${ADMIN_USER}
       - INTEGRATION_ADMIN_PASS=${ADMIN_PASS}
+
+    depends_on:
+      - integration
 
     volumes:
       - ./admin-ui:/app
@@ -61,14 +58,11 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=frappe_default"
-      # ✅ Everything under /admin (including /admin/api) goes to the UI
+      # ✅ Route everything under /admin (incl. /admin/api) to Next.js (server routes proxy to FastAPI)
       - "traefik.http.routers.admin-ui.rule=Host(`records.techniclad.co.za`) && PathPrefix(`/admin`)"
       - "traefik.http.routers.admin-ui.entrypoints=websecure"
       - "traefik.http.routers.admin-ui.tls.certresolver=main-resolver"
       - "traefik.http.services.admin-ui.loadbalancer.server.port=3000"
-      # (Optional) UI BasicAuth if you want a second gate
-      # - "traefik.http.middlewares.admin-ui-auth.basicauth.users=admin:$$2y$$..."
-      # - "traefik.http.routers.admin-ui.middlewares=admin-ui-auth"
 
     networks:
       - frappe_default

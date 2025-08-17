@@ -2,7 +2,16 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import BusyOverlay from '@/app/components/BusyOverlay';
-import { runHealth, runPreview, runFullSync, runPartialSync, loadCachedPreview, saveCachedPreview, clearCachedPreview } from '@/app/lib/api';
+import {
+  runHealth,
+  runPreview,
+  runFullSync,
+  runPartialSync,
+  loadCachedPreview,
+  saveCachedPreview,
+  clearCachedPreview,
+  runDelete, // deletes (Trash) by Woo product ID
+} from '@/app/lib/api';
 import type { HealthResponse } from '@/app/lib/api';
 import type { PreviewItem, PreviewResponse, SyncReport } from '@/app/types/sync';
 import { ArrowPathIcon, PlayIcon } from '@heroicons/react/24/outline';
@@ -12,11 +21,13 @@ type Gate = 'checking' | 'ready' | 'down';
 function formatCount(n: number | undefined) {
   return (n ?? 0).toLocaleString();
 }
+
 function flattenUpdates(r: SyncReport): PreviewItem[] {
   const simpleUpdates = r.to_update ?? [];
   const variantUpdates = r.variant_to_update ?? [];
   return [...variantUpdates, ...simpleUpdates];
 }
+
 function describeHealthProblems(h: HealthResponse | null): string[] {
   if (!h) return ['Backend not reachable.'];
   const msgs: string[] = [];
@@ -56,19 +67,22 @@ export default function DashboardPage() {
   const [loadingMsg, setLoadingMsg] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | null>(null);
 
-  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [selected, setSelected] = useState<Set<string>>(new Set());       // SKUs for partial sync (update)
+  const [delSelected, setDelSelected] = useState<Set<number>>(new Set()); // Woo product IDs (simple + variable parents)
 
-  // 0) On mount, hydrate from last cached preview so the page isn't empty when returning.
+  // Hydrate with cached preview (so the page isn’t empty on return)
   useEffect(() => {
     const cached = loadCachedPreview();
     if (cached) setData(cached);
   }, []);
 
-  // Health check always runs on page mount
+  // Health check at mount
   useEffect(() => {
     let cancel = false;
     (async () => {
       try {
+        setLoading(true);
+        setLoadingMsg('Checking connectivity and credentials…');
         const h = await runHealth();
         if (cancel) return;
         setHealth(h);
@@ -77,21 +91,25 @@ export default function DashboardPage() {
         if (cancel) return;
         setHealth({ ok: false } as any);
         setGate('down');
+      } finally {
+        if (cancel) return;
+        setLoading(false);
+        setLoadingMsg(undefined);
       }
     })();
     return () => { cancel = true; };
   }, []);
 
-  // Auto preview ONLY on first visit this session
+  // Auto preview ONLY on first visit this session (and persist it)
   useEffect(() => {
     if (gate !== 'ready') return;
     if (typeof window === 'undefined') return;
 
     const KEY = 'tl_autopreview_done';
     const done = window.sessionStorage.getItem(KEY);
-    if (done) return; // skip auto preview when returning
+    if (done) return;
 
-    // Prevent React StrictMode double-run in dev by setting the guard immediately
+    // guard right away to avoid StrictMode double-run in dev
     window.sessionStorage.setItem(KEY, '1');
 
     (async () => {
@@ -101,6 +119,7 @@ export default function DashboardPage() {
         setLoadingMsg('Running preview (dry-run)…');
         const res = await runPreview();
         setData(res as PreviewResponse);
+        saveCachedPreview(res as PreviewResponse); // <-- persist first preview
       } catch (e: any) {
         setError(e?.message || 'Failed to load preview.');
       } finally {
@@ -110,20 +129,48 @@ export default function DashboardPage() {
     })();
   }, [gate]);
 
+  // Whenever we have fresh data, persist it as the "last preview"
+  useEffect(() => {
+    if (data?.sync_report) {
+      saveCachedPreview(data as PreviewResponse);
+    }
+  }, [data]);
+
   const report = data?.sync_report;
-  const counts = useMemo(() => ({
-    toCreate: report?.to_create?.length ?? 0,
-    toUpdate: report?.to_update?.length ?? 0,
-    synced: report?.already_synced?.length ?? 0,
-    vToCreate: report?.variant_to_create?.length ?? 0,
-    vToUpdate: report?.variant_to_update?.length ?? 0,
-    vSynced: report?.variant_synced?.length ?? 0,
-    parents: report?.variant_parents?.length ?? 0,
-    errors: report?.errors?.length ?? 0,
-  }), [report]);
+
+  const counts = useMemo(() => {
+    const delSimples = report?.to_delete?.length ?? 0;
+    const delParents = report?.variant_parents_to_delete?.length ?? 0;
+    return {
+      toCreate: report?.to_create?.length ?? 0,
+      toUpdate: report?.to_update?.length ?? 0,
+      synced: report?.already_synced?.length ?? 0,
+      vToCreate: report?.variant_to_create?.length ?? 0,
+      vToUpdate: report?.variant_to_update?.length ?? 0,
+      vSynced: report?.variant_synced?.length ?? 0,
+      parents: report?.variant_parents?.length ?? 0,
+      errors: report?.errors?.length ?? 0,
+      delSimples,
+      delParents,
+      delTotal: delSimples + delParents,
+    };
+  }, [report]);
 
   const updateRows = useMemo(() => (report ? flattenUpdates(report) : []), [report]);
 
+  // Delete candidates: simple products + variable parents (both have Woo product IDs)
+  const deleteRows = useMemo(() => {
+    const rows: any[] = [];
+    (report?.to_delete ?? []).forEach((r: any) => {
+      if (r?.woo?.id) rows.push({ ...r, _kind: 'simple' });
+    });
+    (report?.variant_parents_to_delete ?? []).forEach((r: any) => {
+      if (r?.woo?.id) rows.push({ ...r, _kind: 'var_parent' });
+    });
+    return rows;
+  }, [report]);
+
+  // ---------- selection helpers ----------
   function toggleSKU(sku: string, checked: boolean) {
     setSelected((old) => {
       const next = new Set(old);
@@ -133,6 +180,37 @@ export default function DashboardPage() {
     });
   }
 
+  function toggleAllSKUsIn(listSkus: string[], checked: boolean) {
+    setSelected((old) => {
+      const next = new Set(old);
+      if (checked) {
+        listSkus.forEach((s) => next.add(s));
+      } else {
+        listSkus.forEach((s) => next.delete(s));
+      }
+      return next;
+    });
+  }
+
+  function toggleDelete(id: number, checked: boolean) {
+    setDelSelected((old) => {
+      const next = new Set(old);
+      if (checked) next.add(id);
+      else next.delete(id);
+      return next;
+    });
+  }
+
+  function toggleAllDelete(ids: number[], checked: boolean) {
+    setDelSelected((old) => {
+      const next = new Set(old);
+      if (checked) ids.forEach((id) => next.add(id));
+      else ids.forEach((id) => next.delete(id));
+      return next;
+    });
+  }
+
+  // ---------- actions ----------
   async function recheckHealthAndMaybePreview() {
     try {
       setError(null);
@@ -145,7 +223,6 @@ export default function DashboardPage() {
         return;
       }
       setGate('ready');
-      // Do not auto preview here; user has a button for it
     } catch (e: any) {
       setGate('down');
       setError(e?.message || 'Health check failed.');
@@ -162,8 +239,9 @@ export default function DashboardPage() {
       setLoadingMsg('Refreshing preview…');
       const res = await runPreview();
       setData(res as PreviewResponse);
-      saveCachedPreview(res as PreviewResponse); // <-- persist
+      saveCachedPreview(res as PreviewResponse);
       setSelected(new Set());
+      setDelSelected(new Set());
     } catch (e: any) {
       setError(e?.message || 'Preview failed.');
     } finally {
@@ -176,12 +254,23 @@ export default function DashboardPage() {
     try {
       setError(null);
       setLoading(true);
+
+      // Step 1: full sync (spinner ON)
       setLoadingMsg('Executing FULL sync…');
-      const res = await runFullSync({ dryRun: false, purgeBin: true });
-      // The API may return a fresh post-sync preview; either way, cached preview is stale now.
-      clearCachedPreview(); // <-- invalidate cache after real sync
-      setData(res as PreviewResponse);
+      await runFullSync({ dryRun: false, purgeBin: true });
+
+      // Clear any stale preview cache
+      clearCachedPreview();
+
+      // Step 2: immediate preview (spinner STILL ON, new message)
+      setLoadingMsg('Generating preview…');
+      const post = await runPreview();
+      setData(post as PreviewResponse);
+      saveCachedPreview(post as PreviewResponse);
+
+      // Housekeeping
       setSelected(new Set());
+      setDelSelected(new Set());
     } catch (e: any) {
       setError(e?.message || 'Full sync failed.');
     } finally {
@@ -201,20 +290,18 @@ export default function DashboardPage() {
       setLoading(true);
       setLoadingMsg(dryRun ? 'Running PARTIAL preview…' : 'Executing PARTIAL sync…');
 
-      // run the partial
       const res = await runPartialSync({ skus, dryRun });
       setData(res as PreviewResponse);
 
       if (dryRun) {
-        // keep the preview from the partial dry-run
         saveCachedPreview(res as PreviewResponse);
       } else {
-        // after real partial completes (API now awaits), fetch a fresh preview snapshot
         clearCachedPreview();
         const post = await runPreview();
         setData(post as PreviewResponse);
         saveCachedPreview(post as PreviewResponse);
         setSelected(new Set());
+        setDelSelected(new Set());
       }
     } catch (e: any) {
       setError(e?.message || 'Partial sync failed.');
@@ -224,6 +311,33 @@ export default function DashboardPage() {
     }
   }
 
+  // Delete selected Woo products (moves to Trash, not permanent delete)
+  async function onDeleteSelected() {
+    const ids = Array.from(delSelected);
+    if (!ids.length) {
+      setError('No products selected for deletion.');
+      return;
+    }
+    try {
+      setError(null);
+      setLoading(true);
+      setLoadingMsg('Deleting selected products in WooCommerce…');
+
+      await runDelete({ ids, force: false }); // Trash (safe)
+
+      // Refresh preview after deletion so the list updates
+      clearCachedPreview();
+      const post = await runPreview();
+      setData(post as PreviewResponse);
+      saveCachedPreview(post as PreviewResponse);
+      setDelSelected(new Set());
+    } catch (e: any) {
+      setError(e?.message || 'Delete failed.');
+    } finally {
+      setLoading(false);
+      setLoadingMsg(undefined);
+    }
+  }
 
   const totalSynced = (counts.synced ?? 0) + (counts.vSynced ?? 0);
   const healthProblems = gate === 'down' ? describeHealthProblems(health) : [];
@@ -292,11 +406,11 @@ export default function DashboardPage() {
           <SummaryCard label="Already Synced" value={formatCount(totalSynced)} />
           <SummaryCard label="Variant Product Parents" value={formatCount(counts.parents)} />
           <SummaryCard label="Errors" value={formatCount(counts.errors)} />
-          <SummaryCard label="Price List" value={data?.price_list_used ?? '—'} />
+          <SummaryCard label="Products to Delete" value={formatCount(counts.delTotal)} />
         </div>
       </section>
 
-      {/* update list */}
+      {/* update list (simples + variants) */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-gray-900">Items requiring updates</h3>
@@ -319,12 +433,12 @@ export default function DashboardPage() {
                 <Th className="w-12">
                   <input
                     type="checkbox"
-                    aria-label="Select all"
+                    aria-label="Select all update"
                     className="h-4 w-4 rounded border-gray-300"
-                    checked={!!updateRows.length && selected.size === updateRows.length}
+                    checked={!!updateRows.length && updateRows.every((r: any) => selected.has((r as any).sku))}
                     onChange={(e) => {
-                      const checked = e.currentTarget.checked;
-                      setSelected(checked ? new Set(updateRows.map((r) => r.sku)) : new Set());
+                      const listSkus = updateRows.map((r: any) => (r as any).sku).filter(Boolean);
+                      toggleAllSKUsIn(listSkus, e.currentTarget.checked);
                     }}
                   />
                 </Th>
@@ -337,11 +451,11 @@ export default function DashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">
-              {updateRows.map((row) => {
-                const isVariant = !!(row as any).has_variants;
-                const fields = Array.isArray((row as any).fields_to_update)
-                  ? (row as any).fields_to_update.join(', ')
-                  : (row as any).fields_to_update ?? '';
+              {updateRows.map((row: any) => {
+                const isVariant = !!row?.has_variants;
+                const fields = Array.isArray(row?.fields_to_update)
+                  ? row.fields_to_update.join(', ')
+                  : row?.fields_to_update ?? '';
                 return (
                   <tr key={(row as any).sku} className="hover:bg-gray-50">
                     <Td className="w-12">
@@ -352,12 +466,12 @@ export default function DashboardPage() {
                         onChange={(e) => toggleSKU((row as any).sku, e.currentTarget.checked)}
                       />
                     </Td>
-                    <Td className="font-mono text-xs text-gray-900">{(row as any).sku}</Td>
-                    <Td className="text-sm text-gray-900">{(row as any).name ?? '—'}</Td>
+                    <Td className="font-mono text-xs text-gray-900">{row?.sku}</Td>
+                    <Td className="text-sm text-gray-900">{row?.name ?? '—'}</Td>
                     <Td className="text-xs uppercase text-gray-500">{isVariant ? 'Variant' : 'Simple'}</Td>
                     <Td className="text-xs text-gray-700">{fields || '—'}</Td>
-                    <Td className="text-right tabular-nums text-sm text-gray-900">{(row as any).regular_price ?? '—'}</Td>
-                    <Td className="text-right tabular-nums text-sm text-gray-700">{(row as any).stock_quantity ?? '—'}</Td>
+                    <Td className="text-right tabular-nums text-sm text-gray-900">{row?.regular_price ?? '—'}</Td>
+                    <Td className="text-right tabular-nums text-sm text-gray-700">{row?.stock_quantity ?? '—'}</Td>
                   </tr>
                 );
               })}
@@ -371,6 +485,90 @@ export default function DashboardPage() {
             </tbody>
           </table>
         </div>
+      </section>
+
+      {/* deletes table (simple + variable parents) */}
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-gray-900">Products to delete in WooCommerce</h3>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onDeleteSelected}
+              disabled={loading || !delSelected.size || gate !== 'ready'}
+              className="inline-flex items-center gap-1 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:opacity-50"
+              title="Move selected Woo products to Trash"
+            >
+              Delete Selected
+            </button>
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <Th className="w-12">
+                  <input
+                    type="checkbox"
+                    aria-label="Select all for delete"
+                    className="h-4 w-4 rounded border-gray-300"
+                    checked={!!deleteRows.length && deleteRows.every((r: any) => delSelected.has(Number(r?.woo?.id)))}
+                    onChange={(e) => {
+                      const ids = deleteRows.map((r: any) => Number(r?.woo?.id)).filter((n) => Number.isFinite(n));
+                      toggleAllDelete(ids, e.currentTarget.checked);
+                    }}
+                  />
+                </Th>
+                {/* reordered: SKU, Name, Type */}
+                <Th>SKU</Th>
+                <Th>Name</Th>
+                <Th>Type</Th>
+                <Th>Woo ID</Th>
+                <Th>Reason</Th>
+                <Th>Action</Th>
+                <Th>Woo Status</Th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100 bg-white">
+              {deleteRows.map((row: any) => {
+                const id = Number(row?.woo?.id);
+                const kind = row?._kind === 'var_parent' ? 'Variable Parent' : 'Simple';
+                return (
+                  <tr key={id} className="hover:bg-gray-50">
+                    <Td className="w-12">
+                      <input
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300"
+                        checked={delSelected.has(id)}
+                        onChange={(e) => toggleDelete(id, e.currentTarget.checked)}
+                      />
+                    </Td>
+                    {/* match header order: SKU → Name → Type */}
+                    <Td className="font-mono text-xs text-gray-900">{row?.sku ?? '—'}</Td>
+                    <Td className="text-sm text-gray-900">{row?.name ?? '—'}</Td>
+                    <Td className="text-xs uppercase text-gray-500">{kind}</Td>
+                    <Td className="font-mono text-xs text-gray-700">{id || '—'}</Td>
+                    <Td className="text-xs text-gray-700">{row?.reason ?? '—'}</Td>
+                    {/* planned action (what we will do) */}
+                    <Td className="text-xs font-medium text-red-700">Trash</Td>
+                    {/* current Woo status for context (often "publish") */}
+                    <Td className="text-xs text-gray-500">{row?.woo?.status ?? '—'}</Td>
+                  </tr>
+                );
+              })}
+              {!deleteRows.length ? (
+                <tr>
+                  <td colSpan={8} className="px-4 py-10 text-center text-sm text-gray-500">
+                    Nothing to delete — run Preview to refresh.
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-gray-500">
+          Deletes move products to the WooCommerce Trash (safe). We can enable permanent deletion later if needed.
+        </p>
       </section>
 
       <BusyOverlay
@@ -391,6 +589,7 @@ function SummaryCard({ label, value }: { label: string; value?: string | number 
     </div>
   );
 }
+
 function Th({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <th scope="col" className={`px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 ${className}`}>

@@ -6,12 +6,12 @@
 # NOTE:
 # - We intentionally do NOT define public /api/sync/* here (those live in app.routes).
 # - This module focuses on admin-only operations: health, mapping edit, preview-file ops,
-#   and optional admin-facing sync shims under /admin/api/sync/*.
+#   delete runner, and optional admin-facing sync shims under /admin/api/sync/*.
 #=======================================================================================
 
 import logging
 import httpx
-import json, os, time
+import json, os, time, asyncio
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -26,6 +26,7 @@ from app.sync.product_sync import (
     sync_preview,
 )
 from app.config import settings
+from app.woocommerce import purge_wc_bin_products  # optional purge support
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -177,6 +178,84 @@ async def http_sync_partial(req: Request):
     return JSONResponse(result)
 
 # --------------------------------------------------------------------
+# Woo Deletes — move to Trash by default; optional hard delete with force=true
+# Final path: /admin/api/deletes/run
+# Body: { ids: number[] | string (CSV), force?: boolean, purgeBin?: boolean }
+# --------------------------------------------------------------------
+
+@router.post("/deletes/run")
+async def admin_deletes_run(req: Request):
+    body = await _safe_json(req)
+    ids_raw = body.get("ids", [])
+    # Accept CSV / string too
+    if isinstance(ids_raw, str):
+        ids_raw = [s.strip() for s in ids_raw.replace("\n", ",").replace(";", ",").split(",") if s.strip()]
+
+    # Coerce to ints and de-dupe
+    ids: List[int] = []
+    for v in (ids_raw or []):
+        try:
+            i = int(str(v).strip())
+            if i not in ids:
+                ids.append(i)
+        except Exception:
+            continue
+
+    if not ids:
+        raise HTTPException(status_code=400, detail="Provide product 'ids' to delete (array or CSV).")
+
+    force = _get_bool(body, "force", "hard", "permanent", default=False)
+    purge_bin = _get_bool(body, "purge_bin", "purgeBin", default=False)
+
+    wc_base = (settings.WC_BASE_URL or "").rstrip("/")
+    wc_api = f"{wc_base}/wp-json/wc/v3"
+    auth = (settings.WC_API_KEY, settings.WC_API_SECRET)
+
+    async def _delete_one(pid: int) -> Dict[str, Any]:
+        url = f"{wc_api}/products/{pid}"
+        params = {"force": "true" if force else "false"}
+        try:
+            async with httpx.AsyncClient(timeout=30.0, verify=False, auth=auth) as client:
+                r = await client.delete(url, params=params)
+                data: Dict[str, Any] = {}
+                try:
+                    if r.headers.get("content-type", "").startswith("application/json"):
+                        data = r.json() or {}
+                except Exception:
+                    data = {}
+                return {
+                    "id": pid,
+                    "ok": r.status_code in (200, 201),
+                    "status": r.status_code,
+                    "force": force,
+                    "response": data if data else r.text[:2000],
+                }
+        except Exception as e:
+            logger.error("[DELETE] id=%s failed: %s", pid, e)
+            return {"id": pid, "ok": False, "status": None, "force": force, "error": str(e)}
+
+    results = await asyncio.gather(*(_delete_one(pid) for pid in ids))
+
+    # Optional purge of Trash (only makes sense when force=False)
+    purged = False
+    if purge_bin and not force:
+        try:
+            await purge_wc_bin_products()
+            purged = True
+        except Exception as e:
+            logger.warning("Purge bin failed: %s", e)
+
+    summary = {
+        "requested": ids,
+        "count": len(ids),
+        "force": force,
+        "purge_bin": purge_bin,
+        "purged": purged,
+        "ok": all(r.get("ok") for r in results),
+    }
+    return JSONResponse({"summary": summary, "results": results})
+
+# --------------------------------------------------------------------
 # Misc Admin — placeholder
 # --------------------------------------------------------------------
 
@@ -289,3 +368,58 @@ async def put_shipping_params(payload: ShippingParamsUpsert = Body(...)):
         "size": st.st_size,
         "content": new_text,
     }
+
+# --------------------------------------------------------------------
+# Admin: Woo deletes (soft-delete to Trash by default)
+# --------------------------------------------------------------------
+from pydantic import BaseModel
+
+class DeleteRunReq(BaseModel):
+    ids: List[int]
+    force: bool | None = False        # false = move to Trash (safe), true = hard delete
+    purge_bin: bool | None = False    # reserved (not used here)
+
+@router.get("/deletes/preview")
+async def http_deletes_preview():
+    """
+    Placeholder delete preview — UI primarily surfaces delete candidates
+    from the main sync preview's `sync_report.to_delete`.
+    """
+    return JSONResponse({"ok": True, "candidates": []})
+
+@router.post("/deletes/run")
+async def http_deletes_run(payload: DeleteRunReq = Body(...)):
+    """
+    Delete (or trash) WooCommerce products by numeric ID.
+    Uses Woo REST auth via consumer_key/consumer_secret.
+    """
+    base = (settings.WC_BASE_URL or "").rstrip("/")
+    key = getattr(settings, "WC_API_KEY", None)
+    secret = getattr(settings, "WC_API_SECRET", None)
+    if not base or not key or not secret:
+        raise HTTPException(status_code=400, detail="WooCommerce base URL or credentials missing.")
+
+    results = []
+    qp = {"consumer_key": key, "consumer_secret": secret}
+    force = bool(payload.force)
+    timeout = httpx.Timeout(30.0, connect=10.0, read=30.0)
+
+    async with httpx.AsyncClient(timeout=timeout, verify=False) as client:
+        for pid in payload.ids or []:
+            try:
+                url = f"{base}/wp-json/wc/v3/products/{int(pid)}"
+                r = await client.delete(url, params={**qp, "force": str(force).lower()})
+                try:
+                    data = r.json()
+                except Exception:
+                    data = {"text": r.text}
+                results.append({
+                    "id": int(pid),
+                    "status": r.status_code,
+                    "ok": 200 <= r.status_code < 300,
+                    "data": data,
+                })
+            except Exception as e:
+                results.append({"id": int(pid), "status": None, "ok": False, "error": str(e)})
+
+    return JSONResponse({"ok": all(x.get("ok") for x in results), "results": results})
