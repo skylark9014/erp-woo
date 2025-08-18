@@ -3,20 +3,35 @@
 # FastAPI application entry-point (no static serving).
 #=================================================================
 
-import logging
-import secrets
+import logging, secrets, asyncio
 
 from fastapi import FastAPI, Depends, Request, HTTPException, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
-from app.routes import router as api_router          # Public API under /api/*
-from app.routes import compat_router as api_compat_router  # Root-level aliases (/sync/*)
-from app.admin_routes import router as admin_router  # Admin API under /admin/api/*
-from app.config import settings
+# Public webhooks (no auth)
+from app.webhooks.woo import router as woo_webhooks_router
+
+# Public API under /api/*
+from app.routes import router as api_router
+from app.routes import compat_router as api_compat_router  # /sync/* aliases
+
+# Admin API originally used by Next.js proxies under /admin/*
+from app.admin_routes import router as admin_router
+
+# Integration helpers (public /api/integration/*)
 from app.shipping.shipping_api import router as shipping_router
 from app.mapping.mapping_api import router as mapping_router
+from app.mapping.customer_map_api import router as customer_map_router
+from app.webhooks.inbox_api import router as webhook_admin_router
+
+# New: admin backfill & ops router (mounted under /admin/integration/*)
+from app.backfill.backfill_api import router as backfill_router
+
+from app.workers.jobs_worker import worker_loop
+from app.db import init_db
+from app.config import settings
 
 ADMIN_USER = settings.ADMIN_USER
 ADMIN_PASS = settings.ADMIN_PASS
@@ -47,7 +62,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Simple HTTP Basic Auth for /admin/api/* ---
+# --- Simple HTTP Basic Auth for /admin/* protected endpoints ---
 security = HTTPBasic()
 
 def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
@@ -60,20 +75,34 @@ def verify_admin(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"},
         )
 
-# --- Include routers ---
-# Public API (stays at /api/*)
-app.include_router(api_router)
-# Root-level compatibility aliases (/sync/*) — same handlers, admin-protected
-app.include_router(api_compat_router)
+# ---------------- Include routers ----------------
 
-# Integration helpers
-app.include_router(shipping_router)  # exposes /api/integration/shipping/*
-app.include_router(mapping_router)   # exposes /api/integration/mapping/*
+# Webhooks (public)
+app.include_router(woo_webhooks_router)  # /webhooks/woo
 
-# Admin API (mounted under /admin/api/* and protected)
+# Public API
+app.include_router(api_router)           # /api/*
+app.include_router(api_compat_router)    # /sync/*
+
+# Integration helpers (public /api/integration/*)
+app.include_router(shipping_router)           # /api/integration/shipping/*
+app.include_router(mapping_router)            # /api/integration/mapping/*
+app.include_router(customer_map_router)       # /api/integration/customers/map/*
+app.include_router(webhook_admin_router)      # /api/integration/webhooks/*
+
+# Admin API (legacy, used by Next.js proxies hitting /admin/*)
+# Keep this to avoid breaking existing admin-ui expectations.
 app.include_router(
     admin_router,
     prefix="/admin",
+    dependencies=[Depends(verify_admin)],
+)
+
+# Admin backfill/ops (direct to FastAPI at /admin/integration/* via Traefik rule)
+app.include_router(
+    backfill_router,
+    # backfill_router already carries its own prefix, but adding a dependency
+    # here keeps these endpoints protected consistently.
     dependencies=[Depends(verify_admin)],
 )
 
@@ -90,3 +119,27 @@ async def global_exception_handler(request: Request, exc: Exception):
         status_code=500,
         content={"detail": f"Sync failed: {str(exc)}"},
     )
+
+# ---- Background worker lifecycle ----
+_worker_task: asyncio.Task | None = None
+_worker_stop: asyncio.Event | None = None
+
+@app.on_event("startup")
+async def _startup():
+    # Init DB tables (for mappings, inbox index, etc.)
+    await init_db()
+    # Start worker
+    global _worker_task, _worker_stop
+    _worker_stop = asyncio.Event()
+    _worker_task = asyncio.create_task(worker_loop(_worker_stop))
+
+@app.on_event("shutdown")
+async def _shutdown():
+    global _worker_task, _worker_stop
+    if _worker_stop:
+        _worker_stop.set()
+    if _worker_task:
+        try:
+            await asyncio.wait_for(_worker_task, timeout=5.0)
+        except Exception:
+            _worker_task.cancel()

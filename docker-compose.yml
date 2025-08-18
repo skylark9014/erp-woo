@@ -1,5 +1,6 @@
 #========================================================
 # docker-compose.yml for ERPNext–WooCommerce Integration
+# (hardened Traefik routing)
 #========================================================
 version: '3.8'
 
@@ -12,19 +13,32 @@ services:
     working_dir: /code
     volumes:
       - ./:/code
-
     env_file:
       - ./.env
-
     command: [ "uvicorn", "app.main_app:app", "--host", "0.0.0.0", "--port", "8000", "--log-level", "debug" ]
     ports:
       - "8000:8000"
-
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=frappe_default"
-      # internal port for Traefik
-      - "traefik.http.services.integration.loadbalancer.server.port=8000"
+
+      # ----- Services (explicit names) -----
+      - "traefik.http.services.erpwoo-integration.loadbalancer.server.port=8000"
+
+      # ----- Routers -----
+      # Webhooks -> FastAPI
+      - "traefik.http.routers.erpwoo-integration-webhooks.rule=Host(`records.techniclad.co.za`) && PathPrefix(`/webhooks`)"
+      - "traefik.http.routers.erpwoo-integration-webhooks.entrypoints=websecure"
+      - "traefik.http.routers.erpwoo-integration-webhooks.tls.certresolver=main-resolver"
+      - "traefik.http.routers.erpwoo-integration-webhooks.service=erpwoo-integration"
+      - "traefik.http.routers.erpwoo-integration-webhooks.priority=220"
+
+      # Admin Integration API -> FastAPI (higher prio than admin-ui)
+      - "traefik.http.routers.erpwoo-integration-admin.rule=Host(`records.techniclad.co.za`) && PathPrefix(`/admin/integration`)"
+      - "traefik.http.routers.erpwoo-integration-admin.entrypoints=websecure"
+      - "traefik.http.routers.erpwoo-integration-admin.tls.certresolver=main-resolver"
+      - "traefik.http.routers.erpwoo-integration-admin.service=erpwoo-integration"
+      - "traefik.http.routers.erpwoo-integration-admin.priority=210"
 
     networks:
       - frappe_default
@@ -37,32 +51,34 @@ services:
     container_name: admin-ui
     ports:
       - "3000:3000"
-
-    # Load all secrets/config from the single root .env
     env_file:
       - ./.env
     environment:
       - NEXT_TELEMETRY_DISABLED=1
+      - NEXT_PUBLIC_ADMIN_BASE_PATH=/admin
       - INTEGRATION_BASE_URL=http://integration:8000
       - INTEGRATION_ADMIN_USER=${ADMIN_USER}
       - INTEGRATION_ADMIN_PASS=${ADMIN_PASS}
-
     depends_on:
       - integration
-
     volumes:
       - ./admin-ui:/app
       - /app/node_modules
       - /app/.next
-
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=frappe_default"
-      # ✅ Route everything under /admin (incl. /admin/api) to Next.js (server routes proxy to FastAPI)
-      - "traefik.http.routers.admin-ui.rule=Host(`records.techniclad.co.za`) && PathPrefix(`/admin`)"
-      - "traefik.http.routers.admin-ui.entrypoints=websecure"
-      - "traefik.http.routers.admin-ui.tls.certresolver=main-resolver"
-      - "traefik.http.services.admin-ui.loadbalancer.server.port=3000"
+
+      # ----- Services (explicit names) -----
+      - "traefik.http.services.erpwoo-admin-ui.loadbalancer.server.port=3000"
+
+      # ----- Routers -----
+      # Everything under /admin to Next.js (prio below integration-admin but above ERPNext catch-all)
+      - "traefik.http.routers.erpwoo-admin-ui.rule=Host(`records.techniclad.co.za`) && PathPrefix(`/admin`)"
+      - "traefik.http.routers.erpwoo-admin-ui.entrypoints=websecure"
+      - "traefik.http.routers.erpwoo-admin-ui.tls.certresolver=main-resolver"
+      - "traefik.http.routers.erpwoo-admin-ui.service=erpwoo-admin-ui"
+      - "traefik.http.routers.erpwoo-admin-ui.priority=200"
 
     networks:
       - frappe_default

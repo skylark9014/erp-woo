@@ -1,0 +1,25 @@
+{
+  "ts": "2025-08-18T20:28:12Z",
+  "kind": "woo",
+  "topic": "order.created",
+  "delivery_id": null,
+  "headers": {
+    "host": "records.techniclad.co.za",
+    "user-agent": "curl/8.5.0",
+    "content-length": "13",
+    "accept": "*/*",
+    "content-type": "application/json",
+    "x-forwarded-for": "156.155.26.19",
+    "x-forwarded-host": "records.techniclad.co.za",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https",
+    "x-forwarded-server": "f60f1ec86809",
+    "x-real-ip": "156.155.26.19",
+    "x-wc-webhook-signature": "<redacted>",
+    "x-wc-webhook-topic": "order.created",
+    "accept-encoding": "gzip"
+  },
+  "body_len": 13,
+  "body_preview": "{\"ping\":true}",
+  "body_b64": "eyJwaW5nIjp0cnVlfQ=="
+}

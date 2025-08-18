@@ -3,12 +3,10 @@
 # WooCommerce API interface module.
 # Functions to interact with WooCommerce for products, categories, images, and maintenance.
 #==========================================================================================
-import httpx
-import os
-import logging
-import hashlib
+import httpx, os, logging, hashlib
 from urllib.parse import urlparse
 from app.config import settings
+from typing import Any, Dict, List
 
 WC_BASE_URL = settings.WC_BASE_URL
 WC_API_KEY = settings.WC_API_KEY
@@ -310,22 +308,18 @@ async def ensure_wp_image_uploaded(erp_img_url, filename, size_hint=None):
     media = await wp_list_media()
     found_id = None
 
-    #logger.info(f"[IMG] downloading ERP image from {erp_img_url!r}")
-
     # Download ERPNext image
     async with httpx.AsyncClient(timeout=20.0, verify=False) as client:
         img_resp = await client.get(erp_img_url)
         img_bytes = img_resp.content
         img_size = len(img_bytes)
-        img_hash = hashlib.sha256(img_bytes).hexdigest()
+        _ = hashlib.sha256(img_bytes).hexdigest()
         
     for m in media:
-        # WP media sometimes gives size under 'media_details' > 'filesize'
         m_size = m.get("media_details", {}).get("filesize")
         if m_size and int(m_size) == img_size:
             found_id = m["id"]
             break
-        # If you want extra certainty, download and hash here (not usually needed for perf)
 
     if found_id:
         return found_id
@@ -334,7 +328,6 @@ async def ensure_wp_image_uploaded(erp_img_url, filename, size_hint=None):
     if result and "id" in result:
         return result["id"]
     else:
-        # Image upload failed (404, etc.), skip and return None
         return None
 
 
@@ -595,3 +588,53 @@ async def ensure_wc_attributes_and_terms(used_attribute_values: dict[str, set[st
         "count": len(summary),
         "attributes": summary,
     }
+
+# ---------------------------
+# Woocommerce Webhook helpers
+# ---------------------------
+
+def _wc_api_root() -> str:
+    base = (settings.WC_BASE_URL or "").rstrip("/")
+    return f"{base}/wp-json/wc/v3"
+
+async def fetch_order(order_id: int) -> Dict[str, Any]:
+    """
+    Fetch a Woo order by numeric ID using consumer key/secret.
+    """
+    key = getattr(settings, "WC_API_KEY", "") or ""
+    secret = getattr(settings, "WC_API_SECRET", "") or ""
+    if not (settings.WC_BASE_URL and key and secret):
+        raise RuntimeError("WC_BASE_URL or WC consumer key/secret not configured")
+
+    url = f"{_wc_api_root()}/orders/{int(order_id)}"
+    params = {"consumer_key": key, "consumer_secret": secret}
+    timeout = httpx.Timeout(30.0, connect=10.0, read=30.0)
+
+    async with httpx.AsyncClient(timeout=timeout, verify=False) as client:
+        r = await client.get(url, params=params)
+        r.raise_for_status()
+        return r.json()
+
+
+async def fetch_order_refunds(order_id: int) -> List[Dict[str, Any]]:
+    """
+    Fetch all refunds for a given Woo order.
+    Endpoint: /orders/{id}/refunds
+    """
+    key = getattr(settings, "WC_API_KEY", "") or ""
+    secret = getattr(settings, "WC_API_SECRET", "") or ""
+    if not (settings.WC_BASE_URL and key and secret):
+        raise RuntimeError("WC_BASE_URL or WC consumer key/secret not configured")
+
+    url = f"{_wc_api_root()}/orders/{int(order_id)}/refunds"
+    params = {"consumer_key": key, "consumer_secret": secret, "per_page": 100}
+    timeout = httpx.Timeout(30.0, connect=10.0, read=30.0)
+
+    async with httpx.AsyncClient(timeout=timeout, verify=False) as client:
+        r = await client.get(url, params=params)
+        # Woo returns [] if none; 200 OK
+        if r.status_code == 404:
+            return []
+        r.raise_for_status()
+        data = r.json()
+        return data if isinstance(data, list) else []
