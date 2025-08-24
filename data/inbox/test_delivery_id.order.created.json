@@ -1,0 +1,21 @@
+{
+  "job": {
+    "type": "woo.order.created",
+    "topic": "order.created",
+    "resource": "order",
+    "event": "created",
+    "delivery_id": "test_delivery_id",
+    "webhook_id": null,
+    "payload": {
+      "id": 123,
+      "status": "created",
+      "total": 100.0
+    },
+    "raw_len": 44
+  },
+  "payload": {
+    "id": 123,
+    "status": "created",
+    "total": 100.0
+  }
+}
