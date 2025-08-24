@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException, Query
+import asyncio
 
 try:
     from app.config import settings
@@ -52,3 +53,49 @@ def get_inbox(path: str = Query(..., description="Absolute path under /code/data
     except Exception:
         obj = None
     return {"path": str(p), "content": text, "json": obj}
+
+# ----------------------------------------------------------------------
+# Replay archived webhook payload (internal re-processing)
+# ----------------------------------------------------------------------
+@router.post("/inbox/replay")
+async def replay_inbox(path: str = Query(..., description="Absolute path under /code/data/inbox/*")):
+    """Re-process an archived webhook payload as if it just arrived."""
+    from app.woo_handlers import handle_woo_webhook
+    p = Path(path)
+    root = Path("/code/data/inbox")
+    try:
+        p.resolve().relative_to(root.resolve())
+    except Exception:
+        raise HTTPException(status_code=400, detail="Path not under /code/data/inbox")
+    if not p.exists():
+        raise HTTPException(status_code=404, detail="Not found")
+    try:
+        payload = json.loads(p.read_text(encoding="utf-8"))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid JSON: {e}")
+    # Call the internal handler (async)
+    await handle_woo_webhook(payload)
+    return {"ok": True, "path": str(p)}
+
+# ----------------------------------------------------------------------
+# Replay archived webhook payload (internal re-processing)
+# ----------------------------------------------------------------------
+@router.post("/inbox/replay")
+async def replay_inbox(path: str = Query(..., description="Absolute path under /code/data/inbox/*")):
+    """Re-process an archived webhook payload as if it just arrived."""
+    from app.woo_handlers import handle_woo_webhook
+    p = Path(path)
+    root = Path("/code/data/inbox")
+    try:
+        p.resolve().relative_to(root.resolve())
+    except Exception:
+        raise HTTPException(status_code=400, detail="Path not under /code/data/inbox")
+    if not p.exists():
+        raise HTTPException(status_code=404, detail="Not found")
+    try:
+        payload = json.loads(p.read_text(encoding="utf-8"))
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid JSON: {e}")
+    # Call the internal handler (async)
+    await handle_woo_webhook(payload)
+    return {"ok": True, "path": str(p)}

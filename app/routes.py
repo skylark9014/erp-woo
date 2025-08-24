@@ -202,6 +202,20 @@ async def api_sync_full(request: Request):
         headers={"Location": f"/api/sync/status/{job_id}"},
     )
 
+
+# ----------------------------------------------------------------------
+# List all jobs (admin-only)
+# ----------------------------------------------------------------------
+@router.get("/sync/jobs", dependencies=[Depends(verify_admin)])
+async def api_sync_jobs():
+    """Return all jobs in the background job store (admin-only)."""
+    async with _JOBS_LOCK:
+        jobs = list(_JOBS.values())
+    # Sort by started time (descending), fallback to job_id if missing
+    jobs.sort(key=lambda j: -(j.get("started") or 0) if j.get("started") else j.get("id", ""), reverse=True)
+    return JSONResponse(content={"jobs": jobs})
+
+
 @router.get("/sync/status/{job_id}", dependencies=[Depends(verify_admin)])
 async def api_sync_status(job_id: str):
     """Poll background full-sync job status."""
@@ -211,6 +225,36 @@ async def api_sync_status(job_id: str):
         raise HTTPException(status_code=404, detail="job not found")
     # return full record (contains result only when status == done)
     return JSONResponse(content=rec)
+
+# ----------------------------------------------------------------------
+# Retry a job by job_id (admin-only)
+# ----------------------------------------------------------------------
+@router.post("/sync/retry/{job_id}", dependencies=[Depends(verify_admin)])
+async def api_sync_retry(job_id: str):
+    """Retry a job by re-queuing it with the same parameters."""
+    async with _JOBS_LOCK:
+        rec = _JOBS.get(job_id)
+        if not rec:
+            raise HTTPException(status_code=404, detail="job not found")
+        # Only allow retry for jobs that are done or errored
+        if rec.get("status") not in ("done", "error"):
+            raise HTTPException(status_code=400, detail="Job not finished or errored")
+        # Extract original parameters
+        params = rec.get("request", {})
+        dry_run = params.get("dry_run", False)
+        purge_bin = params.get("purge_bin", True)
+    # Create new job
+    new_job_id = uuid.uuid4().hex
+    async with _JOBS_LOCK:
+        _JOBS[new_job_id] = {
+            "id": new_job_id,
+            "status": "queued",
+            "started": None,
+            "finished": None,
+            "request": {"dry_run": dry_run, "purge_bin": purge_bin, "retry_of": job_id},
+        }
+    asyncio.create_task(_run_full_job(new_job_id, dry_run=dry_run, purge_bin=purge_bin))
+    return JSONResponse(content={"ok": True, "job_id": new_job_id, "retry_of": job_id})
 
 @router.post("/sync/partial", dependencies=[Depends(verify_admin)])
 async def api_sync_partial(request: Request):

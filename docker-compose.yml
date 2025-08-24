@@ -40,6 +40,13 @@ services:
       - "traefik.http.routers.erpwoo-integration-admin.service=erpwoo-integration"
       - "traefik.http.routers.erpwoo-integration-admin.priority=210"
 
+      # API Integration -> FastAPI
+      - "traefik.http.routers.erpwoo-integration-api.rule=Host(`records.techniclad.co.za`) && PathPrefix(`/api/integration`)"
+      - "traefik.http.routers.erpwoo-integration-api.entrypoints=websecure"
+      - "traefik.http.routers.erpwoo-integration-api.tls.certresolver=main-resolver"
+      - "traefik.http.routers.erpwoo-integration-api.service=erpwoo-integration"
+      - "traefik.http.routers.erpwoo-integration-api.priority=215"
+
     networks:
       - frappe_default
     restart: unless-stopped

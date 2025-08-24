@@ -101,10 +101,13 @@ app.include_router(
 # Admin backfill/ops (direct to FastAPI at /admin/integration/* via Traefik rule)
 app.include_router(
     backfill_router,
-    # backfill_router already carries its own prefix, but adding a dependency
-    # here keeps these endpoints protected consistently.
     dependencies=[Depends(verify_admin)],
 )
+
+# Print all registered routes on startup (works with Docker/uvicorn)
+print("Registered FastAPI routes:")
+for route in app.routes:
+    print(f"{route.path} [{','.join(route.methods)}]")
 
 # --- Root endpoint ---
 @app.get("/")
@@ -143,3 +146,8 @@ async def _shutdown():
             await asyncio.wait_for(_worker_task, timeout=5.0)
         except Exception:
             _worker_task.cancel()
+
+#if __name__ == "__main__":
+#    import uvicorn
+#
+#    uvicorn.run(app, host="0.0.0.0", port=8000)

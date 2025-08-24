@@ -2,12 +2,15 @@
 import { useEffect, useState } from "react";
 import { runHealth } from "@/app/lib/api";
 import { fetchRecentWebhookEvents } from "@/app/lib/webhook";
+import { fetchWebhookPayload } from "@/app/lib/webhookPayload";
 
 export default function WebhookStatus() {
     const [health, setHealth] = useState<any>(null);
     const [events, setEvents] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [expandedRow, setExpandedRow] = useState<string | null>(null);
+    const [expandedPayload, setExpandedPayload] = useState<any>(null);
 
     useEffect(() => {
         async function load() {
@@ -25,7 +28,31 @@ export default function WebhookStatus() {
             }
         }
         load();
+        function handleEsc(e: KeyboardEvent) {
+            if (e.key === "Escape") {
+                setExpandedRow(null);
+                setExpandedPayload(null);
+            }
+        }
+        window.addEventListener("keydown", handleEsc);
+        return () => window.removeEventListener("keydown", handleEsc);
     }, []);
+
+    async function handleView(ev: any) {
+        if (expandedRow === ev.name) {
+            setExpandedRow(null);
+            setExpandedPayload(null);
+            return;
+        }
+        setExpandedRow(ev.name);
+        setExpandedPayload(null);
+        try {
+            const payload = await fetchWebhookPayload(ev.path);
+            setExpandedPayload(payload);
+        } catch (e) {
+            setExpandedPayload({ error: "Failed to load payload" });
+        }
+    }
 
     return (
         <div className="p-6 max-w-3xl mx-auto">
@@ -63,17 +90,29 @@ export default function WebhookStatus() {
                                 {events.length === 0 && (
                                     <tr><td colSpan={5} className="px-6 py-4 text-gray-400 text-center">No events found.</td></tr>
                                 )}
-                                {events.map((ev) => (
+                                {events.map((ev) => [
                                     <tr key={ev.name} className="hover:bg-blue-50 transition">
                                         <td className="px-6 py-4 font-mono text-sm text-gray-900">{ev.topic || ev.name}</td>
                                         <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.kind || "-"}</td>
                                         <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.ts ? new Date(ev.ts).toLocaleString() : "-"}</td>
                                         <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.size ? `${ev.size} bytes` : "-"}</td>
                                         <td className="px-6 py-4">
-                                            <button className="inline-flex items-center px-3 py-1 border border-blue-600 text-blue-600 text-xs font-medium rounded hover:bg-blue-50 transition">View</button>
+                                            <button className={`inline-flex items-center px-3 py-1 border border-blue-600 text-blue-600 text-xs font-medium rounded hover:bg-blue-50 transition ${expandedRow === ev.name ? 'bg-blue-50' : ''}`} onClick={() => handleView(ev)}>{expandedRow === ev.name ? "Close" : "View"}</button>
                                         </td>
-                                    </tr>
-                                ))}
+                                    </tr>,
+                                    expandedRow === ev.name && (
+                                        <tr key={ev.name + "-expanded"}>
+                                            <td colSpan={5}>
+                                                <div className="bg-gray-50 rounded text-xs font-mono text-gray-800 w-full">
+                                                    <div className="mb-2 text-xs text-gray-500">Press <span className="font-bold">ESC</span> to close</div>
+                                                    <pre style={{ margin: 0, width: '100%', boxSizing: 'border-box', whiteSpace: 'pre-wrap', wordBreak: 'break-word', padding: '1rem' }}>
+                                                        {expandedPayload ? (typeof expandedPayload === "object" ? JSON.stringify(expandedPayload, null, 2) : String(expandedPayload)) : "Loading..."}
+                                                    </pre>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    )
+                                ])}
                             </tbody>
                         </table>
                     </div>
