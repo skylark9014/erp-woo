@@ -6,10 +6,12 @@ import os
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
 router = APIRouter()
+
 
 # Environment-configurable path; default aligns with your repo layout
 MAPPING_STORE_PATH = os.getenv("MAPPING_STORE_PATH", "app/mapping/mapping_store.json")
@@ -122,3 +124,59 @@ async def post_mapping_store(payload: Dict[str, Any]):
     out = read_text_file(p)
     out["saved"] = True
     return JSONResponse(content=out, status_code=200 if out.get("ok") else 500)
+
+@router.get("/api/integration/mapping/fields")
+async def get_field_mappings():
+    """
+    Returns current field mappings for products, customers, orders.
+    """
+    p = Path("app/mapping/sync_field_mapping.json")
+    if not p.exists():
+        return JSONResponse(content={"ok": False, "error": "sync_field_mapping.json not found"}, status_code=404)
+    try:
+        content = p.read_text(encoding="utf-8")
+        data = json.loads(content)
+        return JSONResponse(content={"ok": True, "fields": data}, status_code=200)
+    except Exception as e:
+        return JSONResponse(content={"ok": False, "error": str(e)}, status_code=500)
+
+@router.post("/api/integration/mapping/fields")
+async def set_field_mappings(payload: Dict[str, Any]):
+    """
+    Update field mappings for products, customers, orders.
+    """
+    p = Path("app/mapping/sync_field_mapping.json")
+    try:
+        text = json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True)
+        p.write_text(text, encoding="utf-8")
+        return JSONResponse(content={"ok": True, "fields": payload}, status_code=200)
+    except Exception as e:
+        return JSONResponse(content={"ok": False, "error": str(e)}, status_code=500)
+
+@router.get("/api/integration/mapping/rules")
+async def get_transformation_rules():
+    """
+    Returns current transformation rules for mapping (products, customers, orders).
+    """
+    p = Path("app/mapping/transformation_rules.json")
+    if not p.exists():
+        return JSONResponse(content={"ok": True, "rules": {}}, status_code=200)
+    try:
+        content = p.read_text(encoding="utf-8")
+        data = json.loads(content)
+        return JSONResponse(content={"ok": True, "rules": data}, status_code=200)
+    except Exception as e:
+        return JSONResponse(content={"ok": False, "error": str(e)}, status_code=500)
+
+@router.post("/api/integration/mapping/rules")
+async def set_transformation_rules(payload: Dict[str, Any]):
+    """
+    Update/add transformation rules for mapping (products, customers, orders).
+    """
+    p = Path("app/mapping/transformation_rules.json")
+    try:
+        text = json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True)
+        p.write_text(text, encoding="utf-8")
+        return JSONResponse(content={"ok": True, "rules": payload}, status_code=200)
+    except Exception as e:
+        return JSONResponse(content={"ok": False, "error": str(e)}, status_code=500)

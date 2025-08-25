@@ -157,7 +157,16 @@ async def upsert_sales_order_from_woo(norm: Any) -> Tuple[str, str | None, str |
       - Sales Order (idempotent via po_no="WOO-<order_id>")
     Returns: (so_name, billing_address_name, shipping_address_name)
     """
-    n = _as_dict(norm)
+
+    # Validate and normalize input using Pydantic
+    from app.erp.erp_sync_models import ERPOrderSyncPayload
+    try:
+        validated = ERPOrderSyncPayload.parse_obj(norm)
+    except Exception as e:
+        logger.error(f"[ERP-SYNC] payload validation error: {e}")
+        raise AssertionError(f"ERPNext sync payload validation failed: {e}")
+
+    n = validated.dict()
     order_id = n.get("order_id")
     assert order_id is not None, "normalized order must have order_id"
 

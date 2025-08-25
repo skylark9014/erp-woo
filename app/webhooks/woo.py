@@ -106,11 +106,14 @@ async def woo_webhook(request: Request) -> Response:
         logger.warning("[WOO-HOOK] signature mismatch; returning 401")
         return JSONResponse(status_code=401, content={"ok": False, "reason": "invalid_signature"})
 
-    # 4) Parse JSON payload (most Woo core topics send JSON)
+    # 4) Parse and validate JSON payload (most Woo core topics send JSON)
+    from app.webhooks.woo_models import WooWebhookPayload
     try:
-        payload = await request.json()
-    except Exception:
-        payload = None
+        raw_payload = await request.json()
+        payload = WooWebhookPayload.parse_obj(raw_payload)
+    except Exception as e:
+        logger.warning(f"[WOO-HOOK] payload validation error: {e}")
+        return JSONResponse(status_code=422, content={"ok": False, "reason": "invalid_payload", "error": str(e)})
 
     # Delivery IDs for idempotency
     delivery_id = _get_hdr(request.headers, "X-WC-Webhook-Delivery-ID") or None

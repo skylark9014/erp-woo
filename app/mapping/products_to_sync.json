@@ -600,9 +600,7 @@
     }
   },
   "to_create": [],
-  "to_update": [],
-  "to_delete": [],
-  "already_synced": [
+  "to_update": [
     {
       "sku": "PST-TALPS",
       "name": "Peel and Stick - The Alps",
@@ -626,11 +624,13 @@
         86855,
         45247
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4390,
         "status": "publish"
@@ -659,11 +659,13 @@
         208921,
         88702
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4391,
         "status": "publish"
@@ -692,11 +694,13 @@
         111873,
         53555
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4392,
         "status": "publish"
@@ -725,11 +729,13 @@
         97067,
         51388
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4393,
         "status": "publish"
@@ -758,11 +764,13 @@
         103836,
         37077
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4394,
         "status": "publish"
@@ -791,11 +799,13 @@
         169907,
         75182
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4395,
         "status": "publish"
@@ -824,11 +834,13 @@
         91642,
         43658
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4396,
         "status": "publish"
@@ -857,11 +869,13 @@
         185293,
         79014
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4397,
         "status": "publish"
@@ -890,11 +904,13 @@
         124905,
         62674
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4398,
         "status": "publish"
@@ -923,11 +939,13 @@
         111327,
         42793
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4399,
         "status": "publish"
@@ -956,11 +974,13 @@
         117476,
         42223
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4400,
         "status": "publish"
@@ -983,11 +1003,13 @@
       "wc_img_sizes": [
         205765
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4457,
         "status": "publish"
@@ -1010,23 +1032,24 @@
       "wc_img_sizes": [
         94328
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 0,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "gallery_images"
+      ],
       "woo": {
         "id": 4458,
         "status": "publish"
       }
     }
   ],
+  "to_delete": [],
+  "already_synced": [],
   "variant_parents": [],
   "variant_to_create": [],
-  "variant_to_update": [],
-  "variant_to_delete": [],
-  "variant_parents_to_delete": [],
-  "variant_synced": [
+  "variant_to_update": [
     {
       "sku": "SVR-HIGHL-MEDIUM",
       "name": "Stone Veneer - The Highlands",
@@ -1050,11 +1073,13 @@
       "wc_img_sizes": [
         77282
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4402,
         "status": "publish"
@@ -1084,11 +1109,13 @@
       "wc_img_sizes": [
         77282
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4403,
         "status": "publish"
@@ -1118,11 +1145,13 @@
       "wc_img_sizes": [
         92252
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4405,
         "status": "publish"
@@ -1152,11 +1181,13 @@
       "wc_img_sizes": [
         92252
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4406,
         "status": "publish"
@@ -1186,11 +1217,13 @@
       "wc_img_sizes": [
         79281
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4408,
         "status": "publish"
@@ -1220,11 +1253,13 @@
       "wc_img_sizes": [
         79281
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4409,
         "status": "publish"
@@ -1254,11 +1289,13 @@
       "wc_img_sizes": [
         103204
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4411,
         "status": "publish"
@@ -1288,11 +1325,13 @@
       "wc_img_sizes": [
         103204
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4412,
         "status": "publish"
@@ -1322,11 +1361,13 @@
       "wc_img_sizes": [
         134676
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4628,
         "status": "publish"
@@ -1356,11 +1397,13 @@
       "wc_img_sizes": [
         134676
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4630,
         "status": "publish"
@@ -1390,11 +1433,13 @@
       "wc_img_sizes": [
         73835
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4417,
         "status": "publish"
@@ -1424,11 +1469,13 @@
       "wc_img_sizes": [
         73835
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4418,
         "status": "publish"
@@ -1458,11 +1505,13 @@
       "wc_img_sizes": [
         118617
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4420,
         "status": "publish"
@@ -1492,11 +1541,13 @@
       "wc_img_sizes": [
         118617
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4421,
         "status": "publish"
@@ -1526,11 +1577,13 @@
       "wc_img_sizes": [
         125232
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4423,
         "status": "publish"
@@ -1560,11 +1613,13 @@
       "wc_img_sizes": [
         125232
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4424,
         "status": "publish"
@@ -1594,11 +1649,13 @@
       "wc_img_sizes": [
         68210
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4426,
         "status": "publish"
@@ -1628,11 +1685,13 @@
       "wc_img_sizes": [
         68210
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4427,
         "status": "publish"
@@ -1662,11 +1721,13 @@
       "wc_img_sizes": [
         76753
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4429,
         "status": "publish"
@@ -1696,11 +1757,13 @@
       "wc_img_sizes": [
         76753
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4430,
         "status": "publish"
@@ -1730,11 +1793,13 @@
       "wc_img_sizes": [
         66832
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4432,
         "status": "publish"
@@ -1764,11 +1829,13 @@
       "wc_img_sizes": [
         66832
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4433,
         "status": "publish"
@@ -1798,11 +1865,13 @@
       "wc_img_sizes": [
         157097
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4435,
         "status": "publish"
@@ -1832,11 +1901,13 @@
       "wc_img_sizes": [
         157097
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4436,
         "status": "publish"
@@ -1866,11 +1937,13 @@
       "wc_img_sizes": [
         77282
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4438,
         "status": "publish"
@@ -1900,11 +1973,13 @@
       "wc_img_sizes": [
         73835
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4440,
         "status": "publish"
@@ -1934,11 +2009,13 @@
       "wc_img_sizes": [
         118617
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4442,
         "status": "publish"
@@ -1968,11 +2045,13 @@
       "wc_img_sizes": [
         125232
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4444,
         "status": "publish"
@@ -2002,11 +2081,13 @@
       "wc_img_sizes": [
         66832
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4446,
         "status": "publish"
@@ -2037,11 +2118,13 @@
       "wc_img_sizes": [
         209253
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4448,
         "status": "publish"
@@ -2072,11 +2155,13 @@
       "wc_img_sizes": [
         163292
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4450,
         "status": "publish"
@@ -2107,11 +2192,13 @@
       "wc_img_sizes": [
         231409
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4452,
         "status": "publish"
@@ -2142,11 +2229,13 @@
       "wc_img_sizes": [
         237626
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4454,
         "status": "publish"
@@ -2177,11 +2266,13 @@
       "wc_img_sizes": [
         205367
       ],
-      "gallery_diff": false,
+      "gallery_diff": true,
       "description_diff": false,
       "has_variants": 1,
-      "action": "Synced",
-      "fields_to_update": [],
+      "action": "Update",
+      "fields_to_update": [
+        "image"
+      ],
       "woo": {
         "id": 4456,
         "status": "publish"
@@ -2189,26 +2280,29 @@
       "parent_sku": "TSL-ANDES"
     }
   ],
+  "variant_to_delete": [],
+  "variant_parents_to_delete": [],
+  "variant_synced": [],
   "meta": {
-    "generated_at": "2025-08-24T21:25:33.283387+00:00",
+    "generated_at": "2025-08-25T09:22:04.767553+00:00",
     "dry_run": true,
     "counts": {
       "to_create": 0,
-      "to_update": 0,
+      "to_update": 13,
       "to_delete": 0,
       "variant_to_create": 0,
-      "variant_to_update": 0,
+      "variant_to_update": 34,
       "variant_to_delete": 0,
       "variant_parents": 0,
       "variant_parents_to_delete": 0,
-      "already_synced": 13,
-      "variant_synced": 34,
+      "already_synced": 0,
+      "variant_synced": 0,
       "errors": 0
     }
   },
   "_meta": {
-    "generated_at": "2025-08-24T21:25:33.287599+00:00",
-    "source": "full",
+    "generated_at": "2025-08-25T09:22:04.769144+00:00",
+    "source": "post-full",
     "dry_run": true,
     "skus": [],
     "schema": 2

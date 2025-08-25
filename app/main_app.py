@@ -126,9 +126,9 @@ app.include_router(
 )
 
 # Print all registered routes on startup (works with Docker/uvicorn)
-print("Registered FastAPI routes:")
-for route in app.routes:
-    print(f"{route.path} [{','.join(route.methods)}]")
+# print("Registered FastAPI routes:")
+# for route in app.routes:
+#     print(f"{route.path} [{','.join(route.methods)}]")
 
 # --- Root endpoint ---
 @app.get("/")

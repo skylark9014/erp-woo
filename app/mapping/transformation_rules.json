@@ -1,0 +1,26 @@
+{
+    "products": {
+        "brand": {
+            "transform": "uppercase"
+        },
+        "categories": {
+            "map": {
+                "CategoryA": "WooCatA",
+                "CategoryB": "WooCatB"
+            }
+        }
+    },
+    "customers": {
+        "email": {
+            "validate": "email"
+        }
+    },
+    "orders": {
+        "status": {
+            "map": {
+                "pending": "awaiting_payment",
+                "paid": "processing"
+            }
+        }
+    }
+}

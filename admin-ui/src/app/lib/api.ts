@@ -1,3 +1,9 @@
+function buildAuthHeader(): string | undefined {
+    const user = process.env.INTEGRATION_ADMIN_USER || process.env.ADMIN_USER || "";
+    const pass = process.env.INTEGRATION_ADMIN_PASS || process.env.ADMIN_PASS || "";
+    if (!user || !pass) return undefined;
+    return "Basic " + Buffer.from(`${user}:${pass}`).toString("base64");
+}
 // src/app/lib/api.ts
 import { withBase } from "@/app/lib/basePath";
 import type { PreviewResponse } from "../types/sync";
@@ -82,7 +88,7 @@ export async function runHealth(): Promise<HealthResponse> {
 
 // ---------- Preview ----------
 export async function runPreview() {
-    return getJson<any>(withBase("/api/integration/preview"), {
+    return getJson<any>("/api/integration/preview", {
         method: "POST",
         cache: "no-store",
     });
@@ -132,7 +138,7 @@ function extractJobIdFromResponse(res: Response, text: string | null): string | 
 }
 
 export async function startFullSyncAsync(opts: { dryRun: boolean; purgeBin: boolean }): Promise<StartFullSyncResponse> {
-    const res = await fetch(withBase("/api/integration/full"), {
+    const res = await fetch("/api/integration/full", {
         method: "POST",
         cache: "no-store",
         headers: { "Content-Type": "application/json" },
@@ -164,7 +170,7 @@ export async function startFullSyncAsync(opts: { dryRun: boolean; purgeBin: bool
 }
 
 export async function getFullSyncStatus(jobId: string): Promise<SyncJob> {
-    const res = await fetch(withBase(`/api/integration/status/${encodeURIComponent(jobId)}`), {
+    const res = await fetch(`/api/integration/status/${encodeURIComponent(jobId)}`, {
         method: 'GET',
         cache: 'no-store',
     });
@@ -212,7 +218,7 @@ export async function runFullSync(opts: { dryRun: boolean; purgeBin: boolean }) 
 
 // ---------- Partial sync ----------
 export async function runPartialSync(arg: { skus: string[]; dryRun: boolean }) {
-    return getJson<any>(withBase("/api/integration/partial"), {
+    return getJson<any>("/api/integration/partial", {
         method: "POST",
         cache: "no-store",
         headers: { "Content-Type": "application/json" },
@@ -222,9 +228,13 @@ export async function runPartialSync(arg: { skus: string[]; dryRun: boolean }) {
 
 // ---------- Shipping params & sync ----------
 export async function getShippingParams(): Promise<ShippingParamsDoc> {
+    const headers: Record<string, string> = {};
+    const auth = buildAuthHeader();
+    if (auth) headers["Authorization"] = auth;
     return getJson<ShippingParamsDoc>(withBase("/api/integration/shipping/params"), {
         method: "GET",
         cache: "no-store",
+        headers,
     });
 }
 
@@ -240,16 +250,19 @@ export async function saveShippingParams(payload: {
         pretty: payload.pretty ?? true,
         sort_keys: payload.sortKeys ?? true,
     };
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    const auth = buildAuthHeader();
+    if (auth) headers["Authorization"] = auth;
     return getJson<ShippingParamsDoc>(withBase("/api/integration/shipping/params"), {
         method: "POST",
         cache: "no-store",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(body),
     });
 }
 
 export async function syncShipping(opts?: { dryRun?: boolean }): Promise<any> {
-    return getJson<any>(withBase("/api/integration/shipping/sync"), {
+    return getJson<any>("/api/integration/shipping/sync", {
         method: "POST",
         cache: "no-store",
         headers: { "Content-Type": "application/json" },
@@ -259,7 +272,7 @@ export async function syncShipping(opts?: { dryRun?: boolean }): Promise<any> {
 
 // ---------- Mapping store ----------
 export async function getMappingStore(): Promise<MappingStoreDoc> {
-    return getJson<MappingStoreDoc>(withBase("/api/integration/mapping/store"), {
+    return getJson<MappingStoreDoc>("/api/integration/mapping/store", {
         method: "GET",
         cache: "no-store",
     });
@@ -277,11 +290,33 @@ export async function saveMappingStore(payload: {
         pretty: payload.pretty ?? true,
         sort_keys: payload.sortKeys ?? true,
     };
-    return getJson<MappingStoreDoc>(withBase("/api/integration/mapping/store"), {
+    return getJson<MappingStoreDoc>("/api/integration/mapping/store", {
         method: "POST",
         cache: "no-store",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
+    });
+}
+
+// --- Mapping & Configuration API helpers ---
+export async function getFieldMappings(): Promise<{ ok: boolean; fields: Record<string, string> }> {
+    return getJson("/api/integration/mapping/fields", { cache: 'no-store' });
+}
+export async function setFieldMappings(fields: Record<string, string>): Promise<any> {
+    return getJson("/api/integration/mapping/fields", {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(fields),
+    });
+}
+export async function getTransformationRules(): Promise<{ ok: boolean; rules: Record<string, any> }> {
+    return getJson("/api/integration/mapping/rules", { cache: 'no-store' });
+}
+export async function setTransformationRules(rules: Record<string, any>): Promise<any> {
+    return getJson("/api/integration/mapping/rules", {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(rules),
     });
 }
 
@@ -320,12 +355,12 @@ export type DeleteRunResponse = {
 };
 
 export async function loadDeleteCandidates() {
-    return getJson<any>(withBase('/api/deletes/preview'), { cache: 'no-store' });
+    return getJson("/api/deletes/preview", { cache: 'no-store' });
 }
 
 // canonical (singular) name
 export async function runDelete(payload: { ids: number[]; force?: boolean; purgeBin?: boolean }): Promise<DeleteRunResponse> {
-    return getJson<DeleteRunResponse>(withBase('/api/deletes/run'), {
+    return getJson<DeleteRunResponse>("/api/deletes/run", {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload),

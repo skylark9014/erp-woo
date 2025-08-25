@@ -4,8 +4,9 @@
     "description": "description",
     "standard_rate": "regular_price",
     "item_group": "categories",
-    "brand": "brands",
+    "brand": "brand",
     "opening_stock": "stock_quantity",
     "image": "images",
-    "has_variants": "has_variants"
+    "has_variants": "has_variants",
+    "erp_custom_field": "woo_custom_field"
 }
