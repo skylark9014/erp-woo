@@ -1,5 +1,5 @@
 {
-  "generated_at": "2025-08-25T09:22:04.764750+00:00",
+  "generated_at": "2025-08-25T21:40:46.354672+00:00",
   "defaults": {
     "weight_kg": 0,
     "length_cm": 0,
@@ -93,6 +93,13 @@
       "shipping_class": ""
     },
     "SLR_1S01": {
+      "weight_kg": 0,
+      "length_cm": 0,
+      "width_cm": 0,
+      "height_cm": 0,
+      "shipping_class": ""
+    },
+    "Test_01": {
       "weight_kg": 0,
       "length_cm": 0,
       "width_cm": 0,

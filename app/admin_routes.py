@@ -215,14 +215,19 @@ async def admin_deletes_run(req: Request):
         url = f"{wc_api}/products/{pid}"
         params = {"force": "true" if force else "false"}
         try:
+            logger.info(f"[DELETE] Requesting DELETE {url} params={params}")
             async with httpx.AsyncClient(timeout=30.0, verify=False, auth=auth) as client:
                 r = await client.delete(url, params=params)
+                logger.info(f"[DELETE] Response status={r.status_code} body={r.text[:500]}")
                 data: Dict[str, Any] = {}
                 try:
                     if r.headers.get("content-type", "").startswith("application/json"):
                         data = r.json() or {}
-                except Exception:
+                except Exception as ex:
+                    logger.warning(f"[DELETE] Failed to parse JSON response for id={pid}: {ex}")
                     data = {}
+                if not (r.status_code in (200, 201)):
+                    logger.error(f"[DELETE] id={pid} failed: status={r.status_code} response={r.text[:500]}")
                 return {
                     "id": pid,
                     "ok": r.status_code in (200, 201),
@@ -231,7 +236,7 @@ async def admin_deletes_run(req: Request):
                     "response": data if data else r.text[:2000],
                 }
         except Exception as e:
-            logger.error("[DELETE] id=%s failed: %s", pid, e)
+            logger.error(f"[DELETE] id={pid} exception: {e}")
             return {"id": pid, "ok": False, "status": None, "force": force, "error": str(e)}
 
     results = await asyncio.gather(*(_delete_one(pid) for pid in ids))
@@ -254,15 +259,6 @@ async def admin_deletes_run(req: Request):
         "ok": all(r.get("ok") for r in results),
     }
     return JSONResponse({"summary": summary, "results": results})
-
-# --------------------------------------------------------------------
-# Misc Admin — placeholder
-# --------------------------------------------------------------------
-
-@router.get("/stock-adjustment")
-def get_stock_adjustment():
-    """Admin: Placeholder stock-adjustment endpoint (no-op)."""
-    return JSONResponse(content={}, status_code=200)
 
 # --------------------------------------------------------------------
 # Shipping Parameters editor endpoints
@@ -387,39 +383,4 @@ async def http_deletes_preview():
     """
     return JSONResponse({"ok": True, "candidates": []})
 
-@router.post("/deletes/run")
-async def http_deletes_run(payload: DeleteRunReq = Body(...)):
-    """
-    Delete (or trash) WooCommerce products by numeric ID.
-    Uses Woo REST auth via consumer_key/consumer_secret.
-    """
-    base = (settings.WC_BASE_URL or "").rstrip("/")
-    key = getattr(settings, "WC_API_KEY", None)
-    secret = getattr(settings, "WC_API_SECRET", None)
-    if not base or not key or not secret:
-        raise HTTPException(status_code=400, detail="WooCommerce base URL or credentials missing.")
-
-    results = []
-    qp = {"consumer_key": key, "consumer_secret": secret}
-    force = bool(payload.force)
-    timeout = httpx.Timeout(30.0, connect=10.0, read=30.0)
-
-    async with httpx.AsyncClient(timeout=timeout, verify=False) as client:
-        for pid in payload.ids or []:
-            try:
-                url = f"{base}/wp-json/wc/v3/products/{int(pid)}"
-                r = await client.delete(url, params={**qp, "force": str(force).lower()})
-                try:
-                    data = r.json()
-                except Exception:
-                    data = {"text": r.text}
-                results.append({
-                    "id": int(pid),
-                    "status": r.status_code,
-                    "ok": 200 <= r.status_code < 300,
-                    "data": data,
-                })
-            except Exception as e:
-                results.append({"id": int(pid), "status": None, "ok": False, "error": str(e)})
-
-    return JSONResponse({"ok": all(x.get("ok") for x in results), "results": results})
+# ...existing code...

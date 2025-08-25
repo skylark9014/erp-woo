@@ -71,9 +71,18 @@ async function getJson<T>(url: string, init?: RequestInit): Promise<T> {
     try {
         body = await res.json();
     } catch {
-        throw new Error(`Non-JSON response (${res.status}) from ${url}`);
+        // If response is not JSON, fallback to text
+        body = await res.text();
+        // Only throw if not ok
+        if (!res.ok) {
+            throw new Error(`Non-JSON response (${res.status}) from ${url}`);
+        }
+        // Return text for successful non-JSON responses
+        return body as T;
     }
-    (body as any)._httpStatus = res.status;
+    if (body && typeof body === "object") {
+        (body as any)._httpStatus = res.status;
+    }
     if (!res.ok) {
         const msg = (typeof body === "object" && body && body.detail) ? body.detail : JSON.stringify(body);
         throw new Error(msg || `HTTP ${res.status}`);
@@ -359,11 +368,18 @@ export async function loadDeleteCandidates() {
 }
 
 // canonical (singular) name
-export async function runDelete(payload: { ids: number[]; force?: boolean; purgeBin?: boolean }): Promise<DeleteRunResponse> {
-    return getJson<DeleteRunResponse>("/api/deletes/run", {
+export async function runDelete(payload: { ids: number[]; force?: boolean; purgeBin?: boolean; csrfToken?: string }): Promise<DeleteRunResponse> {
+    const headers: Record<string, string> = { 'content-type': 'application/json' };
+    if (payload.csrfToken) {
+        headers['X-Frappe-CSRF-Token'] = payload.csrfToken;
+    }
+    // Remove csrfToken from body and always set force: true
+    const { csrfToken, ...bodyPayload } = payload;
+    const finalPayload = { ...bodyPayload, force: true };
+    return getJson<DeleteRunResponse>(withBase("/api/deletes/run"), {
         method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(payload),
+        headers,
+        body: JSON.stringify(finalPayload),
     });
 }
 

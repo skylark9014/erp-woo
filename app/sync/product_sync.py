@@ -1641,7 +1641,7 @@ async def sync_all_templates_and_variants(
                             if fresh_parent:
                                 woo_parent_raw = fresh_parent.get("description") or ""
                                 parent_equal = _norm_long(_normalize_punct(erp_parent_desc_raw)) == _norm_long(_normalize_punct(woo_parent_raw))
-                                logger.info("[DESC][PARENT][POST] sku=%s equal=%s erp_len=%s woo_len=%s",
+                                logger.info("[DESC][PARENT][POST] sku=%s equal=%s erp_len=%s",
                                             parent_sku, parent_equal,
                                             len(erp_parent_desc_raw or ""), len(woo_parent_raw or ""))
                         except Exception as e:
@@ -1867,47 +1867,33 @@ async def sync_all_templates_and_variants(
     # Delete detection (preview)
     # ---------------------------
     if dry_run:
-        woo_simple_prods = [p for p in (wc_products or []) if (p.get("type") or "").lower() == "simple" and p.get("sku")]
-        woo_variable_parents = [p for p in (wc_products or []) if (p.get("type") or "").lower() == "variable" and p.get("sku")]
-        woo_variable_parents_no_sku = [p for p in (wc_products or []) if (p.get("type") or "").lower() == "variable" and not p.get("sku")]
+        woo_simple_prods = [p for p in (wc_products or []) if (p.get("type") or "").lower() == "simple"]
+        woo_variable_parents = [p for p in (wc_products or []) if (p.get("type") or "").lower() == "variable"]
 
-        def _allowed_delete(sku: str) -> bool:
-            parts = _sku_parts(sku)
-            return bool(parts and parts[0] in erp_prefixes)
-
-        # simple products not in ERP (guard: don't flag if becoming variable parent)
+        # Flag all Woo simple products not present in ERPNext (by SKU)
         for p in woo_simple_prods:
             sku = p.get("sku")
-            if sku and _allowed_delete(sku) and (sku not in erp_simple_skus) and (sku not in erp_parent_skus):
+            # If SKU is missing or not in ERP, flag for delete
+            if not sku or (sku not in erp_simple_skus and sku not in erp_parent_skus):
                 report["to_delete"].append({
-                    "sku": sku, "name": p.get("name") or sku,
+                    "sku": sku,
+                    "name": p.get("name") or sku or "(no SKU)",
                     "woo": {"id": p.get("id"), "status": p.get("status")},
                     "reason": "not_in_erp",
                 })
 
-        # variable parents with SKU not in ERP parents
+        # Flag all Woo variable parents not present in ERPNext (by SKU)
         erp_parent_set = set(erp_parent_skus)
         for p in woo_variable_parents:
             parent_sku = p.get("sku")
-            if not parent_sku:
-                continue
-            if not _allowed_delete(parent_sku):
-                continue
-            if parent_sku not in erp_parent_set:
+            # If SKU is missing or not in ERP, flag for delete
+            if not parent_sku or parent_sku not in erp_parent_set:
                 report["variant_parents_to_delete"].append({
-                    "sku": parent_sku, "name": p.get("name") or parent_sku,
+                    "sku": parent_sku,
+                    "name": p.get("name") or parent_sku or "(no SKU)",
                     "woo": {"id": p.get("id"), "status": p.get("status")},
-                    "reason": "parent_not_in_erp",
+                    "reason": "parent_not_in_erp" if parent_sku else "parent_no_sku",
                 })
-
-        # variable parents with NO SKU at all (definitely orphaned)
-        for p in woo_variable_parents_no_sku:
-            report["variant_parents_to_delete"].append({
-                "sku": None,
-                "name": p.get("name") or "",
-                "woo": {"id": p.get("id"), "status": p.get("status")},
-                "reason": "parent_no_sku",
-            })
 
         # variations not in ERP for surviving parents
         for p in woo_variable_parents:
@@ -1925,7 +1911,8 @@ async def sync_all_templates_and_variants(
                 v = var_map.get(msku)
                 vid = v.get("id") if isinstance(v, dict) else None
                 report["variant_to_delete"].append({
-                    "sku": msku, "parent_sku": parent_sku,
+                    "sku": msku,
+                    "parent_sku": parent_sku,
                     "name": (v.get("name") if isinstance(v, dict) else msku) or msku,
                     "woo": {"id": vid, "parent_id": p.get("id"), "status": (v.get("status") if isinstance(v, dict) else None)},
                     "reason": "not_in_erp",

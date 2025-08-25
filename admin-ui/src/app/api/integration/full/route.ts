@@ -1,3 +1,4 @@
+// admin-ui/src/app/api/integration/full/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';

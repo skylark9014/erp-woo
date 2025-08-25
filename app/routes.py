@@ -297,6 +297,22 @@ async def compat_sync_partial(request: Request):
     return await api_sync_partial(request)
 
 # ----------------------------------------------------------------------
+# Aliases for /api/integration/* — forward to existing sync endpoints
+# ----------------------------------------------------------------------
+
+@router.api_route("/integration/preview", methods=["GET", "POST"], dependencies=[Depends(verify_admin)])
+async def api_integration_preview():
+    return await api_sync_preview()
+
+@router.post("/integration/full", dependencies=[Depends(verify_admin)])
+async def api_integration_full(request: Request):
+    return await api_sync_full(request)
+
+@router.post("/integration/partial", dependencies=[Depends(verify_admin)])
+async def api_integration_partial(request: Request):
+    return await api_sync_partial(request)
+
+# ----------------------------------------------------------------------
 # WooCommerce utilities — ✅ KEEP
 # ----------------------------------------------------------------------
 

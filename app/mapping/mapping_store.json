@@ -551,6 +551,14 @@
       "woo_status": "publish",
       "brand": "Techniclad",
       "categories": "translucent stone"
+    },
+    {
+      "erp_item_code": "Test_01",
+      "sku": "Test_01",
+      "woo_product_id": 4633,
+      "woo_status": "publish",
+      "brand": "",
+      "categories": "adhesives and sealants"
     }
   ]
 }

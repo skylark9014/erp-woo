@@ -25,7 +25,9 @@ function formatCount(n: number | undefined) {
 function flattenUpdates(r: SyncReport): PreviewItem[] {
   const simpleUpdates = r.to_update ?? [];
   const variantUpdates = r.variant_to_update ?? [];
-  return [...variantUpdates, ...simpleUpdates];
+  const simpleCreates = r.to_create ?? [];
+  const variantCreates = r.variant_to_create ?? [];
+  return [...variantCreates, ...simpleCreates, ...variantUpdates, ...simpleUpdates];
 }
 
 function describeHealthProblems(h: HealthResponse | null): string[] {
@@ -567,7 +569,7 @@ export default function DashboardPage() {
           </table>
         </div>
         <p className="text-xs text-gray-500">
-          Deletes move products to the WooCommerce Trash (safe). We can enable permanent deletion later if needed.
+          Deletes move products to the WooCommerce Trash (safe).
         </p>
       </section>
 
