@@ -4,7 +4,7 @@ import { runHealth } from "@/app/lib/api";
 import { fetchRecentWebhookEvents } from "@/app/lib/webhook";
 import { fetchWebhookPayload } from "@/app/lib/webhookPayload";
 
-export default function WebhookStatus() {
+export default function WoocommerceStatus() {
     const [health, setHealth] = useState<any>(null);
     const [events, setEvents] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -56,7 +56,7 @@ export default function WebhookStatus() {
 
     return (
         <div className="p-6 max-w-3xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-gray-900 leading-tight">Webhook Status & Recent Activity</h1>
+            <h1 className="text-3xl font-bold mb-8 text-gray-900 leading-tight">Woocommerce Status & Recent Activity</h1>
             {/* Health Card */}
             <div className="mb-8">
                 <div className="bg-white shadow-lg rounded-xl p-6 flex flex-col gap-2 border border-blue-100 font-sans">
@@ -74,7 +74,7 @@ export default function WebhookStatus() {
             {/* Recent Events Table */}
             {!loading && !error && (
                 <div className="bg-white shadow-lg rounded-xl border border-gray-100 font-sans">
-                    <h2 className="text-xl font-bold px-6 pt-6 pb-2 text-gray-900 leading-tight font-sans">Recent Webhook Events</h2>
+                    <h2 className="text-xl font-bold px-6 pt-6 pb-2 text-gray-900 leading-tight font-sans">Recent Woocommerce Events</h2>
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200 font-sans">
                             <thead className="bg-gray-50">
@@ -104,7 +104,7 @@ export default function WebhookStatus() {
                                         <tr key={ev.name + "-expanded"}>
                                             <td colSpan={5}>
                                                 <div className="bg-gray-50 rounded text-xs font-mono text-gray-800 w-full">
-                                                    <div className="mb-2 text-xs text-gray-500">Press <span className="font-bold">ESC</span> to close</div>
+                                                    <div className="mb-2 text-xs text-gray-500">&nbsp;&nbsp;Press <span className="font-bold">ESC</span> to close</div>
                                                     <pre style={{ margin: 0, width: '100%', boxSizing: 'border-box', whiteSpace: 'pre-wrap', wordBreak: 'break-word', padding: '1rem' }}>
                                                         {expandedPayload ? (typeof expandedPayload === "object" ? JSON.stringify(expandedPayload, null, 2) : String(expandedPayload)) : "Loading..."}
                                                     </pre>

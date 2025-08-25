@@ -6,14 +6,14 @@ import { usePathname } from 'next/navigation';
 import { stripBase, withBase } from '@/app/lib/basePath';
 
 const nav = [
-    { name: 'Synchronize', href: '/' },
-    { name: 'Webhook Status', href: '/webhook-status' },
-    { name: 'Inbox', href: '/inbox' },
-    { name: 'Backfill', href: '/backfill' },
-    { name: 'Jobs', href: '/jobs' },
+    { name: 'Sync ERPNext -> Woocommerce', href: '/' },
+    { name: 'Woocommerce Status', href: '/webhook-status' },
+    { name: 'Woocommerce Inbox', href: '/inbox' },
+    { name: 'Manual Sync', href: '/backfill' },
+    { name: 'Sync Queue', href: '/jobs' },
     { name: 'Audit Log', href: '/audit-log' },
-    { name: 'Shipping', href: '/shipping' },
-    { name: 'Mapping', href: '/mapping' },
+    { name: 'Product Shipping', href: '/shipping' },
+    { name: 'ERPNext -> Woo Sync Map', href: '/mapping' },
 ];
 
 export default function Sidebar() {

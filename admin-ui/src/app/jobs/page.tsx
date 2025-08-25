@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { fetchJobsList, fetchJobPayload } from "@/app/lib/jobs";
 import { retryJob } from "@/app/lib/jobRetry";
 
-// UI section for Woo Job Queue Status
-export default function Jobs() {
+// UI section for Woo Sync Queue Status
+export default function SyncQueue() {
     const [rows, setRows] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -67,7 +67,7 @@ export default function Jobs() {
 
     return (
         <div className="p-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-gray-900 leading-tight">Job Queue Status</h1>
+            <h1 className="text-3xl font-bold mb-8 text-gray-900 leading-tight">Sync Queue Status</h1>
             <div className="bg-white shadow-lg rounded-xl border border-gray-100 font-sans">
                 <div className="overflow-x-auto">
                     {loading && <div className="p-6 text-gray-500">Loading...</div>}
@@ -86,7 +86,7 @@ export default function Jobs() {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {rows.length === 0 && (
-                                    <tr><td colSpan={6} className="px-6 py-4 text-gray-400 text-center">No jobs found.</td></tr>
+                                    <tr><td colSpan={6} className="px-6 py-4 text-gray-400 text-center">No sync tasks found.</td></tr>
                                 )}
                                 {rows.map((row) => [
                                     <tr key={row.id} className="hover:bg-blue-50 transition">
@@ -106,7 +106,7 @@ export default function Jobs() {
                                         <tr key={row.id + "-expanded"}>
                                             <td colSpan={6}>
                                                 <div className="bg-gray-50 rounded text-xs font-mono text-gray-800 w-full">
-                                                    <div className="mb-2 text-xs text-gray-500">Press <span className="font-bold">ESC</span> to close</div>
+                                                    <div className="mb-2 text-xs text-gray-500">&nbsp;&nbsp;Press <span className="font-bold">ESC</span> to close</div>
                                                     <pre style={{ margin: 0, width: '100%', boxSizing: 'border-box', whiteSpace: 'pre-wrap', wordBreak: 'break-word', padding: '1rem' }}>
                                                         {expandedPayload ? (typeof expandedPayload === "object" ? JSON.stringify(expandedPayload, null, 2) : String(expandedPayload)) : "Loading..."}
                                                     </pre>

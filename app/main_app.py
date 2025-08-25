@@ -36,11 +36,32 @@ from app.config import settings
 ADMIN_USER = settings.ADMIN_USER
 ADMIN_PASS = settings.ADMIN_PASS
 
-# --- FastAPI instance ---
+
+from contextlib import asynccontextmanager
+
+# --- FastAPI instance with lifespan ---
+@asynccontextmanager
+async def lifespan(app):
+    # Startup
+    await init_db()
+    global _worker_task, _worker_stop
+    _worker_stop = asyncio.Event()
+    _worker_task = asyncio.create_task(worker_loop(_worker_stop))
+    yield
+    # Shutdown
+    if _worker_stop:
+        _worker_stop.set()
+    if _worker_task:
+        try:
+            await asyncio.wait_for(_worker_task, timeout=5.0)
+        except Exception:
+            _worker_task.cancel()
+
 app = FastAPI(
     title="ERPNext WooCommerce Integration Middleware",
     description="Middleware for syncing ERPNext with WooCommerce.",
     debug=True,
+    lifespan=lifespan,
 )
 
 # --- Logging setup (console, INFO level) ---
@@ -127,25 +148,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 _worker_task: asyncio.Task | None = None
 _worker_stop: asyncio.Event | None = None
 
-@app.on_event("startup")
-async def _startup():
-    # Init DB tables (for mappings, inbox index, etc.)
-    await init_db()
-    # Start worker
-    global _worker_task, _worker_stop
-    _worker_stop = asyncio.Event()
-    _worker_task = asyncio.create_task(worker_loop(_worker_stop))
-
-@app.on_event("shutdown")
-async def _shutdown():
-    global _worker_task, _worker_stop
-    if _worker_stop:
-        _worker_stop.set()
-    if _worker_task:
-        try:
-            await asyncio.wait_for(_worker_task, timeout=5.0)
-        except Exception:
-            _worker_task.cancel()
+## Deprecated startup/shutdown handlers removed; replaced by lifespan above.
 
 #if __name__ == "__main__":
 #    import uvicorn

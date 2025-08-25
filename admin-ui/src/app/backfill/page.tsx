@@ -1,12 +1,12 @@
-// UI section for Woo Manual Backfill Actions
-export default function Backfill() {
+// UI section for Woo Manual Sync Actions
+export default function ManualSync() {
     return (
         <div className="p-6 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-extrabold mb-8 text-black tracking-tight">Manual Backfill Actions</h1>
+            <h1 className="text-3xl font-extrabold mb-8 text-black tracking-tight">Manual Sync Actions</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Backfill Orders */}
+                {/* Manual Sync Orders */}
                 <div className="bg-white shadow-lg rounded-xl border border-gray-100 p-6 mb-6 flex flex-col h-full">
-                    <h2 className="font-bold mb-4 text-lg text-black">Backfill Orders</h2>
+                    <h2 className="font-bold mb-4 text-lg text-black">Manual Sync Orders</h2>
                     <form className="space-y-4 flex flex-col flex-1">
                         <div>
                             <label className="block text-sm font-medium text-black mb-1">Date Range</label>
@@ -36,9 +36,9 @@ export default function Backfill() {
                         </button>
                     </form>
                 </div>
-                {/* Backfill Customers */}
+                {/* Manual Sync Customers */}
                 <div className="bg-white shadow-lg rounded-xl border border-gray-100 p-6 mb-6 flex flex-col h-full">
-                    <h2 className="font-bold mb-4 text-lg text-black">Backfill Customers</h2>
+                    <h2 className="font-bold mb-4 text-lg text-black">Manual Sync Customers</h2>
                     <form className="space-y-4 flex flex-col flex-1">
                         <div>
                             <label className="block text-sm font-medium text-black mb-1">Date Range</label>
@@ -60,9 +60,9 @@ export default function Backfill() {
                         </button>
                     </form>
                 </div>
-                {/* Backfill Single Order */}
+                {/* Manual Sync Single Order */}
                 <div className="bg-white shadow-lg rounded-xl border border-gray-100 p-6 mb-6 flex flex-col h-full">
-                    <h2 className="font-bold mb-4 text-lg text-black">Backfill Single Order</h2>
+                    <h2 className="font-bold mb-4 text-lg text-black">Manual Sync Single Order</h2>
                     <form className="space-y-4 flex flex-col flex-1">
                         <div>
                             <label className="block text-sm font-medium text-black mb-1">Order ID</label>
@@ -81,9 +81,9 @@ export default function Backfill() {
                         </button>
                     </form>
                 </div>
-                {/* Backfill Refunds */}
+                {/* Manual Sync Refunds */}
                 <div className="bg-white shadow-lg rounded-xl border border-gray-100 p-6 mb-6 flex flex-col h-full">
-                    <h2 className="font-bold mb-4 text-lg text-black">Backfill Refunds</h2>
+                    <h2 className="font-bold mb-4 text-lg text-black">Manual Sync Refunds</h2>
                     <form className="space-y-4 flex flex-col flex-1">
                         <div>
                             <label className="block text-sm font-medium text-black mb-1">Date Range</label>
