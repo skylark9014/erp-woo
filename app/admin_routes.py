@@ -70,6 +70,17 @@ def _get_bool(payload: Dict[str, Any], *keys: str, default: bool = False) -> boo
     return default
 
 # --------------------------------------------------------------------
+# --------------------------------------------------------------------
+# Audit Log Endpoints
+# --------------------------------------------------------------------
+from app.models.audit_log import get_audit_log
+
+@router.get("/audit-log")
+async def get_audit_log_api():
+    """
+    Return the current audit log entries.
+    """
+    return {"ok": True, "entries": get_audit_log()}
 # Admin Health (for UI) — verifies ERPNext + WP/Woo reachability
 # --------------------------------------------------------------------
 
