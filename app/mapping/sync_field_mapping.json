@@ -1,12 +1,39 @@
 {
-    "item_code": "sku",
-    "item_name": "name",
-    "description": "description",
-    "standard_rate": "regular_price",
-    "item_group": "categories",
-    "brand": "brand",
-    "opening_stock": "stock_quantity",
-    "image": "images",
-    "has_variants": "has_variants",
-    "erp_custom_field": "woo_custom_field"
+    "order_id": "id",
+    "price_list": "price_list",
+    "customer": {
+        "customer_name": "billing.first_name + ' ' + billing.last_name",
+        "email": "billing.email",
+        "phone": "billing.phone",
+        "first_name": "billing.first_name",
+        "last_name": "billing.last_name"
+    },
+    "billing": {
+        "address_line1": "billing.address_1",
+        "address_line2": "billing.address_2",
+        "city": "billing.city",
+        "state": "billing.state",
+        "country": "billing.country",
+        "pincode": "billing.postcode",
+        "phone": "billing.phone",
+        "email": "billing.email"
+    },
+    "shipping": {
+        "address_line1": "shipping.address_1",
+        "address_line2": "shipping.address_2",
+        "city": "shipping.city",
+        "state": "shipping.state",
+        "country": "shipping.country",
+        "pincode": "shipping.postcode",
+        "phone": "shipping.phone",
+        "email": "billing.email"
+    },
+    "items": {
+        "item_code": "sku",
+        "item_name": "name",
+        "description": "name",
+        "qty": "quantity",
+        "rate": "total",
+        "amount": "total"
+    }
 }

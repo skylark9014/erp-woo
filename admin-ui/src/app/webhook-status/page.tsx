@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { runHealth } from "@/app/lib/api";
 import { fetchRecentWebhookEvents } from "@/app/lib/webhook";
 import { fetchWebhookPayload } from "@/app/lib/webhookPayload";
+import { JsonViewer } from "../components/JsonViewer";
 
 export default function WoocommerceStatus() {
     const [health, setHealth] = useState<any>(null);
@@ -75,7 +76,7 @@ export default function WoocommerceStatus() {
             {!loading && !error && (
                 <div className="bg-white shadow-lg rounded-xl border border-gray-100 font-sans">
                     <h2 className="text-xl font-bold px-6 pt-6 pb-2 text-gray-900 leading-tight font-sans">Recent Woocommerce Events</h2>
-                    <div className="overflow-x-auto">
+                    <div>
                         <table className="min-w-full divide-y divide-gray-200 font-sans">
                             <thead className="bg-gray-50">
                                 <tr>
@@ -105,9 +106,9 @@ export default function WoocommerceStatus() {
                                             <td colSpan={5}>
                                                 <div className="bg-gray-50 rounded text-xs font-mono text-gray-800 w-full">
                                                     <div className="mb-2 text-xs text-gray-500">&nbsp;&nbsp;Press <span className="font-bold">ESC</span> to close</div>
-                                                    <pre style={{ margin: 0, width: '100%', boxSizing: 'border-box', whiteSpace: 'pre-wrap', wordBreak: 'break-word', padding: '1rem' }}>
-                                                        {expandedPayload ? (typeof expandedPayload === "object" ? JSON.stringify(expandedPayload, null, 2) : String(expandedPayload)) : "Loading..."}
-                                                    </pre>
+                                                    <div style={{ padding: '1rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowX: 'auto' }}>
+                                                        {expandedPayload ? <JsonViewer data={expandedPayload} /> : "Loading..."}
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

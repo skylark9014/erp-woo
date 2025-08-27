@@ -150,6 +150,9 @@ def _lower(s: str | None) -> str:
 # ================ Public API (used by jobs_worker) ============================
 
 async def upsert_sales_order_from_woo(norm: Any) -> Tuple[str, str | None, str | None]:
+    from app.models.audit_log import add_audit_entry
+    logger.info(f"[ERPNext] upsert_sales_order_from_woo called with normalized: {norm}")
+    add_audit_entry("ERPNext Order Upsert", "system", f"Normalized: {norm}")
     """
     Creates or reuses:
       - Customer (by email, else by name)
@@ -158,10 +161,135 @@ async def upsert_sales_order_from_woo(norm: Any) -> Tuple[str, str | None, str |
     Returns: (so_name, billing_address_name, shipping_address_name)
     """
 
+    # Load field mapping
+    import os
+    mapping_path = os.path.join(os.path.dirname(__file__), '../mapping/sync_field_mapping.json')
+    with open(mapping_path, 'r', encoding='utf-8') as f:
+        field_map = json.load(f)
+
+    def apply_mapping(src, mapping):
+        out = {}
+        for k, v in mapping.items():
+            if isinstance(v, dict):
+                # Nested mapping
+                out[k] = apply_mapping(src, v)
+            elif isinstance(v, str):
+                # Support dot notation and simple expressions
+                if '+' in v:
+                    # Expression, e.g. "billing.first_name + ' ' + billing.last_name"
+                    try:
+                        out[k] = eval(v, {}, {'billing': src.get('billing', {}), 'shipping': src.get('shipping', {}), 'src': src})
+                    except Exception:
+                        out[k] = None
+                elif '.' in v:
+                    # Dot notation, e.g. "billing.email"
+                    parts = v.split('.')
+                    val = src
+                    for part in parts:
+                        val = val.get(part) if isinstance(val, dict) else None
+                        if val is None:
+                            break
+                    out[k] = val
+                else:
+                    out[k] = src.get(v)
+        return out
+
+    # Main order fields
+    payload = {}
+    for k, v in field_map.items():
+        if k == 'items':
+            # Items mapping
+            payload['items'] = []
+            for li in norm.get('line_items', []):
+                payload['items'].append(apply_mapping(li, field_map['items']))
+        else:
+            payload[k] = apply_mapping(norm, {k: v})[k]
+
+    # --- PATCH: Ensure customer.customer_name is always a valid string ---
+    cust = payload.get('customer', {})
+    if not cust.get('customer_name') or cust.get('customer_name') is None:
+        billing = payload.get('billing', {})
+        shipping = payload.get('shipping', {})
+        name = (
+            billing.get('first_name', '') + ' ' + billing.get('last_name', '')
+            if billing.get('first_name') or billing.get('last_name') else ''
+        ) or (
+            shipping.get('first_name', '') + ' ' + shipping.get('last_name', '')
+            if shipping.get('first_name') or shipping.get('last_name') else ''
+        ) or 'Woo Customer'
+        cust['customer_name'] = name.strip() or 'Woo Customer'
+        payload['customer'] = cust
+
+    # --- PATCH: Resolve price list dynamically ---
+    from app.erp.erpnext import get_price_map
+    try:
+        _, price_list_name = await get_price_map(return_name=True)
+    except Exception:
+        price_list_name = None
+    logger.info(f"[ERPNext] Selected price list for order upload: '{price_list_name}'")
+    if price_list_name:
+        payload['selling_price_list'] = price_list_name
+
     # Validate and normalize input using Pydantic
     from app.erp.erp_sync_models import ERPOrderSyncPayload
     try:
-        validated = ERPOrderSyncPayload.parse_obj(norm)
+        validated = ERPOrderSyncPayload.parse_obj(payload)
+    except Exception as e:
+        logger.error(f"[ERP-SYNC] payload validation error: {e}")
+        raise AssertionError(f"ERPNext sync payload validation failed: {e}")
+
+    n = validated.dict()
+    order_id = n.get("order_id")
+    assert order_id is not None, "normalized order must have order_id"
+
+    po_no = f"WOO-{order_id}"
+    cust = n.get("customer") or {}
+    items = n.get("items") or []
+
+    # Customer identity
+    customer_name = (cust.get("customer_name") or cust.get("name") or cust.get("first_name") or "Woo Customer").strip()
+    email = (cust.get("email") or "").strip() or None
+    phone = (cust.get("phone") or "").strip() or None
+
+    billing = _as_dict(n.get("billing") or n.get("billing_address"))
+    shipping = _as_dict(n.get("shipping") or n.get("shipping_address"))
+
+    async with httpx.AsyncClient(timeout=30.0, headers=_auth_headers(), verify=False) as client:
+        # 1) Customer (find by email if available, else by exact name)
+        customer_docname = await _ensure_customer(client, customer_name, email, phone)
+
+        # 2) Addresses (optional)
+        bill_name = await _ensure_address(
+            client,
+            customer_docname,
+            address_type="Billing",
+            src=billing,
+        )
+        ship_name = await _ensure_address(
+            client,
+            customer_docname,
+            address_type="Shipping",
+            src=shipping,
+        )
+
+        # 3) Sales Order — idempotent by po_no
+        so_name = await _ensure_sales_order(
+            client,
+            po_no=po_no,
+            customer=customer_docname,
+            items=items,
+            billing_address=bill_name,
+            shipping_address=ship_name,
+            company=DEFAULT_COMPANY,
+                    selling_price_list=payload.get('selling_price_list'),
+                )
+
+    return so_name, bill_name, ship_name
+
+    # Validate and normalize input using Pydantic
+    from app.erp.erp_sync_models import ERPOrderSyncPayload
+    try:
+        validated = ERPOrderSyncPayload.parse_obj(payload)
     except Exception as e:
         logger.error(f"[ERP-SYNC] payload validation error: {e}")
         raise AssertionError(f"ERPNext sync payload validation failed: {e}")
@@ -687,7 +815,8 @@ async def _ensure_sales_order(
     billing_address: Optional[str],
     shipping_address: Optional[str],
     company: Optional[str],
-) -> str:
+        selling_price_list: Optional[str] = None,
+    ) -> str:
     existing = await _find_one(client, "Sales Order", [["po_no", "=", po_no]])
     if existing:
         return existing["name"]
@@ -707,6 +836,8 @@ async def _ensure_sales_order(
         doc["customer_address"] = billing_address
     if shipping_address:
         doc["shipping_address_name"] = shipping_address
+        if selling_price_list:
+            doc["selling_price_list"] = selling_price_list
 
     created = await _insert_doc(client, doc)
     return created["name"]

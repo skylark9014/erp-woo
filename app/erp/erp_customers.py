@@ -78,10 +78,14 @@ async def _insert_doc(client: httpx.AsyncClient, doc: Dict[str, Any]) -> Dict[st
     return out["message"] if "message" in out else out
 
 async def _update_doc(client: httpx.AsyncClient, doctype: str, name: str, values: Dict[str, Any]) -> Dict[str, Any]:
-    payload = {"doctype": doctype, "name": name, "doc": values}
-    out = await _post(client, "/api/method/frappe.client.set_value", payload)
-    # set_value returns {"message": {"name": ..., "<field>": "<value>"}}; we don't rely on shape
-    return out.get("message") if isinstance(out, dict) else out
+    # ERPNext set_value expects: doctype, name, fieldname, value
+    results = {}
+    for field, value in values.items():
+        payload = {"doctype": doctype, "name": name, "fieldname": field, "value": value}
+        out = await _post(client, "/api/method/frappe.client.set_value", payload)
+        if isinstance(out, dict) and "message" in out:
+            results[field] = out["message"]
+    return results
 
 
 # ---------------------------
@@ -97,13 +101,78 @@ def _coalesce(*vals: Optional[str]) -> Optional[str]:
     return None
 
 def _addr_fields_from(src: Dict[str, Any]) -> Dict[str, Any]:
+    # Dynamic country mapping: fetch valid country names from ERPNext
+    import httpx
+    import threading
+    from app.config import settings
+
+    class CountryCache:
+        _lock = threading.Lock()
+        _map = None
+
+        @classmethod
+        def get_map(cls):
+            with cls._lock:
+                if cls._map is not None:
+                    return cls._map
+                url = (settings.ERP_URL or "").rstrip("/") + "/api/resource/Country"
+                headers = {
+                    "Authorization": f"token {settings.ERP_API_KEY}:{settings.ERP_API_SECRET}",
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                }
+                try:
+                    with httpx.Client(timeout=15.0, headers=headers, verify=False) as client:
+                        iso_map = {}
+                        limit = 200
+                        start = 0
+                        while True:
+                            params = {"limit_start": start, "limit_page_length": limit}
+                            resp = client.get(url, params=params)
+                            resp.raise_for_status()
+                            countries = [c["name"] for c in resp.json().get("data", [])]
+                            if not countries:
+                                break
+                            for name in countries:
+                                detail_url = f"{url}/{name}"
+                                detail_resp = client.get(detail_url)
+                                detail_resp.raise_for_status()
+                                data = detail_resp.json().get("data", {})
+                                code = data.get("code")
+                                country_name = data.get("country_name") or data.get("name")
+                                if code and country_name:
+                                    iso_map[code.upper()] = country_name
+                            if len(countries) < limit:
+                                break
+                            start += limit
+                        cls._map = iso_map
+                        return iso_map
+                except Exception as e:
+                    import logging
+                    logging.getLogger("uvicorn.error").warning(f"[ERPNext] Could not build country map: {e}")
+                    cls._map = {}
+                    return cls._map
+
+    import logging
+    logger = logging.getLogger("uvicorn.error")
+    country_raw = _coalesce(src.get("country")) or ""
+    country_map = CountryCache.get_map()
+    code_upper = country_raw.upper()
+    country_name = country_map.get(code_upper)
+    if not country_name:
+        for k, v in country_map.items():
+            if code_upper == k or code_upper == v.upper():
+                country_name = v
+                break
+    if not country_name:
+        country_name = country_raw
     return {
         "address_line1": _coalesce(src.get("address_1"), src.get("line1"), src.get("address1")) or "—",
         "address_line2": _coalesce(src.get("address_2"), src.get("line2"), src.get("address2")) or "",
         "city": _coalesce(src.get("city")) or "",
         "state": _coalesce(src.get("state"), src.get("province")) or "",
         "pincode": _coalesce(src.get("postcode"), src.get("postal_code"), src.get("zip")) or "",
-        "country": _coalesce(src.get("country")) or "",
+        "country": country_name,
         "phone": _coalesce(src.get("phone")) or "",
         "email_id": _coalesce(src.get("email")) or "",
     }
@@ -113,7 +182,36 @@ def _addr_fields_from(src: Dict[str, Any]) -> Dict[str, Any]:
 # Public entry
 # ---------------------------
 
+async def ensure_online_customer_group(client: httpx.AsyncClient) -> None:
+    from app.config import settings
+    base_url = getattr(settings, "ERP_URL", None)
+    if not base_url:
+        raise RuntimeError("ERP_URL not configured in settings")
+    url = f"{base_url.rstrip('/')}/api/resource/Customer Group/Online Customer"
+    resp = await client.get(url)
+    if resp.status_code == 200:
+        return
+    doc = {
+        "doctype": "Customer Group",
+        "customer_group_name": "Online Customer",
+        "parent_customer_group": "All Customer Groups",
+        "is_group": 0,
+    }
+    post_url = f"{base_url.rstrip('/')}/api/resource/Customer Group"
+    await client.post(post_url, json=doc)
+
+async def set_customer_group(client: httpx.AsyncClient, customer_name: str) -> None:
+    from app.config import settings
+    base_url = getattr(settings, "ERP_URL", None)
+    if not base_url:
+        raise RuntimeError("ERP_URL not configured in settings")
+    url = f"{base_url.rstrip('/')}/api/resource/Customer/{customer_name}"
+    await client.put(url, json={"customer_group": "Online Customer"})
+
 async def upsert_customer_from_woo(cust: Dict[str, Any]) -> tuple[str, Optional[str], Optional[str]]:
+    from app.models.audit_log import add_audit_entry
+    import logging
+    logger = logging.getLogger("uvicorn.error")
     """
     Given a Woo customer payload, upsert ERPNext Customer, Contact, and Billing/Shipping Address.
     Returns (customer_name, billing_address_name, shipping_address_name)
@@ -129,17 +227,18 @@ async def upsert_customer_from_woo(cust: Dict[str, Any]) -> tuple[str, Optional[
     shipping = cust.get("shipping") or {}
 
     async with httpx.AsyncClient(timeout=45.0, headers=_auth_headers(), verify=False) as client:
-        # 1) Customer
         cust_name = await _find_customer(client, email=email, customer_name=display_name)
         if cust_name:
             cust_name = await _update_customer(client, cust_name, email=email, phone=phone)
         else:
             cust_name = await _create_customer(client, display_name, email=email, phone=phone)
 
-        # 2) Contact (best-effort idempotent by email)
+        # Ensure Online Customer group exists and set customer group
+        await ensure_online_customer_group(client)
+        await set_customer_group(client, cust_name)
+
         await _upsert_contact(client, cust_name, first=first, last=last, email=email, phone=phone)
 
-        # 3) Addresses
         bill_name = await _upsert_address(client, cust_name, address_type="Billing", src=billing)
         ship_name = await _upsert_address(client, cust_name, address_type="Shipping", src=shipping)
 
@@ -261,6 +360,8 @@ async def _upsert_address(
         return None
 
     fields = _addr_fields_from(src)
+    import logging
+    logger = logging.getLogger("uvicorn.error")
 
     # Idempotency heuristic: same title (customer), type, line1, pincode
     title = _coalesce(src.get("address_title"), src.get("name"), customer_name) or customer_name

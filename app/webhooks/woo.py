@@ -72,9 +72,17 @@ async def woo_webhook(request: Request) -> Response:
     delivery_peek = _get_hdr(request.headers, "X-WC-Webhook-Delivery-ID")
     try:
         archive_ingress("woo", hdrs, body, delivery_id=delivery_peek, topic=topic_peek)
-    except Exception:
+        # Audit log entry for webhook received
+        from app.models.audit_log import add_audit_entry
+        add_audit_entry(
+            action="Webhook Received",
+            user="system",
+            details=f"topic={topic_peek} delivery_id={delivery_peek} headers={dict(request.headers)}"
+        )
+    except Exception as ex:
         # archival is best-effort; never fail the hook for this
-        pass
+        import logging
+        logging.getLogger("uvicorn.error").warning(f"[WOO-HOOK] archive/audit failed: {ex}")
 
     if getattr(settings, "WOO_WEBHOOK_DEBUG", False):
         logger.info("[WOO-HOOK][DEBUG] first_256_bytes=%r", body[:256])

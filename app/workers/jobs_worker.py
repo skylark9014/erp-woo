@@ -45,6 +45,7 @@ async def worker_loop(stop_event: asyncio.Event) -> None:
     INBOX_DIR.mkdir(parents=True, exist_ok=True)
     logger.info("[WORKER] started")
 
+    from app.models.audit_log import add_audit_entry
     while not stop_event.is_set():
         try:
             job = await asyncio.wait_for(_QUEUE.get(), timeout=1.0)
@@ -57,20 +58,37 @@ async def worker_loop(stop_event: asyncio.Event) -> None:
 
         try:
             jtype = (job.get("type") or "").strip()
+            logger.info(f"[WORKER] Received job: type={jtype} resource={job.get('resource')} event={job.get('event')} delivery_id={job.get('delivery_id')}")
+            add_audit_entry(
+                action=f"Job Received: {jtype}",
+                user="system",
+                details=f"resource={job.get('resource')} event={job.get('event')} delivery_id={job.get('delivery_id')}"
+            )
             if jtype == "woo.order.created":
+                logger.info(f"[WORKER] Syncing order.created to ERPNext: {job}")
+                add_audit_entry("ERPNext Sync", "system", f"Syncing order.created: {job}")
                 await _handle_woo_order_created(job)
             elif jtype == "woo.order.updated":
+                logger.info(f"[WORKER] Syncing order.updated to ERPNext: {job}")
+                add_audit_entry("ERPNext Sync", "system", f"Syncing order.updated: {job}")
                 await _handle_woo_order_updated(job)
             elif jtype in ("woo.customer.created", "woo.customer.updated"):
+                logger.info(f"[WORKER] Syncing customer event to ERPNext: {job}")
+                add_audit_entry("ERPNext Sync", "system", f"Syncing customer event: {job}")
                 await _handle_woo_customer_event(job)
             elif jtype == "woo.refund.created":
+                logger.info(f"[WORKER] Syncing refund.created to ERPNext: {job}")
+                add_audit_entry("ERPNext Sync", "system", f"Syncing refund.created: {job}")
                 await _handle_woo_refund_created(job)
             elif jtype.startswith("woo.order.") or jtype.startswith("woo.customer.") or jtype.startswith("woo.refund."):
                 logger.info("[WORKER] ignoring unsupported job type=%s", jtype)
+                add_audit_entry("Job Ignored", "system", f"Unsupported job type: {jtype}")
             else:
                 logger.info("[WORKER] unknown job type=%s", jtype)
+                add_audit_entry("Job Unknown", "system", f"Unknown job type: {jtype}")
         except Exception as e:
             logger.exception("[WORKER] failed job type=%s err=%s", job.get("type"), e)
+            add_audit_entry("Job Failed", "system", f"Failed job type={job.get('type')} error={e}")
         finally:
             _QUEUE.task_done()
 
@@ -171,8 +189,18 @@ async def _load_order_from_job(job: Dict[str, Any]) -> Dict[str, Any] | None:
 
 
 def _audit_save(base: str, event: str, job: Dict[str, Any], payload_json: Dict[str, Any] | None) -> None:
+    def _to_dict(obj):
+        if hasattr(obj, "dict") and callable(obj.dict):
+            return obj.dict()
+        if hasattr(obj, "__dict__"):
+            return dict(obj.__dict__)
+        return obj
+
+    # Convert payload_json if it's a custom object
+    payload_serializable = _to_dict(payload_json) if payload_json is not None else None
+    job_serializable = _to_dict(job) if job is not None else None
     (INBOX_DIR / f"{base}.{event}.json").write_text(
-        json.dumps({"job": job, "payload": payload_json}, ensure_ascii=False, indent=2),
+        json.dumps({"job": job_serializable, "payload": payload_serializable}, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
 

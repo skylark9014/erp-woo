@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="min-h-screen lg:pl-72">
           {/* Top bar */}
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white/80 px-4 backdrop-blur sm:px-6 lg:px-8">
-            <div className="text-sm text-gray-600">ERPNext → WooCommerce</div>
+            <div className="text-sm text-gray-600">WooCommerce → ERPNext</div>
           </div>
 
           {/* Main content */}
