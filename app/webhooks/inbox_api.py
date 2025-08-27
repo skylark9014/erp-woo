@@ -116,23 +116,23 @@ async def replay_inbox(path: str = Query(..., description="Absolute path under /
     try:
         p.resolve().relative_to(root.resolve())
     except Exception:
-        #logger.error(f"[INBOX][REPLAY] Path not under /code/data/inbox: {path}")
+        logger.error(f"[INBOX][REPLAY] Path not under /code/data/inbox: {path}")
         raise HTTPException(status_code=400, detail="Path not under /code/data/inbox")
     if not p.exists():
-        #logger.error(f"[INBOX][REPLAY] File not found: {path}")
+        logger.error(f"[INBOX][REPLAY] File not found: {path}")
         raise HTTPException(status_code=404, detail="Not found")
     try:
         payload = json.loads(p.read_text(encoding="utf-8"))
     except Exception as e:
-        #logger.error(f"[INBOX][REPLAY] Invalid JSON in {path}: {e}")
+        logger.error(f"[INBOX][REPLAY] Invalid JSON in {path}: {e}")
         raise HTTPException(status_code=400, detail=f"Invalid JSON: {e}")
 
 
     # If this is a wrapper (from get_inbox), unwrap to .json field
     if isinstance(payload, dict) and "json" in payload and isinstance(payload["json"], dict):
-        #logger.info(f"[INBOX][REPLAY] Unwrapping payload['json'] for handler")
+        logger.info(f"[INBOX][REPLAY] Unwrapping payload['json'] for handler")
         payload = payload["json"]
-        #logger.info(f"[INBOX][REPLAY] After unwrap, payload type: {type(payload).__name__}, keys: {list(payload.keys()) if isinstance(payload, dict) else 'N/A'}")
+        logger.info(f"[INBOX][REPLAY] After unwrap, payload type: {type(payload).__name__}, keys: {list(payload.keys()) if isinstance(payload, dict) else 'N/A'}")
 
     # If payload is still missing resource/event, try decoding body_b64
     resource = payload.get("resource") if isinstance(payload, dict) else None
@@ -141,8 +141,8 @@ async def replay_inbox(path: str = Query(..., description="Absolute path under /
         import base64
         decoded = base64.b64decode(payload["body_b64"])
         decoded_json = json.loads(decoded)
-        #logger.info(f"[INBOX][REPLAY] Decoded body_b64, keys: {list(decoded_json.keys()) if isinstance(decoded_json, dict) else 'N/A'}")
-        #logger.info(f"[INBOX][REPLAY] Decoded body_b64 full payload: {json.dumps(decoded_json, indent=2, ensure_ascii=False)}")
+        logger.info(f"[INBOX][REPLAY] Decoded body_b64, keys: {list(decoded_json.keys()) if isinstance(decoded_json, dict) else 'N/A'}")
+        logger.info(f"[INBOX][REPLAY] Decoded body_b64 full payload: {json.dumps(decoded_json, indent=2, ensure_ascii=False)}")
         payload = decoded_json
         resource = payload.get("resource") if isinstance(payload, dict) else None
         event = payload.get("event") if isinstance(payload, dict) else None

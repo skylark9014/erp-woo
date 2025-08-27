@@ -65,19 +65,19 @@ async def worker_loop(stop_event: asyncio.Event) -> None:
                 details=f"resource={job.get('resource')} event={job.get('event')} delivery_id={job.get('delivery_id')}"
             )
             if jtype == "woo.order.created":
-                logger.info(f"[WORKER] Syncing order.created to ERPNext: {job}")
+                logger.info(f"[WORKER] Syncing order.created to ERPNext")
                 add_audit_entry("ERPNext Sync", "system", f"Syncing order.created: {job}")
                 await _handle_woo_order_created(job)
             elif jtype == "woo.order.updated":
-                logger.info(f"[WORKER] Syncing order.updated to ERPNext: {job}")
+                logger.info(f"[WORKER] Syncing order.updated to ERPNext")
                 add_audit_entry("ERPNext Sync", "system", f"Syncing order.updated: {job}")
                 await _handle_woo_order_updated(job)
             elif jtype in ("woo.customer.created", "woo.customer.updated"):
-                logger.info(f"[WORKER] Syncing customer event to ERPNext: {job}")
+                logger.info(f"[WORKER] Syncing customer event to ERPNext")
                 add_audit_entry("ERPNext Sync", "system", f"Syncing customer event: {job}")
                 await _handle_woo_customer_event(job)
             elif jtype == "woo.refund.created":
-                logger.info(f"[WORKER] Syncing refund.created to ERPNext: {job}")
+                logger.info(f"[WORKER] Syncing refund.created to ERPNext")
                 add_audit_entry("ERPNext Sync", "system", f"Syncing refund.created: {job}")
                 await _handle_woo_refund_created(job)
             elif jtype.startswith("woo.order.") or jtype.startswith("woo.customer.") or jtype.startswith("woo.refund."):
@@ -87,7 +87,7 @@ async def worker_loop(stop_event: asyncio.Event) -> None:
                 logger.info("[WORKER] unknown job type=%s", jtype)
                 add_audit_entry("Job Unknown", "system", f"Unknown job type: {jtype}")
         except Exception as e:
-            logger.exception("[WORKER] failed job type=%s err=%s", job.get("type"), e)
+            logger.exception("[WORKER] failed job type=%s", job.get("type"), e)
             add_audit_entry("Job Failed", "system", f"Failed job type={job.get('type')} error={e}")
         finally:
             _QUEUE.task_done()
@@ -226,7 +226,9 @@ async def _ensure_sales_order(base: str, norm) -> str:
     cached = _read_marker(base, "so")
     if cached:
         return cached
-    so_name, bill_name, ship_name = await upsert_sales_order_from_woo(norm)
+    norm_dict = _to_dict_recursive(norm)
+    #logger.info("[DEBUG] ERPNext sync payload: %r", norm_dict)
+    so_name, bill_name, ship_name = await upsert_sales_order_from_woo(norm_dict)
     logger.info("[WORKER] SO ensured=%s (bill=%s ship=%s)", so_name, bill_name, ship_name)
     _write_marker(base, "so", so_name or "done")
     return so_name
@@ -306,6 +308,26 @@ def _refund_items_to_si_items(refund: Dict[str, Any]) -> List[Dict[str, Any]]:
     return items_out
 
 
+def _to_dict_recursive(obj):
+    # Pydantic v2: model_dump()
+    if hasattr(obj, "model_dump") and callable(obj.model_dump):
+        return obj.model_dump()
+    # Pydantic v1: dict()
+    if hasattr(obj, "dict") and callable(obj.dict):
+        return obj.dict()
+    # Fallback to __dict__
+    if hasattr(obj, "__dict__"):
+        out = {}
+        for k, v in obj.__dict__.items():
+            out[k] = _to_dict_recursive(v)
+        return out
+    if isinstance(obj, list):
+        return [_to_dict_recursive(i) for i in obj]
+    if isinstance(obj, dict):
+        return {k: _to_dict_recursive(v) for k, v in obj.items()}
+    return obj
+
+
 # ---------------------------
 # Order Handlers
 # ---------------------------
@@ -333,7 +355,7 @@ async def _handle_woo_order_created(job: Dict[str, Any]) -> None:
     if missing_skus:
         logger.warning("[WORKER] order id=%s: %d line(s) missing SKU; skipped", norm.order_id, missing_skus)
 
-    so_name = await _ensure_sales_order(base, norm)
+    so_name = await _ensure_sales_order(base, _to_dict_recursive(norm))
     si_name = await _ensure_sales_invoice(base, norm, so_name)
 
     status, set_paid = _extract_paid_status(order_json)
@@ -351,6 +373,39 @@ async def _handle_woo_order_updated(job: Dict[str, Any]) -> None:
          * cancelled & paid → create SI Return + refund PE
       - Discover refunds on any update and enqueue if not processed
     """
+    # Debug log: print raw payload and parsed status for tracing
+    #logger.info(f"[DEBUG] Raw payload: {job.get('payload')}")
+    try:
+        status_dbg = None
+        # Try to extract status from payload
+        if isinstance(job.get("payload"), dict):
+            payload = job["payload"]
+            # If payload has 'body_preview', log it
+            if 'body_preview' in payload:
+                logger.info(f"[DEBUG] body_preview: {payload['body_preview']}")
+            # If payload has 'body_b64', decode and log status
+            if 'body_b64' in payload:
+                import base64, json
+                try:
+                    decoded = base64.b64decode(payload['body_b64']).decode('utf-8')
+                    logger.info(f"[DEBUG] body_b64 decoded: {decoded[:200]}")
+                    body_json = json.loads(decoded)
+                    status_dbg = body_json.get('status')
+                    logger.info(f"[DEBUG] Parsed status from body_b64: {status_dbg}")
+                except Exception as e:
+                    logger.error(f"[DEBUG] Failed to decode body_b64: {e}")
+            # Fallback: try to get status directly
+            if not status_dbg and 'status' in payload:
+                status_dbg = payload['status']
+                logger.info(f"[DEBUG] Parsed status from payload: {status_dbg}")
+        else:
+            logger.warning(f"[DEBUG] Payload is not a dict: {type(job.get('payload'))}")
+        # If status is still None, log warning
+        if not status_dbg:
+            logger.warning("[DEBUG] Could not parse status from payload")
+    except Exception as e:
+        logger.error(f"[DEBUG] Exception during status parsing: {e}")
+
     base = _base_key(job)
     order_json = await _load_order_from_job(job)
     _audit_save(base, "order.updated", job, order_json)
@@ -362,38 +417,64 @@ async def _handle_woo_order_updated(job: Dict[str, Any]) -> None:
     norm = normalize_order(order_json)
     order_id = int(order_json.get("id") or 0)
 
-    so_name = await _ensure_sales_order(base, norm)
-    si_name = await _ensure_sales_invoice(base, norm, so_name)
+    # --- ERPNext sync rules based on WooCommerce status ---
+    status = (order_json.get("status") or "").lower()
+    set_paid = bool(order_json.get("date_paid"))
+    so_name = await _ensure_sales_order(base, _to_dict_recursive(norm))
+    si_name = None
+    pe_name = None
 
-    status, set_paid = _extract_paid_status(order_json)
-    pe_name = await _maybe_create_payment_entry(base, norm, si_name, status=status, set_paid=set_paid)
-    if pe_name:
-        logger.info("[WORKER] Payment Entry ensured on update: %s", pe_name)
+    logger.info(f"[ERPNEXT ACTION] Status call is: {status}")
+    if status == "processing":
+        # 1. Submit Sales Order only
+        pass
 
-    # Cancellations
-    if status == "cancelled":
-        if not set_paid:
-            # Pre-payment cancellation: cancel SI and SO
-            try:
-                if si_name:
-                    await cancel_sales_invoice(si_name)
-            except Exception as e:
-                logger.debug("[WORKER] SI cancel skipped/failed (%s): %s", si_name, e)
-            try:
-                if so_name:
-                    await cancel_sales_order(so_name)
-            except Exception as e:
-                logger.debug("[WORKER] SO cancel skipped/failed (%s): %s", so_name, e)
-            return
-        else:
-            # Post-payment cancellation: Prefer explicit refunds; otherwise synthesize full return
-            try:
-                refunds = await fetch_order_refunds(order_id)
-            except Exception as e:
-                logger.debug("[WORKER] fetch_order_refunds(%s) failed: %s", order_id, e)
-                refunds = []
+    elif status == "completed":
+        # 2. Submit SO, create SI, create PE
+        si_name = await _ensure_sales_invoice(base, norm, so_name)
+        pe_name = await _maybe_create_payment_entry(base, norm, si_name, status=status, set_paid=True)
+        if pe_name:
+            logger.info("[WORKER] Payment Entry ensured on completed: %s", pe_name)
 
-            enqueued_any = False
+    elif status == "on-hold":
+        # 3. Keep SO in draft or submitted, do not invoice or mark as paid
+        pass
+
+    elif status == "cancelled":
+        # 4. Cancel SO if submitted, cancel SI/PE if they exist
+        # Add concise logging and ensure SO is submitted before cancellation
+        #logger.info(f"[CANCEL] Cancellation branch triggered for order id={order_id}, status={status}")
+        try:
+            if si_name:
+                logger.info(f"[CANCEL] Attempting to cancel Sales Invoice: {si_name}")
+                await cancel_sales_invoice(si_name)
+                logger.info(f"[CANCEL] Sales Invoice cancelled: {si_name}")
+            else:
+                logger.info("[CANCEL] No Sales Invoice found to cancel.")
+        except Exception as e:
+            logger.error(f"[CANCEL] SI cancel failed ({si_name}): {e}")
+        try:
+            if so_name:
+                logger.info("[CANCEL] Attempting to cancel Sales Order: %s", so_name)
+                # Ensure SO is submitted before cancellation
+                from app.erp.erp_orders import get_sales_order_status, submit_sales_order
+                so_status = await get_sales_order_status(so_name)
+                if so_status == 0:
+                    logger.info("[CANCEL] Sales Order %s is in draft. Submitting before cancellation.", so_name)
+                    await submit_sales_order(so_name)
+                await cancel_sales_order(so_name)
+                logger.info("[CANCEL] Sales Order cancelled: %s", so_name)
+            else:
+                logger.info("[CANCEL] No Sales Order found to cancel.")
+        except Exception as e:
+            logger.error(f"[CANCEL] SO cancel failed ({so_name})")
+        return
+
+    # Also discover refunds on non-cancel updates (partial refunds)
+    # Write status to file only if not cancelled
+    if status != "cancelled":
+        try:
+            refunds = await fetch_order_refunds(order_id)
             for r in refunds or []:
                 rid = int(r.get("id"))
                 if not _refund_marker_exists("si_return", rid) or not _refund_marker_exists("pe", rid):
@@ -406,67 +487,11 @@ async def _handle_woo_order_updated(job: Dict[str, Any]) -> None:
                         "order_id": order_id,
                         "raw_len": 0,
                     })
-                    enqueued_any = True
-
-            if not enqueued_any:
-                # Synthesize a full return once
-                cancel_ret_marker = _read_marker(base, "cancel_return")
-                if not cancel_ret_marker:
-                    try:
-                        # If we somehow lost SI name, re-discover
-                        si_name2 = si_name or await _find_si_name_for_order(order_id)
-                        if not si_name2:
-                            logger.warning("[WORKER] cannot synthesize return: SI missing for order %s", order_id)
-                        else:
-                            items = await build_return_items_from_si(si_name2)
-                            if items:
-                                ret_name = await create_sales_invoice_return(
-                                    si_name=si_name2,
-                                    return_items=items,
-                                    posting_date=(order_json.get("date_modified_gmt") or order_json.get("date_created_gmt") or None),
-                                    update_stock=False,
-                                )
-                                _write_marker(base, "cancel_return", ret_name or "done")
-                                logger.info("[WORKER] Synthetics: SI Return %s for cancelled paid order %s", ret_name, order_id)
-                                # Refund PE
-                                cancel_pe_marker = _read_marker(base, "cancel_pe")
-                                if not cancel_pe_marker:
-                                    mop_map = _parse_mop_map()
-                                    gw = (order_json.get("payment_method") or "").strip().lower()
-                                    mop = mop_map.get(gw) or mop_map.get("default") or "Bank"
-                                    pe = await create_refund_payment_entry(
-                                        si_return_name=ret_name,
-                                        mode_of_payment=mop,
-                                        reference_no=f"WOO-CANCEL-{order_id}",
-                                        reference_date=(order_json.get("date_modified_gmt") or order_json.get("date_created_gmt") or None),
-                                    )
-                                    _write_marker(base, "cancel_pe", pe or "done")
-                                    logger.info("[WORKER] Synthetics: Refund PE %s for cancelled paid order %s", pe, order_id)
-                    except Exception as e:
-                        logger.exception("[WORKER] full-cancel synth failed for order %s: %s", order_id, e)
-            return
-
-    # Also discover refunds on non-cancel updates (partial refunds)
-    try:
-        refunds = await fetch_order_refunds(order_id)
-        for r in refunds or []:
-            rid = int(r.get("id"))
-            if not _refund_marker_exists("si_return", rid) or not _refund_marker_exists("pe", rid):
-                await enqueue_job({
-                    "type": "woo.refund.created",
-                    "topic": "refund.created",
-                    "resource": "refund",
-                    "event": "created",
-                    "payload": r,
-                    "order_id": order_id,
-                    "raw_len": 0,
-                })
-    except Exception as e:
-        logger.debug("[WORKER] refund discovery on order.update failed for %s: %s", order_id, e)
+        except Exception as e:
+            logger.debug("[WORKER] refund discovery on order.update failed for %s: %s", order_id, e)
 
 
 # ---------------------------
-# Refund Handler
 # ---------------------------
 
 async def _handle_woo_refund_created(job: Dict[str, Any]) -> None:

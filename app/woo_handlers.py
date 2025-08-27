@@ -21,24 +21,38 @@ async def handle_woo_webhook(payload: Any):
             return status
     # Trigger ERPNext upsert for customer, order, refund
     try:
+        from app.workers.jobs_worker import enqueue_job
         if resource == "customer" and event in ("created", "updated") and body:
-            from app.erp.erp_customers import upsert_customer_from_woo
-            await upsert_customer_from_woo(body)
-            logger.info(f"[WOO][WEBHOOK] ERPNext customer upsert complete for id={body.get('id')}")
+            logger.info(f"[WOO][WEBHOOK] Enqueuing ERPNext customer job for id={body.get('id')}")
+            await enqueue_job({
+                "type": f"woo.customer.{event}",
+                "resource": "customer",
+                "event": event,
+                "payload": body,
+                "delivery_id": payload.get("delivery_id"),
+            })
             status["success"] = True
             status["id"] = body.get("id")
-        elif resource == "order" and event in ("created", "updated") and body:
-            logger.info(f"[WOO][WEBHOOK] Triggering ERPNext order upsert for id={body.get('id')}")
-            from app.erp.erp_orders import upsert_sales_order_from_woo
-            await upsert_sales_order_from_woo(body)
-            logger.info(f"[WOO][WEBHOOK] ERPNext order upsert complete for id={body.get('id')}")
+        elif resource == "order" and event in ("created", "updated", "cancelled") and body:
+            logger.info(f"[WOO][WEBHOOK] Enqueuing ERPNext order job for event '{event}' id={body.get('id')}")
+            await enqueue_job({
+                "type": f"woo.order.{event}",
+                "resource": "order",
+                "event": event,
+                "payload": body,
+                "delivery_id": payload.get("delivery_id"),
+            })
             status["success"] = True
             status["id"] = body.get("id")
-        elif resource == "refund" and event in ("created", "updated") and body:
-            logger.info(f"[WOO][WEBHOOK] Triggering ERPNext refund upsert for id={body.get('id')}")
-            from app.erp.erp_orders import create_refund_payment_entry
-            await create_refund_payment_entry(body)
-            logger.info(f"[WOO][WEBHOOK] ERPNext refund upsert complete for id={body.get('id')}")
+        elif resource == "refund" and event in ("created", "updated", "cancelled") and body:
+            logger.info(f"[WOO][WEBHOOK] Enqueuing ERPNext refund job for event '{event}' id={body.get('id')}")
+            await enqueue_job({
+                "type": f"woo.refund.{event}",
+                "resource": "refund",
+                "event": event,
+                "payload": body,
+                "delivery_id": payload.get("delivery_id"),
+            })
             status["success"] = True
             status["id"] = body.get("id")
         elif not resource or not event:

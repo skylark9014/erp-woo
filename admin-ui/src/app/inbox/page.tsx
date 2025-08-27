@@ -10,7 +10,7 @@ export default function Inbox() {
     const [actionLoading, setActionLoading] = useState(false);
     const [rows, setRows] = useState<any[]>([]);
     // Store extracted summary fields for each row
-    const [summaries, setSummaries] = useState<{ [key: string]: { orderId?: string, customer?: string, total?: number } }>({});
+    const [summaries, setSummaries] = useState<{ [key: string]: { orderId?: string, customer?: string, total?: number | string } }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedRow, setExpandedRow] = useState<string | null>(null);
@@ -29,26 +29,24 @@ export default function Inbox() {
                 // Filter out .status.json files
                 const filtered = data.filter((row: any) => !row.name.endsWith('.status.json'));
                 setRows(filtered);
-                // Load archive status from backend metadata
+                // Load archive status and summary fields from backend metadata only
                 const archiveMap: { [key: string]: boolean } = {};
-                const summaryMap: { [key: string]: { orderId?: string, customer?: string, total?: number } } = {};
+                const summaryMap: { [key: string]: { orderId?: string, customer?: string, total?: number | string } } = {};
                 for (const row of filtered) {
                     if (row.status && (row.status.status === "archived" || row.status.status === "Archived")) {
                         archiveMap[row.name] = true;
                     } else {
                         archiveMap[row.name] = false;
                     }
-                    // Extract summary fields from status metadata if available
+                    let orderId = 'N/A', customer = 'N/A', total: number | string = 'N/A';
                     if (row.status && row.status.payload) {
                         const payload = row.status.payload;
-                        summaryMap[row.name] = {
-                            orderId: payload.order_id || payload.orderId || payload.id,
-                            customer: payload.customer_name || (payload.customer && (payload.customer.name || payload.customer.customer_name)),
-                            total: payload.total || payload.grand_total || payload.order_total
-                        };
-                    } else {
-                        summaryMap[row.name] = {};
+                        orderId = payload.order_id || payload.orderId || payload.id || 'N/A';
+                        customer = payload.customer_name || (payload.customer && (payload.customer.name || payload.customer.customer_name)) || 'N/A';
+                        total = payload.total || payload.grand_total || payload.order_total;
+                        if (total === undefined || total === null) total = 'N/A';
                     }
+                    summaryMap[row.name] = { orderId, customer, total };
                 }
                 setArchived(archiveMap);
                 setSummaries(summaryMap);
