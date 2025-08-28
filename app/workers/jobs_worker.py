@@ -87,7 +87,7 @@ async def worker_loop(stop_event: asyncio.Event) -> None:
                 logger.info("[WORKER] unknown job type=%s", jtype)
                 add_audit_entry("Job Unknown", "system", f"Unknown job type: {jtype}")
         except Exception as e:
-            logger.exception("[WORKER] failed job type=%s", job.get("type"), e)
+            logger.exception(f"[WORKER] failed job type={job.get('type')}: {e}")
             add_audit_entry("Job Failed", "system", f"Failed job type={job.get('type')} error={e}")
         finally:
             _QUEUE.task_done()
@@ -189,16 +189,9 @@ async def _load_order_from_job(job: Dict[str, Any]) -> Dict[str, Any] | None:
 
 
 def _audit_save(base: str, event: str, job: Dict[str, Any], payload_json: Dict[str, Any] | None) -> None:
-    def _to_dict(obj):
-        if hasattr(obj, "dict") and callable(obj.dict):
-            return obj.dict()
-        if hasattr(obj, "__dict__"):
-            return dict(obj.__dict__)
-        return obj
-
-    # Convert payload_json if it's a custom object
-    payload_serializable = _to_dict(payload_json) if payload_json is not None else None
-    job_serializable = _to_dict(job) if job is not None else None
+    # Use recursive dict conversion for full serialization
+    payload_serializable = _to_dict_recursive(payload_json) if payload_json is not None else None
+    job_serializable = _to_dict_recursive(job) if job is not None else None
     (INBOX_DIR / f"{base}.{event}.json").write_text(
         json.dumps({"job": job_serializable, "payload": payload_serializable}, ensure_ascii=False, indent=2),
         encoding="utf-8",
@@ -377,9 +370,9 @@ async def _handle_woo_order_updated(job: Dict[str, Any]) -> None:
     #logger.info(f"[DEBUG] Raw payload: {job.get('payload')}")
     try:
         status_dbg = None
-        # Try to extract status from payload
-        if isinstance(job.get("payload"), dict):
-            payload = job["payload"]
+        # Always convert payload to dict for parsing
+        payload = _to_dict_recursive(job.get("payload"))
+        if isinstance(payload, dict):
             # If payload has 'body_preview', log it
             if 'body_preview' in payload:
                 logger.info(f"[DEBUG] body_preview: {payload['body_preview']}")
@@ -399,7 +392,7 @@ async def _handle_woo_order_updated(job: Dict[str, Any]) -> None:
                 status_dbg = payload['status']
                 logger.info(f"[DEBUG] Parsed status from payload: {status_dbg}")
         else:
-            logger.warning(f"[DEBUG] Payload is not a dict: {type(job.get('payload'))}")
+            logger.warning(f"[DEBUG] Payload is not a dict: {type(payload)}")
         # If status is still None, log warning
         if not status_dbg:
             logger.warning("[DEBUG] Could not parse status from payload")
@@ -538,7 +531,7 @@ async def _handle_woo_refund_created(job: Dict[str, Any]) -> None:
                 _write_refund_marker("si_return", refund_id, ret_name or "done")
                 logger.info("[WORKER] SI Return %s created for refund %s (order %s)", ret_name, refund_id, order_id)
             except Exception as e:
-                logger.exception("[WORKER] create SI Return failed for refund %s: %s", refund_id, e)
+                logger.exception(f"[WORKER] create SI Return failed for refund {refund_id}: {e}")
                 return
 
     # 2) Refund PE
@@ -566,7 +559,7 @@ async def _handle_woo_refund_created(job: Dict[str, Any]) -> None:
             _write_refund_marker("pe", refund_id, pe_name or "done")
             logger.info("[WORKER] Refund PE %s created for refund %s (order %s)", pe_name, refund_id, order_id)
         except Exception as e:
-            logger.exception("[WORKER] refund PE failed for refund %s: %s", refund_id, e)
+            logger.exception(f"[WORKER] refund PE failed for refund {refund_id}: {e}")
 
 
 # ---------------------------
@@ -586,6 +579,13 @@ async def _handle_woo_customer_event(job: Dict[str, Any]) -> None:
         logger.warning("[WORKER] no usable customer payload; base=%s", base)
         return
 
-    cust_name, bill_addr, ship_addr = await upsert_customer_from_woo(payload)
-    logger.info("[WORKER] Customer ensured=%s (bill=%s ship=%s)", cust_name, bill_addr, ship_addr)
-    _write_marker(base, "cust", cust_name or "done")
+    try:
+        cust_name, bill_addr, ship_addr = await upsert_customer_from_woo(payload)
+        logger.info("[WORKER] Customer ensured=%s (bill=%s ship=%s)", cust_name, bill_addr, ship_addr)
+        _write_marker(base, "cust", cust_name or "done")
+        # Mark status as completed
+        _write_marker(base, "status", "completed")
+    except Exception as e:
+        logger.error(f"[WORKER] ERPNext customer sync failed: {e}")
+        _write_marker(base, "status", "failed")
+        _write_marker(base, "error", str(e))

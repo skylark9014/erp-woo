@@ -28,7 +28,9 @@ export default function Inbox() {
                 const data = await fetchInboxList();
                 // Filter out .status.json files
                 const filtered = data.filter((row: any) => !row.name.endsWith('.status.json'));
-                setRows(filtered);
+                // Sort by mtime descending (newest first)
+                const sorted = [...filtered].sort((a, b) => (b.mtime || 0) - (a.mtime || 0));
+                setRows(sorted);
                 // Load archive status and summary fields from backend metadata only
                 const archiveMap: { [key: string]: boolean } = {};
                 const summaryMap: { [key: string]: { orderId?: string, customer?: string, total?: number | string } } = {};
@@ -194,13 +196,13 @@ export default function Inbox() {
                             )}
                             {rows.filter(row => showArchived || !archived[row.name]).map((row) => [
                                 <tr key={row.name} className="hover:bg-blue-50 transition">
-                                    <td className="px-4 py-4 font-mono text-sm text-gray-900" style={{ wordBreak: 'break-all' }}>{row.name}</td>
-                                    <td className="px-4 py-4 text-sm text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{row.webshot_action ?? '-'}</td>
-                                    <td className="px-4 py-4 text-sm text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{summaries[row.name]?.orderId || '-'}</td>
-                                    <td className="px-4 py-4 text-sm text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{summaries[row.name]?.customer || '-'}</td>
-                                    <td className="px-4 py-4 text-sm text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{summaries[row.name]?.total !== undefined ? summaries[row.name].total : '-'}</td>
-                                    <td className="px-4 py-4 text-sm text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{row.mtime ? new Date(row.mtime * 1000).toLocaleString() : "-"}</td>
-                                    <td className={`px-4 py-4 font-sans ${getStatus(row) === "Completed" ? "text-green-600" : getStatus(row) === "Failed" ? "text-red-600" : getStatus(row) === "Pending" ? "text-yellow-600" : getStatus(row) === "Archived" ? "text-gray-400" : getStatus(row) === "Unarchived" ? "text-blue-600" : ""}`}>{getStatus(row)}</td>
+                                    <td className="px-4 py-4 font-mono text-xs text-gray-900" style={{ wordBreak: 'break-all' }}>{row.name}</td>
+                                    <td className="px-4 py-4 text-xs text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{row.webshot_action ?? '-'}</td>
+                                    <td className="px-4 py-4 text-xs text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{summaries[row.name]?.orderId || '-'}</td>
+                                    <td className="px-4 py-4 text-xs text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{summaries[row.name]?.customer || '-'}</td>
+                                    <td className="px-4 py-4 text-xs text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{summaries[row.name]?.total !== undefined ? summaries[row.name].total : '-'}</td>
+                                    <td className="px-4 py-4 text-xs text-gray-900 font-sans" style={{ wordBreak: 'break-all' }}>{row.mtime ? new Date(row.mtime * 1000).toLocaleString() : "-"}</td>
+                                    <td className={`px-4 py-4 font-sans text-xs ${getStatus(row) === "Completed" ? "text-green-600" : getStatus(row) === "Failed" ? "text-red-600" : getStatus(row) === "Pending" ? "text-yellow-600" : getStatus(row) === "Archived" ? "text-gray-400" : getStatus(row) === "Unarchived" ? "text-blue-600" : ""}`}>{getStatus(row)}</td>
                                     <td className="px-2 py-4 text-center">
                                         <a
                                             href="#"

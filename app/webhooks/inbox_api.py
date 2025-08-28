@@ -26,17 +26,21 @@ def _ls(dirpath: Path) -> List[Dict[str, Any]]:
         return []
     out: List[Dict[str, Any]] = []
     def extract_fields(obj):
-        found = {"order_id": None, "customer": None, "total": None}
+        found = {"id": None, "customer": None, "total": None}
         def _set_if_valid(field, value):
             if found[field] is None and value not in (None, "", []):
                 found[field] = value
         def _search(o):
             if not isinstance(o, dict):
                 return
-            # Order ID
-            oid = o.get("order_id") or o.get("id") or o.get("number")
-            _set_if_valid("order_id", oid)
-            # Customer
+            # ID: Use customer id for customer payloads, order id for order payloads
+            if o.get("resource") == "customer" or o.get("topic", "").startswith("customer"):
+                cid = o.get("id")
+                _set_if_valid("id", cid)
+            elif o.get("resource") == "order" or o.get("topic", "").startswith("order"):
+                oid = o.get("order_id") or o.get("id") or o.get("number")
+                _set_if_valid("id", oid)
+            # Customer name
             cust = o.get("customer") or o.get("billing") or o.get("shipping") or {}
             customer = None
             if isinstance(cust, dict):
@@ -78,7 +82,7 @@ def _ls(dirpath: Path) -> List[Dict[str, Any]]:
         # Fallback: search the original object
         if not all(found.values()):
             _search(obj)
-        return found["order_id"], found["customer"], found["total"]
+        return found["id"], found["customer"], found["total"]
 
     for p in sorted(dirpath.glob("*.json")):
         # Skip .status.json files
