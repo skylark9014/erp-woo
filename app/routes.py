@@ -17,10 +17,14 @@ import asyncio
 import uuid
 import time
 from typing import Any, Dict, List
+import logging
 
 from fastapi import APIRouter, Query, Request, Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import JSONResponse
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 from app.config import settings
 
@@ -116,6 +120,7 @@ async def _cleanup_jobs_now():
 
 async def _run_full_job(job_id: str, *, dry_run: bool, purge_bin: bool):
     """Background runner for full sync."""
+    logger.info(f"[JOB][RUN] Job {job_id} starting (dry_run={dry_run}, purge_bin={purge_bin})")
     async with _JOBS_LOCK:
         rec = _JOBS.get(job_id) or {}
         rec.update({
@@ -123,6 +128,7 @@ async def _run_full_job(job_id: str, *, dry_run: bool, purge_bin: bool):
             "started": rec.get("started") or _now_ts(),
         })
         _JOBS[job_id] = rec
+        logger.debug(f"[JOB][RUN] Job {job_id} status set to running")
 
     try:
         result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
@@ -132,6 +138,7 @@ async def _run_full_job(job_id: str, *, dry_run: bool, purge_bin: bool):
                 "finished": _now_ts(),
                 "result": result,
             })
+            logger.info(f"[JOB][COMPLETE] Job {job_id} finished successfully")
     except Exception as e:
         async with _JOBS_LOCK:
             _JOBS[job_id].update({
@@ -139,8 +146,10 @@ async def _run_full_job(job_id: str, *, dry_run: bool, purge_bin: bool):
                 "finished": _now_ts(),
                 "error": str(e),
             })
+            logger.error(f"[JOB][ERROR] Job {job_id} failed: {e}")
 
     # opportunistic cleanup
+    logger.debug(f"[JOB][CLEANUP] Running job cleanup after job {job_id}")
     await _cleanup_jobs_now()
 
 # ----------------------------------------------------------------------
@@ -177,12 +186,15 @@ async def api_sync_full(request: Request):
 
     if blocking:
         # Legacy "wait-for-result" behavior
+        logger.info("[JOB][SYNC] Starting blocking sync job (legacy mode)")
         result = await sync_products_full(dry_run=dry_run, purge_bin=purge_bin)
         result.setdefault("request", {"dry_run": dry_run, "purge_bin": purge_bin, "blocking": True})
+        logger.info("[JOB][SYNC] Blocking sync job finished")
         return JSONResponse(content=result)
 
     # Non-blocking background job
     job_id = uuid.uuid4().hex
+    logger.info(f"[JOB][REGISTER] Registering new job: {job_id} (dry_run={dry_run}, purge_bin={purge_bin})")
     async with _JOBS_LOCK:
         _JOBS[job_id] = {
             "id": job_id,
@@ -191,11 +203,14 @@ async def api_sync_full(request: Request):
             "finished": None,
             "request": {"dry_run": dry_run, "purge_bin": purge_bin},
         }
+        logger.debug(f"[JOB][REGISTER] Job {job_id} added to _JOBS store")
 
     # Fire and forget
+    logger.info(f"[JOB][RUN] Launching background job: {job_id}")
     asyncio.create_task(_run_full_job(job_id, dry_run=dry_run, purge_bin=purge_bin))
 
     # 202 Accepted + Location to status endpoint
+    logger.info(f"[JOB][RESPONSE] Returning job_id {job_id} to client (status=queued)")
     return JSONResponse(
         status_code=202,
         content={"job_id": job_id, "status": "queued"},
@@ -312,6 +327,10 @@ async def api_integration_full(request: Request):
 async def api_integration_partial(request: Request):
     return await api_sync_partial(request)
 
+@router.get("/integration/status/{job_id}", dependencies=[Depends(verify_admin)])
+async def api_integration_status(job_id: str):
+    return await api_sync_status(job_id)
+    
 # ----------------------------------------------------------------------
 # WooCommerce utilities — ✅ KEEP
 # ----------------------------------------------------------------------

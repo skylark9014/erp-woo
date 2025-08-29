@@ -1,9 +1,3 @@
-function buildAuthHeader(): string | undefined {
-    const user = process.env.INTEGRATION_ADMIN_USER || process.env.ADMIN_USER || "";
-    const pass = process.env.INTEGRATION_ADMIN_PASS || process.env.ADMIN_PASS || "";
-    if (!user || !pass) return undefined;
-    return "Basic " + Buffer.from(`${user}:${pass}`).toString("base64");
-}
 // src/app/lib/api.ts
 import { withBase } from "@/app/lib/basePath";
 import type { PreviewResponse } from "../types/sync";
@@ -118,6 +112,14 @@ export type SyncJob = {
 export type StartFullSyncResponse =
     | { kind: 'sync'; result: any }
     | { kind: 'async'; job_id: string };
+
+
+function buildAuthHeader(): string | undefined {
+    const user = process.env.INTEGRATION_ADMIN_USER || process.env.ADMIN_USER || "";
+    const pass = process.env.INTEGRATION_ADMIN_PASS || process.env.ADMIN_PASS || "";
+    if (!user || !pass) return undefined;
+    return "Basic " + Buffer.from(`${user}:${pass}`).toString("base64");
+}
 
 function extractJobIdFromResponse(res: Response, text: string | null): string | null {
     let jobId =

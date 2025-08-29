@@ -376,34 +376,48 @@ async def sync_products_full(dry_run: bool = False, purge_bin: bool = True) -> D
     sync_type = "Preview" if dry_run else "Full"
     logger.info(f"🔁 [SYNC] Starting {sync_type} ERPNext → Woo sync (dry_run=%s)", dry_run)
 
+    # Log: about to purge Woo bin
     if not dry_run and purge_bin:
-        await purge_woo_bin_if_needed(True)
+        logger.debug("[SYNC] Purging Woo bin before job registration...")
+        try:
+            await purge_woo_bin_if_needed(True)
+        except Exception as e:
+            logger.error(f"[SYNC][ERROR] Failed to purge Woo bin: {e}")
 
-    ctx = await _prepare_context(dry_run=dry_run, skus=None)
+    # Log: about to prepare context
+    logger.debug("[SYNC] Preparing context for job registration...")
+    try:
+        ctx = await _prepare_context(dry_run=dry_run, skus=None)
+    except Exception as e:
+        logger.error(f"[SYNC][ERROR] Failed during context preparation: {e}")
+        raise
 
-    # Core preview/sync (performs real mutations when dry_run=False)
-    sync_report = await sync_all_templates_and_variants(
-        variant_matrix=ctx["variant_matrix"],
-        wc_products=ctx["wc_products"],
-        wc_cat_map=ctx["wc_cat_map"],
-        price_map=ctx["price_map"],
-        attribute_map=ctx["attribute_map"],
-        stock_map=ctx["stock_map"],
-        attribute_order=ctx["attribute_order_for_preview"],
-        dry_run=dry_run,
-        # Be explicit: on the main pass we *do not* preserve parent attrs/images
-        # (we want the new intersections/fallbacks to apply during a real full sync).
-        preserve_parent_attrs_on_update=False,
-        erp_items=ctx["erp_items"],  # <-- pass ERP items so simples land in shipping_params.json
-    )
+    # Log: about to start sync_all_templates_and_variants
+    logger.debug("[SYNC] Context prepared, starting sync_all_templates_and_variants...")
+    try:
+        sync_report = await sync_all_templates_and_variants(
+            variant_matrix=ctx["variant_matrix"],
+            wc_products=ctx["wc_products"],
+            wc_cat_map=ctx["wc_cat_map"],
+            price_map=ctx["price_map"],
+            attribute_map=ctx["attribute_map"],
+            stock_map=ctx["stock_map"],
+            attribute_order=ctx["attribute_order_for_preview"],
+            dry_run=dry_run,
+            preserve_parent_attrs_on_update=False,
+            erp_items=ctx["erp_items"],
+        )
+    except Exception as e:
+        logger.error(f"[SYNC][ERROR] Failed during sync_all_templates_and_variants: {e}")
+        raise
 
     # Save Sync Preview (products_to_sync.json)
     try:
         if dry_run:
-            # Admin UI needs this for selection
+            logger.debug("[SYNC] Saving preview to products_to_sync.json (dry_run)")
             save_preview_to_file(sync_report, source="full", dry_run=True, skus=None)
         else:
-            # Post-sync refresh in the background so the response isn’t blocked
+            logger.debug("[SYNC] Starting post-sync preview refresh (background task)")
             async def _refresh():
                 try:
                     ctx2 = await _prepare_context(dry_run=True, skus=None)
@@ -416,16 +430,13 @@ async def sync_products_full(dry_run: bool = False, purge_bin: bool = True) -> D
                         stock_map=ctx2["stock_map"],
                         attribute_order=ctx2["attribute_order_for_preview"],
                         dry_run=True,
-                        # For the *preview* pass, preserve parent attrs/images to avoid
-                        # accidental shrinking in the snapshot.
                         preserve_parent_attrs_on_update=True,
-                        erp_items=ctx2["erp_items"],  # <-- pass ERP items in refresh too
-                        force_gallery=True,  # <-- refresh images regardless of compare
+                        erp_items=ctx2["erp_items"],
+                        force_gallery=True,
                     )
                     save_preview_to_file(snap, source="post-full", dry_run=True, skus=None)
                 except Exception as ie:
                     logger.warning(f"[FULL] post-sync preview refresh failed: {ie}")
-            # Fire and forget background refresh
             asyncio.create_task(_refresh())
     except Exception as e:
         logger.error(f"Failed to write products_to_sync.json: {e}")
@@ -451,7 +462,7 @@ async def sync_products_partial(
     dry_run: bool = False,
     *,
     respect_preview: bool = True
-) -> Dict[str, Any]:
+    ) -> Dict[str, Any]:
     """
     Partial sync:
       - If `skus_to_sync` is provided, use those.
@@ -638,7 +649,7 @@ async def sync_all_templates_and_variants(
     preserve_parent_attrs_on_update: bool = False,
     erp_items: Optional[List[dict]] = None,
     force_gallery: bool = False,
-) -> Dict[str, Any]:
+    ) -> Dict[str, Any]:
     """
     RULES (ERPNext → Woo):
       • Simple vs Variable:
@@ -1641,9 +1652,7 @@ async def sync_all_templates_and_variants(
                             if fresh_parent:
                                 woo_parent_raw = fresh_parent.get("description") or ""
                                 parent_equal = _norm_long(_normalize_punct(erp_parent_desc_raw)) == _norm_long(_normalize_punct(woo_parent_raw))
-                                logger.info("[DESC][PARENT][POST] sku=%s equal=%s erp_len=%s",
-                                            parent_sku, parent_equal,
-                                            len(erp_parent_desc_raw or ""), len(woo_parent_raw or ""))
+                                logger.info(f"[DESC][PARENT][POST] sku={sku} equal={parent_equal} erp_len={len(erp_parent_desc_raw or '')} woo_len={len(woo_parent_raw or '')}")
                         except Exception as e:
                             logger.debug("[DESC][PARENT][VERIFY ERR] %s", e)
 
