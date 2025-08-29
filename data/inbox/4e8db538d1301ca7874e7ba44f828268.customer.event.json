@@ -1,0 +1,244 @@
+{
+  "job": {
+    "type": "woo.customer.updated",
+    "resource": "customer",
+    "event": "updated",
+    "payload": {
+      "id": 1,
+      "date_created": "2025-05-05T09:37:32",
+      "date_created_gmt": "2025-05-05T07:37:32",
+      "date_modified": "2025-08-27T21:49:40",
+      "date_modified_gmt": "2025-08-27T19:49:40",
+      "email": "chelaine@worldwisedigital.com",
+      "first_name": "Chelaine",
+      "last_name": "Scott",
+      "role": "administrator",
+      "username": "techniclad",
+      "billing": {
+        "first_name": "Jan",
+        "last_name": "Scott",
+        "company": "",
+        "address_1": "B46 Bloudam",
+        "address_2": "Lekkerwater",
+        "city": "Cape Town",
+        "postcode": "6655",
+        "country": "ZA",
+        "state": "WC",
+        "email": "janpan@zero.com",
+        "phone": "079 523 4723"
+      },
+      "shipping": {
+        "first_name": "Chelaintjie",
+        "last_name": "Scotter",
+        "company": "",
+        "address_1": "1244 Blue Crane Road",
+        "address_2": "Monte Christo",
+        "city": "Hartenbos",
+        "postcode": "6566",
+        "country": "ZA",
+        "state": "WC",
+        "phone": ""
+      },
+      "is_paying_customer": false,
+      "avatar_url": "https://secure.gravatar.com/avatar/b50617a672d2ee29e42236a617e0908796520bfc4d2ff9fddf41eba09ff8cacc?s=96&d=mm&r=g",
+      "meta_data": [
+        {
+          "id": 21,
+          "key": "wc_last_active",
+          "value": "1756252800"
+        },
+        {
+          "id": 23,
+          "key": "meta-box-order_product",
+          "value": {
+            "side": "submitdiv,postimagediv,woocommerce-product-images,product_catdiv,tagsdiv-product_tag",
+            "normal": "woocommerce-product-data,postcustom,slugdiv,postexcerpt",
+            "advanced": ""
+          }
+        },
+        {
+          "id": 30,
+          "key": "woocommerce_admin_task_list_tracked_started_tasks",
+          "value": "{\"products\":2}"
+        },
+        {
+          "id": 32,
+          "key": "nav_menu_recently_edited",
+          "value": "17"
+        },
+        {
+          "id": 33,
+          "key": "managenav-menuscolumnshidden",
+          "value": [
+            "link-target",
+            "css-classes",
+            "xfn",
+            "description",
+            "title-attribute"
+          ]
+        },
+        {
+          "id": 58,
+          "key": "community-events-location",
+          "value": {
+            "ip": "156.155.26.0"
+          }
+        },
+        {
+          "id": 67,
+          "key": "dismissed_no_secure_connection_notice",
+          "value": "1"
+        },
+        {
+          "id": 72,
+          "key": "woocommerce_admin_variable_product_tour_shown",
+          "value": "yes"
+        },
+        {
+          "id": 78,
+          "key": "shipping_method",
+          "value": ""
+        }
+      ],
+      "_links": {
+        "self": [
+          {
+            "href": "http://techniclad.local/wp-json/wc/v3/customers/1",
+            "targetHints": {
+              "allow": [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH"
+              ]
+            }
+          }
+        ],
+        "collection": [
+          {
+            "href": "http://techniclad.local/wp-json/wc/v3/customers"
+          }
+        ]
+      }
+    },
+    "delivery_id": "4e8db538d1301ca7874e7ba44f828268"
+  },
+  "payload": {
+    "id": 1,
+    "date_created": "2025-05-05T09:37:32",
+    "date_created_gmt": "2025-05-05T07:37:32",
+    "date_modified": "2025-08-27T21:49:40",
+    "date_modified_gmt": "2025-08-27T19:49:40",
+    "email": "chelaine@worldwisedigital.com",
+    "first_name": "Chelaine",
+    "last_name": "Scott",
+    "role": "administrator",
+    "username": "techniclad",
+    "billing": {
+      "first_name": "Jan",
+      "last_name": "Scott",
+      "company": "",
+      "address_1": "B46 Bloudam",
+      "address_2": "Lekkerwater",
+      "city": "Cape Town",
+      "postcode": "6655",
+      "country": "ZA",
+      "state": "WC",
+      "email": "janpan@zero.com",
+      "phone": "079 523 4723"
+    },
+    "shipping": {
+      "first_name": "Chelaintjie",
+      "last_name": "Scotter",
+      "company": "",
+      "address_1": "1244 Blue Crane Road",
+      "address_2": "Monte Christo",
+      "city": "Hartenbos",
+      "postcode": "6566",
+      "country": "ZA",
+      "state": "WC",
+      "phone": ""
+    },
+    "is_paying_customer": false,
+    "avatar_url": "https://secure.gravatar.com/avatar/b50617a672d2ee29e42236a617e0908796520bfc4d2ff9fddf41eba09ff8cacc?s=96&d=mm&r=g",
+    "meta_data": [
+      {
+        "id": 21,
+        "key": "wc_last_active",
+        "value": "1756252800"
+      },
+      {
+        "id": 23,
+        "key": "meta-box-order_product",
+        "value": {
+          "side": "submitdiv,postimagediv,woocommerce-product-images,product_catdiv,tagsdiv-product_tag",
+          "normal": "woocommerce-product-data,postcustom,slugdiv,postexcerpt",
+          "advanced": ""
+        }
+      },
+      {
+        "id": 30,
+        "key": "woocommerce_admin_task_list_tracked_started_tasks",
+        "value": "{\"products\":2}"
+      },
+      {
+        "id": 32,
+        "key": "nav_menu_recently_edited",
+        "value": "17"
+      },
+      {
+        "id": 33,
+        "key": "managenav-menuscolumnshidden",
+        "value": [
+          "link-target",
+          "css-classes",
+          "xfn",
+          "description",
+          "title-attribute"
+        ]
+      },
+      {
+        "id": 58,
+        "key": "community-events-location",
+        "value": {
+          "ip": "156.155.26.0"
+        }
+      },
+      {
+        "id": 67,
+        "key": "dismissed_no_secure_connection_notice",
+        "value": "1"
+      },
+      {
+        "id": 72,
+        "key": "woocommerce_admin_variable_product_tour_shown",
+        "value": "yes"
+      },
+      {
+        "id": 78,
+        "key": "shipping_method",
+        "value": ""
+      }
+    ],
+    "_links": {
+      "self": [
+        {
+          "href": "http://techniclad.local/wp-json/wc/v3/customers/1",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "http://techniclad.local/wp-json/wc/v3/customers"
+        }
+      ]
+    }
+  }
+}

@@ -37,14 +37,9 @@ function previewBody(s: string, n = 200) {
 }
 
 function candidateUrls(): string[] {
-    // Try admin-protected and public variants, with and without /integration
+    // Use only the correct public API endpoint
     return [
-        `${BASE}/admin/api/integration/shipping/params`,
-        `${BASE}/admin/api/shipping/params`,
         `${BASE}/api/integration/shipping/params`,
-        `${BASE}/api/shipping/params`,
-        `${BASE}/integration/shipping/params`,
-        `${BASE}/shipping/params`,
     ];
 }
 

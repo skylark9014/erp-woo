@@ -1,0 +1,32 @@
+{
+  "ts": "2025-08-27T19:49:51Z",
+  "kind": "woo",
+  "topic": "customer.updated",
+  "delivery_id": "4e8db538d1301ca7874e7ba44f828268",
+  "resource": "customer",
+  "event": "updated",
+  "headers": {
+    "host": "records.techniclad.co.za",
+    "user-agent": "WooCommerce/10.1.1 Hookshot (WordPress/6.8.2)",
+    "content-length": "1955",
+    "accept": "*/*",
+    "accept-encoding": "deflate, gzip",
+    "content-type": "application/json",
+    "x-forwarded-for": "156.155.26.19",
+    "x-forwarded-host": "records.techniclad.co.za",
+    "x-forwarded-port": "443",
+    "x-forwarded-proto": "https",
+    "x-forwarded-server": "36d805fca8af",
+    "x-real-ip": "156.155.26.19",
+    "x-wc-webhook-delivery-id": "4e8db538d1301ca7874e7ba44f828268",
+    "x-wc-webhook-event": "updated",
+    "x-wc-webhook-id": "3",
+    "x-wc-webhook-resource": "customer",
+    "x-wc-webhook-signature": "<redacted>",
+    "x-wc-webhook-source": "http://techniclad.local/",
+    "x-wc-webhook-topic": "customer.updated"
+  },
+  "body_len": 1955,
+  "body_preview": "{\"id\":1,\"date_created\":\"2025-05-05T09:37:32\",\"date_created_gmt\":\"2025-05-05T07:37:32\",\"date_modified\":\"2025-08-27T21:49:40\",\"date_modified_gmt\":\"2025-08-27T19:49:40\",\"email\":\"chelaine@worldwisedigital.com\",\"first_name\":\"Chelaine\",\"last_name\":\"Scott\",\"role\"",
+  "body_b64": "eyJpZCI6MSwiZGF0ZV9jcmVhdGVkIjoiMjAyNS0wNS0wNVQwOTozNzozMiIsImRhdGVfY3JlYXRlZF9nbXQiOiIyMDI1LTA1LTA1VDA3OjM3OjMyIiwiZGF0ZV9tb2RpZmllZCI6IjIwMjUtMDgtMjdUMjE6NDk6NDAiLCJkYXRlX21vZGlmaWVkX2dtdCI6IjIwMjUtMDgtMjdUMTk6NDk6NDAiLCJlbWFpbCI6ImNoZWxhaW5lQHdvcmxkd2lzZWRpZ2l0YWwuY29tIiwiZmlyc3RfbmFtZSI6IkNoZWxhaW5lIiwibGFzdF9uYW1lIjoiU2NvdHQiLCJyb2xlIjoiYWRtaW5pc3RyYXRvciIsInVzZXJuYW1lIjoidGVjaG5pY2xhZCIsImJpbGxpbmciOnsiZmlyc3RfbmFtZSI6IkphbiIsImxhc3RfbmFtZSI6IlNjb3R0IiwiY29tcGFueSI6IiIsImFkZHJlc3NfMSI6IkI0NiBCbG91ZGFtIiwiYWRkcmVzc18yIjoiTGVra2Vyd2F0ZXIiLCJjaXR5IjoiQ2FwZSBUb3duIiwicG9zdGNvZGUiOiI2NjU1IiwiY291bnRyeSI6IlpBIiwic3RhdGUiOiJXQyIsImVtYWlsIjoiamFucGFuQHplcm8uY29tIiwicGhvbmUiOiIwNzkgNTIzIDQ3MjMifSwic2hpcHBpbmciOnsiZmlyc3RfbmFtZSI6IkNoZWxhaW50amllIiwibGFzdF9uYW1lIjoiU2NvdHRlciIsImNvbXBhbnkiOiIiLCJhZGRyZXNzXzEiOiIxMjQ0IEJsdWUgQ3JhbmUgUm9hZCIsImFkZHJlc3NfMiI6Ik1vbnRlIENocmlzdG8iLCJjaXR5IjoiSGFydGVuYm9zIiwicG9zdGNvZGUiOiI2NTY2IiwiY291bnRyeSI6IlpBIiwic3RhdGUiOiJXQyIsInBob25lIjoiIn0sImlzX3BheWluZ19jdXN0b21lciI6ZmFsc2UsImF2YXRhcl91cmwiOiJodHRwczpcL1wvc2VjdXJlLmdyYXZhdGFyLmNvbVwvYXZhdGFyXC9iNTA2MTdhNjcyZDJlZTI5ZTQyMjM2YTYxN2UwOTA4Nzk2NTIwYmZjNGQyZmY5ZmRkZjQxZWJhMDlmZjhjYWNjP3M9OTYmZD1tbSZyPWciLCJtZXRhX2RhdGEiOlt7ImlkIjoyMSwia2V5Ijoid2NfbGFzdF9hY3RpdmUiLCJ2YWx1ZSI6IjE3NTYyNTI4MDAifSx7ImlkIjoyMywia2V5IjoibWV0YS1ib3gtb3JkZXJfcHJvZHVjdCIsInZhbHVlIjp7InNpZGUiOiJzdWJtaXRkaXYscG9zdGltYWdlZGl2LHdvb2NvbW1lcmNlLXByb2R1Y3QtaW1hZ2VzLHByb2R1Y3RfY2F0ZGl2LHRhZ3NkaXYtcHJvZHVjdF90YWciLCJub3JtYWwiOiJ3b29jb21tZXJjZS1wcm9kdWN0LWRhdGEscG9zdGN1c3RvbSxzbHVnZGl2LHBvc3RleGNlcnB0IiwiYWR2YW5jZWQiOiIifX0seyJpZCI6MzAsImtleSI6Indvb2NvbW1lcmNlX2FkbWluX3Rhc2tfbGlzdF90cmFja2VkX3N0YXJ0ZWRfdGFza3MiLCJ2YWx1ZSI6IntcInByb2R1Y3RzXCI6Mn0ifSx7ImlkIjozMiwia2V5IjoibmF2X21lbnVfcmVjZW50bHlfZWRpdGVkIiwidmFsdWUiOiIxNyJ9LHsiaWQiOjMzLCJrZXkiOiJtYW5hZ2VuYXYtbWVudXNjb2x1bW5zaGlkZGVuIiwidmFsdWUiOlsibGluay10YXJnZXQiLCJjc3MtY2xhc3NlcyIsInhmbiIsImRlc2NyaXB0aW9uIiwidGl0bGUtYXR0cmlidXRlIl19LHsiaWQiOjU4LCJrZXkiOiJjb21tdW5pdHktZXZlbnRzLWxvY2F0aW9uIiwidmFsdWUiOnsiaXAiOiIxNTYuMTU1LjI2LjAifX0seyJpZCI6NjcsImtleSI6ImRpc21pc3NlZF9ub19zZWN1cmVfY29ubmVjdGlvbl9ub3RpY2UiLCJ2YWx1ZSI6IjEifSx7ImlkIjo3Miwia2V5Ijoid29vY29tbWVyY2VfYWRtaW5fdmFyaWFibGVfcHJvZHVjdF90b3VyX3Nob3duIiwidmFsdWUiOiJ5ZXMifSx7ImlkIjo3OCwia2V5Ijoic2hpcHBpbmdfbWV0aG9kIiwidmFsdWUiOiIifV0sIl9saW5rcyI6eyJzZWxmIjpbeyJocmVmIjoiaHR0cDpcL1wvdGVjaG5pY2xhZC5sb2NhbFwvd3AtanNvblwvd2NcL3YzXC9jdXN0b21lcnNcLzEiLCJ0YXJnZXRIaW50cyI6eyJhbGxvdyI6WyJHRVQiLCJQT1NUIiwiUFVUIiwiUEFUQ0giXX19XSwiY29sbGVjdGlvbiI6W3siaHJlZiI6Imh0dHA6XC9cL3RlY2huaWNsYWQubG9jYWxcL3dwLWpzb25cL3djXC92M1wvY3VzdG9tZXJzIn1dfX0="
+}

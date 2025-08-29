@@ -81,6 +81,10 @@ export default function WoocommerceStatus() {
                             <thead className="bg-gray-50">
                                 <tr>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Type</th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Resource</th>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Received At</th>
                                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
@@ -89,11 +93,15 @@ export default function WoocommerceStatus() {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {events.length === 0 && (
-                                    <tr><td colSpan={5} className="px-6 py-4 text-gray-400 text-center">No events found.</td></tr>
+                                    <tr><td colSpan={8} className="px-6 py-4 text-gray-400 text-center">No events found.</td></tr>
                                 )}
                                 {events.map((ev) => [
                                     <tr key={ev.name} className="hover:bg-blue-50 transition">
                                         <td className="px-6 py-4 font-mono text-sm text-gray-900">{ev.topic || ev.name}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.order_id || '-'}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.customer || '-'}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.total != null ? ev.total : '-'}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.webshot_action || '-'}</td>
                                         <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.kind || "-"}</td>
                                         <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.ts ? new Date(ev.ts).toLocaleString() : "-"}</td>
                                         <td className="px-6 py-4 text-sm text-gray-900 font-sans">{ev.size ? `${ev.size} bytes` : "-"}</td>
@@ -103,7 +111,7 @@ export default function WoocommerceStatus() {
                                     </tr>,
                                     expandedRow === ev.name && (
                                         <tr key={ev.name + "-expanded"}>
-                                            <td colSpan={5}>
+                                            <td colSpan={8}>
                                                 <div className="bg-gray-50 rounded text-xs font-mono text-gray-800 w-full">
                                                     <div className="mb-2 text-xs text-gray-500">&nbsp;&nbsp;Press <span className="font-bold">ESC</span> to close</div>
                                                     <div style={{ padding: '1rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word', overflowX: 'auto' }}>

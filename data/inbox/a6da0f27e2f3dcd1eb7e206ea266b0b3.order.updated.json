@@ -1,0 +1,342 @@
+{
+  "job": {
+    "type": "woo.order.updated",
+    "resource": "order",
+    "event": "updated",
+    "payload": {
+      "id": 4635,
+      "parent_id": 0,
+      "status": "processing",
+      "currency": "ZAR",
+      "version": "10.1.1",
+      "prices_include_tax": false,
+      "date_created": "2025-08-26T21:31:56",
+      "date_modified": "2025-08-26T21:32:01",
+      "discount_total": "0.00",
+      "discount_tax": "0.00",
+      "shipping_total": "0.00",
+      "shipping_tax": "0.00",
+      "cart_tax": "0.00",
+      "total": "3744.50",
+      "total_tax": "0.00",
+      "customer_id": 1,
+      "order_key": "wc_order_cgrxWnws4vxxk",
+      "billing": {
+        "first_name": "Chelaine",
+        "last_name": "Scott",
+        "company": "",
+        "address_1": "44 Blue Crane Road",
+        "address_2": "Monte Christo",
+        "city": "Hartenbos",
+        "state": "WC",
+        "postcode": "6500",
+        "country": "ZA",
+        "email": "chelaine@worldwisedigital.com",
+        "phone": "0832919461"
+      },
+      "shipping": {
+        "first_name": "Chelaine",
+        "last_name": "Scott",
+        "company": "",
+        "address_1": "44 Blue Crane Road",
+        "address_2": "Monte Christo",
+        "city": "Hartenbos",
+        "state": "WC",
+        "postcode": "6500",
+        "country": "ZA",
+        "phone": ""
+      },
+      "payment_method": "cod",
+      "payment_method_title": "Cash on delivery",
+      "transaction_id": "",
+      "customer_ip_address": "::1",
+      "customer_user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+      "created_via": "checkout",
+      "customer_note": "",
+      "date_completed": null,
+      "date_paid": null,
+      "cart_hash": "5f2fd5a6bbd9aa886b538409a2bb7101",
+      "number": "4635",
+      "meta_data": [
+        {
+          "id": 6,
+          "key": "is_vat_exempt",
+          "value": "no"
+        }
+      ],
+      "line_items": [
+        {
+          "id": 47,
+          "name": "Translucent Stone - Himalayas - 2440mm x 1220mm",
+          "product_id": 4449,
+          "variation_id": 4450,
+          "quantity": 1,
+          "tax_class": "",
+          "subtotal": "3744.50",
+          "subtotal_tax": "0.00",
+          "total": "3744.50",
+          "total_tax": "0.00",
+          "taxes": [],
+          "meta_data": [
+            {
+              "id": 466,
+              "key": "sheet-size",
+              "value": "2440mm x 1220mm",
+              "display_key": "Sheet Size",
+              "display_value": "2440mm x 1220mm"
+            },
+            {
+              "id": 473,
+              "key": "_reduced_stock",
+              "value": "1",
+              "display_key": "_reduced_stock",
+              "display_value": "1"
+            }
+          ],
+          "sku": "TSL-HLYAS-LARGE",
+          "global_unique_id": "",
+          "price": 3744.5,
+          "image": {
+            "id": 4372,
+            "src": "https://techniclad.local/wp-content/uploads/2025/08/Himalayas20Backlit5936bd.jpg"
+          },
+          "parent_name": "Translucent Stone - Himalayas"
+        }
+      ],
+      "tax_lines": [],
+      "shipping_lines": [
+        {
+          "id": 48,
+          "method_title": "Free shipping",
+          "method_id": "free_shipping",
+          "instance_id": "1",
+          "total": "0.00",
+          "total_tax": "0.00",
+          "taxes": [],
+          "tax_status": "taxable",
+          "meta_data": [
+            {
+              "id": 472,
+              "key": "Items",
+              "value": "Translucent Stone - Himalayas - 2440mm x 1220mm &times; 1",
+              "display_key": "Items",
+              "display_value": "Translucent Stone - Himalayas - 2440mm x 1220mm &times; 1"
+            }
+          ]
+        }
+      ],
+      "fee_lines": [],
+      "coupon_lines": [],
+      "refunds": [],
+      "payment_url": "https://techniclad.local/checkout/order-pay/4635/?pay_for_order=true&key=wc_order_cgrxWnws4vxxk",
+      "is_editable": false,
+      "needs_payment": false,
+      "needs_processing": true,
+      "date_created_gmt": "2025-08-26T19:31:56",
+      "date_modified_gmt": "2025-08-26T19:32:01",
+      "date_completed_gmt": null,
+      "date_paid_gmt": null,
+      "currency_symbol": "R",
+      "_links": {
+        "self": [
+          {
+            "href": "https://techniclad.local/wp-json/wc/v3/orders/4635",
+            "targetHints": {
+              "allow": [
+                "GET",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE"
+              ]
+            }
+          }
+        ],
+        "collection": [
+          {
+            "href": "https://techniclad.local/wp-json/wc/v3/orders"
+          }
+        ],
+        "email_templates": [
+          {
+            "embeddable": true,
+            "href": "https://techniclad.local/wp-json/wc/v3/orders/4635/actions/email_templates"
+          }
+        ],
+        "customer": [
+          {
+            "href": "https://techniclad.local/wp-json/wc/v3/customers/1"
+          }
+        ]
+      }
+    },
+    "delivery_id": "a6da0f27e2f3dcd1eb7e206ea266b0b3"
+  },
+  "payload": {
+    "id": 4635,
+    "parent_id": 0,
+    "status": "processing",
+    "currency": "ZAR",
+    "version": "10.1.1",
+    "prices_include_tax": false,
+    "date_created": "2025-08-26T21:31:56",
+    "date_modified": "2025-08-26T21:32:01",
+    "discount_total": "0.00",
+    "discount_tax": "0.00",
+    "shipping_total": "0.00",
+    "shipping_tax": "0.00",
+    "cart_tax": "0.00",
+    "total": "3744.50",
+    "total_tax": "0.00",
+    "customer_id": 1,
+    "order_key": "wc_order_cgrxWnws4vxxk",
+    "billing": {
+      "first_name": "Chelaine",
+      "last_name": "Scott",
+      "company": "",
+      "address_1": "44 Blue Crane Road",
+      "address_2": "Monte Christo",
+      "city": "Hartenbos",
+      "state": "WC",
+      "postcode": "6500",
+      "country": "ZA",
+      "email": "chelaine@worldwisedigital.com",
+      "phone": "0832919461"
+    },
+    "shipping": {
+      "first_name": "Chelaine",
+      "last_name": "Scott",
+      "company": "",
+      "address_1": "44 Blue Crane Road",
+      "address_2": "Monte Christo",
+      "city": "Hartenbos",
+      "state": "WC",
+      "postcode": "6500",
+      "country": "ZA",
+      "phone": ""
+    },
+    "payment_method": "cod",
+    "payment_method_title": "Cash on delivery",
+    "transaction_id": "",
+    "customer_ip_address": "::1",
+    "customer_user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "created_via": "checkout",
+    "customer_note": "",
+    "date_completed": null,
+    "date_paid": null,
+    "cart_hash": "5f2fd5a6bbd9aa886b538409a2bb7101",
+    "number": "4635",
+    "meta_data": [
+      {
+        "id": 6,
+        "key": "is_vat_exempt",
+        "value": "no"
+      }
+    ],
+    "line_items": [
+      {
+        "id": 47,
+        "name": "Translucent Stone - Himalayas - 2440mm x 1220mm",
+        "product_id": 4449,
+        "variation_id": 4450,
+        "quantity": 1,
+        "tax_class": "",
+        "subtotal": "3744.50",
+        "subtotal_tax": "0.00",
+        "total": "3744.50",
+        "total_tax": "0.00",
+        "taxes": [],
+        "meta_data": [
+          {
+            "id": 466,
+            "key": "sheet-size",
+            "value": "2440mm x 1220mm",
+            "display_key": "Sheet Size",
+            "display_value": "2440mm x 1220mm"
+          },
+          {
+            "id": 473,
+            "key": "_reduced_stock",
+            "value": "1",
+            "display_key": "_reduced_stock",
+            "display_value": "1"
+          }
+        ],
+        "sku": "TSL-HLYAS-LARGE",
+        "global_unique_id": "",
+        "price": 3744.5,
+        "image": {
+          "id": 4372,
+          "src": "https://techniclad.local/wp-content/uploads/2025/08/Himalayas20Backlit5936bd.jpg"
+        },
+        "parent_name": "Translucent Stone - Himalayas"
+      }
+    ],
+    "tax_lines": [],
+    "shipping_lines": [
+      {
+        "id": 48,
+        "method_title": "Free shipping",
+        "method_id": "free_shipping",
+        "instance_id": "1",
+        "total": "0.00",
+        "total_tax": "0.00",
+        "taxes": [],
+        "tax_status": "taxable",
+        "meta_data": [
+          {
+            "id": 472,
+            "key": "Items",
+            "value": "Translucent Stone - Himalayas - 2440mm x 1220mm &times; 1",
+            "display_key": "Items",
+            "display_value": "Translucent Stone - Himalayas - 2440mm x 1220mm &times; 1"
+          }
+        ]
+      }
+    ],
+    "fee_lines": [],
+    "coupon_lines": [],
+    "refunds": [],
+    "payment_url": "https://techniclad.local/checkout/order-pay/4635/?pay_for_order=true&key=wc_order_cgrxWnws4vxxk",
+    "is_editable": false,
+    "needs_payment": false,
+    "needs_processing": true,
+    "date_created_gmt": "2025-08-26T19:31:56",
+    "date_modified_gmt": "2025-08-26T19:32:01",
+    "date_completed_gmt": null,
+    "date_paid_gmt": null,
+    "currency_symbol": "R",
+    "_links": {
+      "self": [
+        {
+          "href": "https://techniclad.local/wp-json/wc/v3/orders/4635",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://techniclad.local/wp-json/wc/v3/orders"
+        }
+      ],
+      "email_templates": [
+        {
+          "embeddable": true,
+          "href": "https://techniclad.local/wp-json/wc/v3/orders/4635/actions/email_templates"
+        }
+      ],
+      "customer": [
+        {
+          "href": "https://techniclad.local/wp-json/wc/v3/customers/1"
+        }
+      ]
+    }
+  }
+}

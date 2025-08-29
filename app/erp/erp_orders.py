@@ -146,12 +146,30 @@ def _iso_date(d: date | str | None) -> str:
 def _lower(s: str | None) -> str:
     return (s or "").strip().lower()
 
+async def get_sales_order_status(so_name: str) -> int:
+    """Return 0 if Draft, 1 if Submitted, 2 if Cancelled."""
+    async with httpx.AsyncClient(timeout=30.0, headers=_auth_headers(), verify=False) as client:
+        resp = await client.get(f"{_erp_base()}/api/resource/Sales Order/{so_name}")
+        if resp.status_code >= 400:
+            logger.error(f"[ERPNext] get_sales_order_status failed for {so_name}: {resp.text}")
+            return -1
+        doc = resp.json().get("data", {})
+        return doc.get("docstatus", -1)
+
+async def submit_sales_order(so_name: str) -> None:
+    """Submit a Sales Order if in draft."""
+    async with httpx.AsyncClient(timeout=30.0, headers=_auth_headers(), verify=False) as client:
+        resp = await client.post(f"{_erp_base()}/api/resource/Sales Order/{so_name}/submit")
+        if resp.status_code >= 400:
+            logger.error(f"[ERPNext] submit_sales_order failed for {so_name}: {resp.text}")
+            raise Exception(f"Failed to submit SO {so_name}")
+
 
 # ================ Public API (used by jobs_worker) ============================
 
 async def upsert_sales_order_from_woo(norm: Any) -> Tuple[str, str | None, str | None]:
     from app.models.audit_log import add_audit_entry
-    logger.info(f"[ERPNext] upsert_sales_order_from_woo called with normalized: {norm}")
+    #logger.info(f"[ERPNext] upsert_sales_order_from_woo called with normalized: {norm}")
     add_audit_entry("ERPNext Order Upsert", "system", f"Normalized: {norm}")
     """
     Creates or reuses:
@@ -194,16 +212,31 @@ async def upsert_sales_order_from_woo(norm: Any) -> Tuple[str, str | None, str |
                     out[k] = src.get(v)
         return out
 
-    # Main order fields
-    payload = {}
-    for k, v in field_map.items():
-        if k == 'items':
-            # Items mapping
-            payload['items'] = []
-            for li in norm.get('line_items', []):
-                payload['items'].append(apply_mapping(li, field_map['items']))
-        else:
-            payload[k] = apply_mapping(norm, {k: v})[k]
+    # Always map items to ERP format
+    if isinstance(norm, dict) and 'order_id' in norm and 'items' in norm:
+        payload = dict(norm)
+        # Patch items to ERP format
+        erp_items = []
+        for li in payload.get('items', []):
+            # Accept both Woo and ERP dicts, but always output ERP keys
+            erp_items.append({
+                'item_code': li.get('item_code') or li.get('sku'),
+                'qty': li.get('qty') or li.get('quantity'),
+                'rate': li.get('rate') or li.get('total'),
+                'amount': li.get('amount') or li.get('total') or li.get('line_total'),
+            })
+        payload['items'] = erp_items
+    else:
+        # Main order fields
+        payload = {}
+        for k, v in field_map.items():
+            if k == 'items':
+                # Items mapping
+                payload['items'] = []
+                for li in norm.get('line_items', []):
+                    payload['items'].append(apply_mapping(li, field_map['items']))
+            else:
+                payload[k] = apply_mapping(norm, {k: v})[k]
 
     # --- PATCH: Ensure customer.customer_name is always a valid string ---
     cust = payload.get('customer', {})
@@ -232,6 +265,7 @@ async def upsert_sales_order_from_woo(norm: Any) -> Tuple[str, str | None, str |
 
     # Validate and normalize input using Pydantic
     from app.erp.erp_sync_models import ERPOrderSyncPayload
+    #logger.info(f"[DEBUG] ERPNext payload before validation: {payload}")
     try:
         validated = ERPOrderSyncPayload.parse_obj(payload)
     except Exception as e:
