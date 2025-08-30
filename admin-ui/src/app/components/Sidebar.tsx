@@ -7,10 +7,7 @@ import { stripBase, withBase } from '@/app/lib/basePath';
 
 const nav = [
     { name: 'Sync ERPNext -> Woocommerce', href: '/' },
-    { name: 'Woocommerce Status', href: '/webhook-status' },
     { name: 'Woocommerce Inbox', href: '/inbox' },
-    { name: 'Manual Sync', href: '/backfill' },
-    { name: 'Sync Queue', href: '/jobs' },
     { name: 'Audit Log', href: '/audit-log' },
     { name: 'Product Shipping Details', href: '/shipping' },
     { name: 'ERPNext -> Woo Sync Map', href: '/mapping' },

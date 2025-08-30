@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { fetchInboxList, fetchInboxPayload } from "@/app/lib/inbox";
+import { runHealth } from "@/app/lib/api";
 import { setInboxStatus } from "@/app/lib/inboxStatus";
 import { replayInboxPayload } from "@/app/lib/inboxReplay";
 import { JsonViewer } from "../components/JsonViewer";
@@ -19,12 +20,17 @@ export default function Inbox() {
     // Use status from backend metadata
     const [archived, setArchived] = useState<{ [key: string]: boolean }>({});
     const [showArchived, setShowArchived] = useState(false);
+    // Health status
+    const [health, setHealth] = useState<any>(null);
 
     useEffect(() => {
         async function load() {
             setLoading(true);
             setError(null);
             try {
+                // Fetch health status
+                const h = await runHealth();
+                setHealth(h);
                 const data = await fetchInboxList();
                 // Filter out .status.json files
                 const filtered = data.filter((row: any) => !row.name.endsWith('.status.json'));
@@ -162,11 +168,23 @@ export default function Inbox() {
     return (
         <div className="p-6 relative">
             <BusyOverlay show={actionLoading} title="Please wait" message="Loading payload…" submessage="This may take a moment depending on file size." />
+            {/* Health Indicator */}
+            <div className="mb-8">
+                <div className="bg-white shadow-lg rounded-xl p-6 flex flex-col gap-2 border border-blue-100 font-sans max-w-xl mx-auto">
+                    <div className="flex items-center gap-2">
+                        <span className={`inline-block w-3 h-3 rounded-full ${health?.ok ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                        <span className="font-semibold text-lg text-gray-900 font-sans">{health?.ok ? 'Connected' : 'Disconnected'}</span>
+                    </div>
+                    <div className="text-gray-600 font-sans">Last Error: <span className="font-mono text-red-600">{health?.integration?.error || "None"}</span></div>
+                    {!health?.ok && <div className="text-red-600 font-semibold">System is unhealthy. All actions are disabled.</div>}
+                </div>
+            </div>
             <h1 className="text-3xl font-bold mb-8 text-gray-900 leading-tight text-center">Woocommerce Inbox</h1>
             <div className="mb-4 text-center">
                 <button
                     className={`inline-flex items-center px-4 py-2 border text-sm font-medium rounded transition ${showArchived ? 'bg-green-600 text-white border-green-600 hover:bg-green-700' : 'bg-blue-600 text-white border-blue-600 hover:bg-blue-700'}`}
                     onClick={handleToggleArchived}
+                    disabled={!health?.ok}
                 >
                     {showArchived ? "Hide Archived" : "Show Archived"}
                 </button>
@@ -206,8 +224,8 @@ export default function Inbox() {
                                     <td className="px-2 py-4 text-center">
                                         <a
                                             href="#"
-                                            className={`inline-flex items-center px-2 py-1 mx-1 border border-blue-600 text-blue-600 text-xs font-medium rounded hover:bg-blue-50 transition ${expandedRow === row.name ? 'bg-blue-50' : ''}`}
-                                            onClick={e => { e.preventDefault(); handleView(row); }}
+                                            className={`inline-flex items-center px-2 py-1 mx-1 border border-blue-600 text-blue-600 text-xs font-medium rounded hover:bg-blue-50 transition ${expandedRow === row.name ? 'bg-blue-50' : ''} ${!health?.ok ? 'opacity-50 pointer-events-none' : ''}`}
+                                            onClick={e => { e.preventDefault(); if (health?.ok) handleView(row); }}
                                         >
                                             {expandedRow === row.name ? "Close" : "View"}
                                         </a>
@@ -215,8 +233,8 @@ export default function Inbox() {
                                     <td className="px-2 py-4 text-center">
                                         <a
                                             href="#"
-                                            className={`inline-flex items-center px-2 py-1 mx-1 border border-indigo-600 text-indigo-600 text-xs font-medium rounded hover:bg-indigo-50 transition ${!!replayStatus[row.name] || archived[row.name] ? 'opacity-50 pointer-events-none' : ''}`}
-                                            onClick={e => { e.preventDefault(); if (!replayStatus[row.name] && !archived[row.name]) handleReplay(row); }}
+                                            className={`inline-flex items-center px-2 py-1 mx-1 border border-indigo-600 text-indigo-600 text-xs font-medium rounded hover:bg-indigo-50 transition ${!!replayStatus[row.name] || archived[row.name] || !health?.ok ? 'opacity-50 pointer-events-none' : ''}`}
+                                            onClick={e => { e.preventDefault(); if (!replayStatus[row.name] && !archived[row.name] && health?.ok) handleReplay(row); }}
                                         >
                                             {replayStatus[row.name] ? replayStatus[row.name] : "Resubmit"}
                                         </a>
@@ -224,8 +242,8 @@ export default function Inbox() {
                                     <td className="px-2 py-4 text-center">
                                         <a
                                             href="#"
-                                            className={`inline-flex items-center px-2 py-1 mx-1 border border-gray-600 text-gray-600 text-xs font-medium rounded hover:bg-gray-50 transition`}
-                                            onClick={e => { e.preventDefault(); handleArchive(row); }}
+                                            className={`inline-flex items-center px-2 py-1 mx-1 border border-gray-600 text-gray-600 text-xs font-medium rounded hover:bg-gray-50 transition ${!health?.ok ? 'opacity-50 pointer-events-none' : ''}`}
+                                            onClick={e => { e.preventDefault(); if (health?.ok) handleArchive(row); }}
                                         >
                                             {archived[row.name] ? "Unarchive" : "Archive"}
                                         </a>
@@ -250,4 +268,5 @@ export default function Inbox() {
             </div>
         </div>
     );
+    // ...existing code...
 }
